@@ -1,5 +1,5 @@
 import SideNav from "../../ui/workflow/navi";
-import '../../css/workflow/layout.css'
+import '../../css/workflow/layout.scss'
 
 import ReactFlowApp from "./reactflow"
 export default function Page() {

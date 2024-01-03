@@ -1,8 +1,0 @@
-.hanaflow .head { display: block; top: 0px; left: 0px; background-color: brown; height: 50px; width: 100vw; padding: 5px;}
-.hanaflow .grid-container {
-    display: grid; top: 50px; grid-template-columns: 150px auto 150px;
-}
-.hanaflow .grid-container .sidebar-nodes { display: block; height: calc(100vh - 50px); padding: 10px; background-color: aquamarine;}
-.hanaflow .grid-container .sidebar-property { display: block; height: calc(100vh - 50px); padding: 10px; background-color: burlywood;}
-.hanaflow .grid-container .main { display: block; height: calc(100vh - 50px); width: auto;}
-.hanaflow .body-brid .bottom-sheet { display: none; grid-area: bottom-sheet;}
