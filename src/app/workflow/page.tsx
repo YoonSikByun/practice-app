@@ -1,16 +1,24 @@
-// import DropdownMenu from "@/ui/dropdonw-menu"
+import SideNav from "../../ui/workflow/navi";
+import '../../css/workflow/layout.css'
+
 import ReactFlowApp from "./reactflow"
 export default function Page() {
   return (
-  <main>
-    <div className="grid grid-rows-2 grid-flow-col gap-0">
-      <div>
-        <ReactFlowApp/>
+    <div className="hanaflow">
+      <div className="head">
+        Head
       </div>
-      <div className="block h-96 z-50 bg-yellow-200">
-        Center-bottom
+      <div className="grid-container">
+        <div className="sidebar-nodes">
+          <SideNav />
+        </div>
+        <div className="main">
+          <ReactFlowApp/>
+        </div>
+        <div className="sidebar-property">
+          Right
+        </div>
       </div>
     </div>
-  </main>
-  )
+    );
 }

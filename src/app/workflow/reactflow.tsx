@@ -28,8 +28,7 @@ export default function ReactFlowApp() {
       );
 
   return (
-    // <div style={{width: '100vw', height: '100vh' }}>
-    <div className="h-full w-auto">
+    <div style={{width: 'auto', height: 'calc(100vh - 50px' }}>
       <ReactFlow
         nodes={nodes}
         edges={edges}
