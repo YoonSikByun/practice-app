@@ -1,11 +1,34 @@
-$top_margin: 50px;
+$top-head-height: 50px;
+$top-margin: $top-head-height;
+$sidebar-nodes-width: 150px;
+$sidebar-property-width: 150px;
 
-
-.hanaflow .head { display: block; top: 0px; left: 0px; background-color: brown; height: $top_margin; width: 100vw; padding: 5px;}
-.hanaflow .grid-container {
-    display: grid; top: 50px; grid-template-columns: 150px auto 150px;
+.hanaflow .head {
+    display: block; top: 0px; left: 0px; background-color: brown; height: $top-margin; width: 100vw; padding: 5px;
 }
-.hanaflow .grid-container .sidebar-nodes { display: block; height: calc(100vh - $top_margin); padding: 10px; background-color: aquamarine;}
-.hanaflow .grid-container .sidebar-property { display: block; height: calc(100vh - $top_margin); padding: 10px; background-color: burlywood;}
-.hanaflow .grid-container .main { display: block; height: calc(100vh - $top_margin); width: auto;}
-.hanaflow .body-brid .bottom-sheet { display: none; grid-area: bottom-sheet;}
+.hanaflow .grid-container {
+    display: grid; top: $top-head-height;
+    grid-template-columns: $sidebar-nodes-width auto $sidebar-property-width;
+    grid-template-rows: calc(100vh - 300px) 300px;
+    grid-template-areas: 
+    'sidebar-nodes main sidebar-property'
+    'sidebar-nodes bottom-sheet sidebar-property';
+}
+.hanaflow .grid-container .sidebar-nodes {
+    display: block; height: calc(100vh - $top-margin); padding: 10px; background-color: aquamarine;
+    grid-area: sidebar-nodes;
+}
+.hanaflow .grid-container .sidebar-property {
+    display: block; height: calc(100vh - $top-margin); padding: 10px; background-color: burlywood;
+    grid-area: sidebar-property;
+}
+.hanaflow .grid-container .main {
+    display: block; height: calc(100vh - $top-margin); width: auto;
+    grid-area: main;
+}
+.hanaflow .grid-container .bottom-sheet {
+    display: block;
+    z-index: 999;
+    background-color: aqua;
+    grid-area: bottom-sheet;
+}

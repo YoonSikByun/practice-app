@@ -18,6 +18,9 @@ export default function Page() {
         <div className="sidebar-property">
           Right
         </div>
+        <div className="bottom-sheet">
+          Bottom
+        </div>
       </div>
     </div>
     );
