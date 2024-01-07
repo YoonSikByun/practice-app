@@ -1,34 +1,56 @@
-$top-head-height: 50px;
-$top-margin: $top-head-height;
-$sidebar-nodes-width: 150px;
-$sidebar-property-width: 150px;
+$top_head_height: 50px;
+$top_margin: $top_head_height;
+$sidebar_nodes_width: 150px;
+$sidebar_property_width: 150px;
 
 .hanaflow .head {
-    display: block; top: 0px; left: 0px; background-color: brown; height: $top-margin; width: 100vw; padding: 5px;
+    display: block; top: 0px; left: 0px;
+    position: relative;
+    height: $top_margin; width: 100vw; padding: 5px;
+    background-color: brown;
 }
 .hanaflow .grid-container {
-    display: grid; top: $top-head-height;
-    grid-template-columns: $sidebar-nodes-width auto $sidebar-property-width;
-    grid-template-rows: calc(100vh - 300px) 300px;
+    display: grid;
+    position: relative;
+    grid-template-columns: $sidebar_nodes_width auto $sidebar_property_width;
+    // grid-template-rows: calc((100vh - $top_head_height) - 300px) 300px;
     grid-template-areas: 
     'sidebar-nodes main sidebar-property'
     'sidebar-nodes bottom-sheet sidebar-property';
 }
 .hanaflow .grid-container .sidebar-nodes {
-    display: block; height: calc(100vh - $top-margin); padding: 10px; background-color: aquamarine;
+    display: block;
+    position: relative;
+    height: calc(100vh - $top_margin); padding: 10px;
+    background-color: aquamarine;
     grid-area: sidebar-nodes;
 }
 .hanaflow .grid-container .sidebar-property {
-    display: block; height: calc(100vh - $top-margin); padding: 10px; background-color: burlywood;
+    display: block; height: calc(100vh - $top_margin); padding: 10px;
+    background-color: burlywood;
     grid-area: sidebar-property;
 }
 .hanaflow .grid-container .main {
-    display: block; height: calc(100vh - $top-margin); width: auto;
+    display: block;
+    position: relative;
+    height: calc(100vh - $top_margin); width: auto;
     grid-area: main;
 }
 .hanaflow .grid-container .bottom-sheet {
     display: block;
+    position: relative;
     z-index: 999;
     background-color: aqua;
     grid-area: bottom-sheet;
+}
+.hanaflow .grid-container .bottom-sheet .resize-bar {
+    display: block;
+    position: absolute;
+    z-index: 999;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 10px;
+    background-color: blue;
+    cursor: row-resize;
 }
