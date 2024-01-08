@@ -1,4 +1,4 @@
-export default function registMouseEvent(
+export function registMouseEvent(
     onDragChange: (deltaX: number, deltaY: number) => void,
     stopPropagation?: boolean,
 ) {
@@ -27,4 +27,10 @@ export default function registMouseEvent(
             document.addEventListener('mouseup', mouseUpHandler, {once:true});
         },
     }
+}
+
+export const inRange = (v: number, min: number, max: number) => {
+    if (v < min) return min;
+    if (v > max) return max;
+    return v;
 }

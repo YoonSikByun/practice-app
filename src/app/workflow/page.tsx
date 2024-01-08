@@ -4,18 +4,23 @@ import SideNav from "../../ui/workflow/navi";
 import '../../css/workflow/layout.scss';
 import Boundary from './boundary';
 import { useState, useRef, useEffect } from "react";
-import registMouseEvent from "./utils";
+import {registMouseEvent, inRange} from "./utils";
 
 import ReactFlowApp from "./reactflow"
 export default function Page() {
-  const bottom_sheet_def_height = 300;
-  const boundaryRef = useRef<HTMLDivElement>(null);
-  const [bottomSheetHeight, setBottomSheetHeight] = useState(bottom_sheet_def_height);
+  const minBottomSheetHeight = 300;
+  const mainBoundaryRef = useRef<HTMLDivElement>(null);
+  const bottomBoundaryRef = useRef<HTMLDivElement>(null);
+  const [maxBottomSheetHeight, setMaxBottomSheetHeight] = useState(0);
+  const [curBottomSheetHeight, setCurBottomSheetHeight] = useState(minBottomSheetHeight);
 
   useEffect(() => {
-    const rect = boundaryRef.current?.getBoundingClientRect();
-    if(rect == null) return;
-    setBottomSheetHeight(rect.height);
+    const bottomRect = bottomBoundaryRef.current?.getBoundingClientRect();
+    if(bottomRect != null)
+      setCurBottomSheetHeight(bottomRect.height);
+    const mainRect = mainBoundaryRef.current?.getBoundingClientRect();
+    if(mainRect != null)
+      setMaxBottomSheetHeight(mainRect.height);
   }, []);
  
   return (
@@ -26,31 +31,32 @@ export default function Page() {
       <div
         className="grid-container"
         style={{
-          gridTemplateRows: `calc((100vh - 50px) - ${bottomSheetHeight}px) ${bottomSheetHeight}px`
+          gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`
         }}
       >
         <div className="sidebar-nodes">
           <SideNav />
         </div>
-        <div className="main">
+        <Boundary className="main" ref={mainBoundaryRef}>
           <ReactFlowApp/>
-        </div>
+        </Boundary>
         <div className="sidebar-property">
           Right
         </div>
-        <Boundary className="bottom-sheet" ref={boundaryRef}>
+        <Boundary className="bottom-sheet" ref={bottomBoundaryRef}>
           <div className="resize-bar"
-          {...registMouseEvent((deltaX, deltaY) => {
-            if(!boundaryRef.current) return;
+            {...registMouseEvent((deltaX, deltaY) => {
+              if(!bottomBoundaryRef.current) return;
 
-            const rect = boundaryRef.current?.getBoundingClientRect();
-            console.log(`deltaY : ${deltaY}`);
+              const rect = bottomBoundaryRef.current?.getBoundingClientRect();
+              // console.log(`deltaY : ${deltaY}`);
 
-            let change_size = bottomSheetHeight - deltaY;
-            let bottom_sheet_height = (change_size < bottom_sheet_def_height) ? bottom_sheet_def_height : change_size;
+              let change_size = curBottomSheetHeight - deltaY;
+              // console.log(`change_size : ${change_size}, curBottomSheetHeight : ${curBottomSheetHeight}, maxBottomSheetHeight : ${maxBottomSheetHeight}, minBottomSheetHeight : ${minBottomSheetHeight}`);
+              let bottom_sheet_height = inRange(change_size, minBottomSheetHeight, maxBottomSheetHeight * 0.8);
 
-            setBottomSheetHeight(bottom_sheet_height);
-          })}
+              setCurBottomSheetHeight(bottom_sheet_height);
+            })}
            />
           Bottom
         </Boundary>
