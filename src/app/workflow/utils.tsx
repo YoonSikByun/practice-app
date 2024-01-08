@@ -20,11 +20,14 @@ export default function registMouseEvent(
             // 마우스 버튼업 핸들러 함수 정의
             const mouseUpHandler = () => {
                 document.removeEventListener('mousemove', mouseMoveHandler);
+                document.body.style.removeProperty('user-select');
             };
 
             // 이벤트 핸들러 함수 등록
             document.addEventListener('mousemove', mouseMoveHandler);
             document.addEventListener('mouseup', mouseUpHandler, {once:true});
+
+            document.body.style.userSelect = 'none';
         },
     }
 }
