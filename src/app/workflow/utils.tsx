@@ -33,7 +33,16 @@ export function registMouseEvent(
 }
 
 export const inRange = (v: number, min: number, max: number) => {
-    if (v < min) return min;
-    if (v > max) return max;
-    return v;
+    let size = v;
+    let limited = false;
+
+    if (v < min) {
+        size = min;
+        limited = true;
+    } else if (v > max) {
+        size = max;
+        limited = true;
+    }
+
+    return {size, limited};
 }

@@ -2,7 +2,7 @@
 
 import SideNav from "../../ui/workflow/navi";
 import '../../css/workflow/layout.scss';
-import Boundary from './boundary';
+import Boundary from './ui/boundary';
 import { useState, useRef, useEffect } from "react";
 import {registMouseEvent, inRange} from "./utils";
 
@@ -49,13 +49,13 @@ export default function Page() {
               if(!bottomBoundaryRef.current) return;
 
               const rect = bottomBoundaryRef.current?.getBoundingClientRect();
-              // console.log(`deltaY : ${deltaY}`);
+              console.log(`deltaY : ${deltaY}`);
 
               let change_size = curBottomSheetHeight - deltaY;
-              // console.log(`change_size : ${change_size}, curBottomSheetHeight : ${curBottomSheetHeight}, maxBottomSheetHeight : ${maxBottomSheetHeight}, minBottomSheetHeight : ${minBottomSheetHeight}`);
-              let bottom_sheet_height = inRange(change_size, minBottomSheetHeight, maxBottomSheetHeight * 0.8);
+              console.log(`change_size : ${change_size}, curBottomSheetHeight : ${curBottomSheetHeight}, maxBottomSheetHeight : ${maxBottomSheetHeight}, minBottomSheetHeight : ${minBottomSheetHeight}`);
+              const {size, limited} = inRange(change_size, minBottomSheetHeight, maxBottomSheetHeight * 0.8);
 
-              setCurBottomSheetHeight(bottom_sheet_height);
+              setCurBottomSheetHeight(size);
             })}
            />
           Bottom
