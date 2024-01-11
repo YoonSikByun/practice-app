@@ -1,12 +1,15 @@
 'use client'
 
-import SideNav from "../../ui/workflow/navi";
-import '../../css/workflow/layout.scss';
-import Boundary from './ui/boundary';
 import { useState, useRef, useEffect } from "react";
 import {registMouseEvent, inRange} from "./utils";
 
+import '@/css/workflow/layout.scss';
+import { AccordionData } from "./ui/accordion";
+
 import ReactFlowApp from "./reactflow"
+import Boundary from './ui/boundary';
+import Accordion from './ui/accordion';
+
 export default function Page() {
   const minBottomSheetHeight = 300;
   const mainBoundaryRef = useRef<HTMLDivElement>(null);
@@ -23,6 +26,12 @@ export default function Page() {
       setMaxBottomSheetHeight(mainRect.height);
   }, []);
  
+  const accordItems : AccordionData[] = [
+    {title : 'title1...', content : 'content....'},
+    {title : 'title2...', content : 'content....'},
+    {title : 'title3...', content : 'content....'}
+  ];
+  
   return (
     <div className="hanaflow">
       <div className="head">
@@ -35,7 +44,7 @@ export default function Page() {
         }}
       >
         <div className="sidebar-nodes">
-          <SideNav />
+          <Accordion accordItems={accordItems}/>
         </div>
         <Boundary className="main" ref={mainBoundaryRef}>
           <ReactFlowApp/>
