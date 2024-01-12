@@ -8,7 +8,8 @@ import { AccordionData } from "./ui/accordion";
 
 import ReactFlowApp from "./reactflow"
 import Boundary from './ui/boundary';
-import Accordion from './ui/accordion';
+import VerticalMenu, {MenuItem} from "./ui/vertical-menu";
+// import Accordion from './ui/accordion';
 
 export default function Page() {
   const minBottomSheetHeight = 300;
@@ -31,45 +32,51 @@ export default function Page() {
     {title : 'title2...', content : 'content....'},
     {title : 'title3...', content : 'content....'}
   ];
-  
+
+  const menuItems : MenuItem[] = [
+    {title : '작업노드', link : ''},
+    {title : '변수설정', link : ''}
+  ];
+
   return (
     <div className="hanaflow">
-      <div className="head">
+      <Boundary className="head">
         Head
-      </div>
-      <div
+      </Boundary>
+      <Boundary
         className="grid-container"
         style={{
           gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`
         }}
       >
-        <div className="sidebar-nodes">
-          <Accordion accordItems={accordItems}/>
-        </div>
+        <Boundary className="sidebar-nodes">
+          {/* <Accordion accordItems={accordItems}/> */}
+          <VerticalMenu menuItems={menuItems}/>
+        </Boundary>
         <Boundary className="main" ref={mainBoundaryRef}>
           <ReactFlowApp/>
         </Boundary>
-        <div className="sidebar-property">
+        <Boundary className="sidebar-property">
           Right
-        </div>
+        </Boundary>
         <Boundary className="bottom-sheet" ref={bottomBoundaryRef}>
-          <div className="resize-bar"
+          <Boundary className="resize-bar"
             {...registMouseEvent((deltaX, deltaY) => {
               if(!bottomBoundaryRef.current) return;
 
               const rect = bottomBoundaryRef.current?.getBoundingClientRect();
-              console.log(`deltaY : ${deltaY}`);
+              // console.log(`deltaY : ${deltaY}`);
 
               let change_size = curBottomSheetHeight - deltaY;
-              console.log(`change_size : ${change_size}, curBottomSheetHeight : ${curBottomSheetHeight}, maxBottomSheetHeight : ${maxBottomSheetHeight}, minBottomSheetHeight : ${minBottomSheetHeight}`);
+              // console.log(`change_size : ${change_size}, curBottomSheetHeight : ${curBottomSheetHeight}, maxBottomSheetHeight : ${maxBottomSheetHeight}, minBottomSheetHeight : ${minBottomSheetHeight}`);
               const {size, limited} = inRange(change_size, minBottomSheetHeight, maxBottomSheetHeight * 0.8);
 
               setCurBottomSheetHeight(size);
             })}
-           />
+          />
           Bottom
         </Boundary>
-      </div>
+      </Boundary>
     </div>
   );
 }

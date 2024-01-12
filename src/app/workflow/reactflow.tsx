@@ -8,6 +8,7 @@ import ReactFlow, {
     useNodesState,
     useEdgesState,
     addEdge,
+    BackgroundVariant,
   } from 'reactflow';
 
 import 'reactflow/dist/style.css';
@@ -38,7 +39,7 @@ export default function ReactFlowApp() {
       >
         <Controls/>
         <MiniMap/>
-        <Background variant="dots" gap={12} size={1} />
+        <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
       </ReactFlow>
     </div>
   );
