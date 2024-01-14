@@ -8,7 +8,7 @@ import { AccordionData } from "./ui/accordion";
 
 import ReactFlowApp from "./reactflow"
 import Boundary from './ui/boundary';
-import VerticalMenu, {MenuItem} from "./ui/vertical-menu";
+import VerticalTabMenu, {MenuItem} from "./ui/vertical-tabmenu";
 // import Accordion from './ui/accordion';
 
 export default function Page() {
@@ -51,7 +51,7 @@ export default function Page() {
       >
         <Boundary className="sidebar-nodes">
           {/* <Accordion accordItems={accordItems}/> */}
-          <VerticalMenu menuItems={menuItems}/>
+          <VerticalTabMenu menuItems={menuItems}/>
         </Boundary>
         <Boundary className="main" ref={mainBoundaryRef}>
           <ReactFlowApp/>
