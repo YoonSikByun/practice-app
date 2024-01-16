@@ -1,5 +1,6 @@
 import '@/css/workflow/ui/vertical-menu.scss';
 import { useState } from 'react';
+import clsx from 'clsx';
 
 export type MenuItem = {
     title : string,
@@ -11,15 +12,20 @@ export default function VerticalTabMenu({
 } : {
     menuItems : MenuItem[]
 }) {
+    const [indexClicked, SetIndexClicked] = useState<number>(0);
+    const onButtonClick = (index : number) => {SetIndexClicked(index);}
     return (
         <div className="tab">
         {
             menuItems.map((menuItem, i) => {
                 return (
                 <div key={i}>
-                    <TabHead menuItem={menuItem}/>
-                </div>
-                )
+                    <TabHead
+                     menuItem={menuItem}
+                     index={i}
+                     clicked={(indexClicked === i)}
+                     onButtonClick={onButtonClick}/>
+                </div>);
             })
         }
         </div>
@@ -27,12 +33,23 @@ export default function VerticalTabMenu({
 }
 
 function TabHead({
-    menuItem
+    menuItem,
+    index,
+    clicked,
+    onButtonClick
 } : {
-    menuItem : MenuItem
+    menuItem : MenuItem,
+    index : number,
+    clicked : boolean,
+    onButtonClick : (index : number) => void
 }) {
-    const [clicked, SetClicked] = useState<boolean>(false);
     return (
-        <button>{menuItem.title}</button>
+        <button
+            className={clsx(
+                {"active" : clicked === true}
+            )}
+        onClick={(e)=>{onButtonClick(index)}}>
+            {menuItem.title}
+        </button>
     );
 }

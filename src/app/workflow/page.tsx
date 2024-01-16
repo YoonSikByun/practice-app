@@ -9,7 +9,7 @@ import { AccordionData } from "./ui/accordion";
 import ReactFlowApp from "./reactflow"
 import Boundary from './ui/boundary';
 import VerticalTabMenu, {MenuItem} from "./ui/vertical-tabmenu";
-// import Accordion from './ui/accordion';
+import Accordion from './ui/accordion';
 
 export default function Page() {
   const minBottomSheetHeight = 300;
@@ -35,7 +35,7 @@ export default function Page() {
 
   const menuItems : MenuItem[] = [
     {title : '작업노드', link : ''},
-    {title : '변수설정', link : ''}
+    {title : '변수 설정', link : ''}
   ];
 
   return (
@@ -49,9 +49,9 @@ export default function Page() {
           gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`
         }}
       >
-        <Boundary className="sidebar-nodes">
-          {/* <Accordion accordItems={accordItems}/> */}
+        <Boundary className="sidebar-nodes flex">
           <VerticalTabMenu menuItems={menuItems}/>
+          <Accordion accordItems={accordItems}/>
         </Boundary>
         <Boundary className="main" ref={mainBoundaryRef}>
           <ReactFlowApp/>

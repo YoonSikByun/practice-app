@@ -1,12 +1,14 @@
 $top_head_height: 50px;
 $top_margin: $top_head_height;
-$sidebar_nodes_width: 40px;
+$sidebar_nodes_width: 230px;
 $sidebar_property_width: 150px;
 
 .hanaflow .head {
     display: block; top: 0px; left: 0px;
     position: relative;
-    height: $top_margin; width: 100vw; padding: 5px;
+    height: $top_margin;
+    width: 100vw;
+    padding: 5px;
     background-color: brown;
 }
 .hanaflow .grid-container {

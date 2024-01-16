@@ -1,4 +1,4 @@
-import '@/css/workflow/accordion.scss';
+import '@/css/workflow/ui/accordion.scss';
 import '@/common/definition'
 import clsx from 'clsx';
 
@@ -15,7 +15,7 @@ export default function Accordion({
     accordItems : AccordionData[]
 }) {
     return (
-        <>
+        <div className='accordion-container'>
         {
             accordItems.map((accordItem) => {
                 return (
@@ -25,7 +25,7 @@ export default function Accordion({
                 );
             })
         }
-        </>
+        </div>
     );
 }
 
@@ -37,16 +37,16 @@ function AccordionNode({
     const [clicked, SetClicked] = useState<boolean>(false);
     return (
         <>
-        <button
-            className={clsx(
-                    "accordion",
-                    {"active" : clicked == true}
-                )}
-            onClick={(e) => {SetClicked(!clicked)}}
-        >
-            {accordItem.title}
-        </button>
-        <Panel height={(clicked) ? 100 : 0} />
+            <button
+                className={clsx(
+                        "accordion",
+                        {"active" : clicked == true}
+                    )}
+                onClick={(e) => {SetClicked(!clicked)}}
+            >
+                {accordItem.title}
+            </button>
+            <Panel height={(clicked) ? 100 : 0}/>
         </>
     );
 }
@@ -56,7 +56,6 @@ function Panel({
 } : {
     height : number
 }) {
-
     return (
         <div className="panel" style={{maxHeight: height}}>
             <p>panel...</p>
