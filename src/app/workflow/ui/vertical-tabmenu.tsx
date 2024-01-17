@@ -8,12 +8,40 @@ export type MenuItem = {
 }
 
 export default function VerticalTabMenu({
-    menuItems
+    menuItems,
+    indexClicked,
+    setVTabIndexClicked,
+    setVTabVisible,
 } : {
-    menuItems : MenuItem[]
+    menuItems : MenuItem[],
+    indexClicked : number,
+    setVTabIndexClicked : (index : number) => void,
+    setVTabVisible : (prev : boolean[]) => void
 }) {
-    const [indexClicked, SetIndexClicked] = useState<number>(0);
-    const onButtonClick = (index : number) => {SetIndexClicked(index);}
+    const onButtonClick = (title : string) => {
+        let mnu : boolean[] = [];
+        console.log(`title : ${title}`);
+        menuItems.map((menuItem, i) => {
+            console.log(`menuItem.title : ${menuItem.title}, i : ${i}`);
+            if(menuItem.title == title) {
+                if(indexClicked == i)
+                {
+                    mnu.push(false);
+                    setVTabIndexClicked(-1);
+                }
+                else
+                {
+                    mnu.push(true);
+                    setVTabIndexClicked(i);
+                }
+            }
+            else
+                mnu.push(false);
+        });
+
+        setVTabVisible(mnu);
+        console.log(`mnu : ${mnu}`);
+    }
     return (
         <div className="tab">
         {
@@ -22,7 +50,6 @@ export default function VerticalTabMenu({
                 <div key={i}>
                     <TabHead
                      menuItem={menuItem}
-                     index={i}
                      clicked={(indexClicked === i)}
                      onButtonClick={onButtonClick}/>
                 </div>);
@@ -34,21 +61,19 @@ export default function VerticalTabMenu({
 
 function TabHead({
     menuItem,
-    index,
     clicked,
     onButtonClick
 } : {
     menuItem : MenuItem,
-    index : number,
     clicked : boolean,
-    onButtonClick : (index : number) => void
+    onButtonClick : (title : string) => void
 }) {
     return (
         <button
             className={clsx(
                 {"active" : clicked === true}
             )}
-        onClick={(e)=>{onButtonClick(index)}}>
+        onClick={(e)=>{onButtonClick(menuItem.title)}}>
             {menuItem.title}
         </button>
     );

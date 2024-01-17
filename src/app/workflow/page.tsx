@@ -26,17 +26,21 @@ export default function Page() {
     if(mainRect != null)
       setMaxBottomSheetHeight(mainRect.height);
   }, []);
- 
+
   const accordItems : AccordionData[] = [
     {title : 'title1...', content : 'content....'},
     {title : 'title2...', content : 'content....'},
-    {title : 'title3...', content : 'content....'}
-  ];
+    {title : 'title3...', content : 'content....'}];
+
+  let tabMenus : boolean[] = [];
+  accordItems.map((accordItem) => {tabMenus.push(false);});
+
+  const [vTabMenuIndexClicked, setVTabIndexClicked] = useState<number>(-1);
+  const [tabVisible, setVTabVisible] = useState<boolean[]>(tabMenus);
 
   const menuItems : MenuItem[] = [
     {title : '작업노드', link : ''},
-    {title : '변수 설정', link : ''}
-  ];
+    {title : '변수 설정', link : ''}];
 
   return (
     <div className="hanaflow">
@@ -45,13 +49,18 @@ export default function Page() {
       </Boundary>
       <Boundary
         className="grid-container"
-        style={{
-          gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`
-        }}
-      >
-        <Boundary className="sidebar-nodes flex">
-          <VerticalTabMenu menuItems={menuItems}/>
-          <Accordion accordItems={accordItems}/>
+        // style={{gridTemplateColumns: `${sidebar_nodes_width}px auto ${sidebar_property_width}px`,
+        //   gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`
+        // }}
+        style={{gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`}}
+        >
+        <Boundary className="sidebar-nodes">
+          <VerticalTabMenu
+           menuItems={menuItems}
+           indexClicked={vTabMenuIndexClicked}
+           setVTabIndexClicked={setVTabIndexClicked}
+           setVTabVisible={setVTabVisible}/>
+          {(tabVisible[0]) ? <Accordion accordItems={accordItems} /> : null}
         </Boundary>
         <Boundary className="main" ref={mainBoundaryRef}>
           <ReactFlowApp/>

@@ -15,7 +15,7 @@ export default function Accordion({
     accordItems : AccordionData[]
 }) {
     return (
-        <div className='accordion-container'>
+        <div className={clsx('accordion-container')}>
         {
             accordItems.map((accordItem) => {
                 return (
@@ -34,7 +34,7 @@ function AccordionNode({
 } : {
     accordItem : AccordionData
 }) {
-    const [clicked, SetClicked] = useState<boolean>(false);
+    const [clicked, setClicked] = useState<boolean>(false);
     return (
         <>
             <button
@@ -42,7 +42,7 @@ function AccordionNode({
                         "accordion",
                         {"active" : clicked == true}
                     )}
-                onClick={(e) => {SetClicked(!clicked)}}
+                onClick={(e) => {setClicked(!clicked)}}
             >
                 {accordItem.title}
             </button>

@@ -1,6 +1,9 @@
 $top_head_height: 50px;
 $top_margin: $top_head_height;
-$sidebar_nodes_width: 230px;
+$vertical_menu_width: 30px;
+$sidebar_inner_menu_width: 200px;
+// $sidebar_nodes_width: $vertical_menu_width + $sidebar_inner_menu_width;
+$sidebar_nodes_width : $vertical_menu_width;
 $sidebar_property_width: 150px;
 
 .hanaflow .head {
@@ -41,14 +44,14 @@ $sidebar_property_width: 150px;
 .hanaflow .grid-container .bottom-sheet {
     display: block;
     position: relative;
-    z-index: 999;
+    z-index: 990;
     background-color: aqua;
     grid-area: bottom-sheet;
 }
 .hanaflow .grid-container .bottom-sheet .resize-bar {
     display: block;
     position: absolute;
-    z-index: 999;
+    z-index: 990;
     top: 0px;
     left: 0px;
     width: 100%;
