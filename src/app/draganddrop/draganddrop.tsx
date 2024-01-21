@@ -1,4 +1,3 @@
-import { useEffect, useState } from 'react';
 import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd';
 import { StrictModeDroppable } from './strictmodedroppable';
 
@@ -15,12 +14,12 @@ export default function DragAndDrop() {
 
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <StrictModeDroppable droppableId="droppable">
-        {(provided) => (
+      <StrictModeDroppable droppableId="droppable" isDropDisabled={true}>
+        {(provided : any) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {items.map((item, index) => (
               <Draggable key={item.id} draggableId={item.id} index={index}>
-                {(provided) => (
+                {(provided : any) => (
                   <div
                     ref={provided.innerRef}
                     {...provided.draggableProps}

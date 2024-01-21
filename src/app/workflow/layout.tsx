@@ -1,3 +1,5 @@
+import '@/app/globals.css';
+
 function App ({ children }: { children: React.ReactNode }) {
     return (
       <div>
