@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd';
-import { StrictModeDroppable } from './strictmodedroppable';
+import { DragDropContext, Draggable, Droppable, DropResult } from 'react-beautiful-dnd';
 
 export default function DragAndDrop() {
  
@@ -13,9 +12,26 @@ export default function DragAndDrop() {
     console.log('>>> destination', destination);
   };
 
+  // --- requestAnimationFrame 초기화
+  const [enabled, setEnabled] = useState(false);
+
+  useEffect(() => {
+    const animation = requestAnimationFrame(() => setEnabled(true));
+
+    return () => {
+      cancelAnimationFrame(animation);
+      setEnabled(false);
+    };
+  }, []);
+
+  if (!enabled) {
+    return null;
+  }
+  // --- requestAnimationFrame 초기화 END
+
   return (
     <DragDropContext onDragEnd={onDragEnd}>
-      <StrictModeDroppable droppableId="droppable">
+      <Droppable droppableId="droppable">
         {(provided) => (
           <div ref={provided.innerRef} {...provided.droppableProps}>
             {items.map((item, index) => (
@@ -34,7 +50,7 @@ export default function DragAndDrop() {
             {provided.placeholder}
           </div>
         )}
-      </StrictModeDroppable>
+      </Droppable>
     </DragDropContext>
   );
 }
