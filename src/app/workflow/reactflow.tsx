@@ -29,8 +29,9 @@ export default function ReactFlowApp() {
       );
 
   return (
-    <div className='bg-white' style={{width: 'auto', height: 'calc(100vh - 50px)' }}>
+    <div style={{width: 'auto', height: 'calc(100vh - 50px)' }}>
       <ReactFlow
+        className='bg-white'
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}
