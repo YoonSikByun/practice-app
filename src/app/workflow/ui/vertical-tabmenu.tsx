@@ -70,10 +70,9 @@ function TabHead({
 }) {
     return (
         <button
-            className={clsx(
-                {"active" : clicked === true}
-            )}
-        onClick={(e)=>{onButtonClick(menuItem.title)}}>
+            className={clsx({"active" : clicked === true})}
+            onClick={(e)=>{onButtonClick(menuItem.title)}}
+        >
             {menuItem.title}
         </button>
     );

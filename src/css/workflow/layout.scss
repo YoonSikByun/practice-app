@@ -27,7 +27,7 @@ $sidebar_property_width: 150px;
     display: block;
     position: relative;
     height: calc(100vh - $top_margin); padding: 10px;
-    background-color: aquamarine;
+    background-color: white;
     grid-area: sidebar-nodes;
 }
 .hanaflow .grid-container .sidebar-property {

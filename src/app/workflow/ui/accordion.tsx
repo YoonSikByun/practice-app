@@ -1,21 +1,24 @@
+import '@/app/globals.css';
 import '@/css/workflow/ui/accordion.scss';
-import '@/common/definition'
+import '@/common/definition';
 import clsx from 'clsx';
 
 import { useState } from 'react';
 
 export type AccordionData = {
     title: string;
-    content: string;
+    component: () => React.ReactNode;
 };
 
 export default function Accordion({
-    accordItems
+    accordItems,
+    show
 } : {
-    accordItems : AccordionData[]
+    accordItems : AccordionData[],
+    show : boolean
 }) {
     return (
-        <div className={clsx('accordion-container')}>
+        <div className={clsx('accordion-container', {'invisible': (!show)})}>
         {
             accordItems.map((accordItem) => {
                 return (
@@ -46,19 +49,19 @@ function AccordionNode({
             >
                 {accordItem.title}
             </button>
-            <Panel height={(clicked) ? 100 : 0}/>
+            <Panel accordItem={accordItem} height={(clicked) ? 500 : 0}/>
         </>
     );
 }
 
 function Panel({
+    accordItem,
     height
 } : {
+    accordItem : AccordionData,
     height : number
 }) {
     return (
-        <div className="panel" style={{maxHeight: height}}>
-            <p>panel...</p>
-        </div>
+        (height > 0) ? accordItem.component() : null
     );
 }

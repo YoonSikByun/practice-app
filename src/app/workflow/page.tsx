@@ -10,6 +10,8 @@ import ReactFlowApp from "./reactflow"
 import Boundary from './ui/boundary';
 import VerticalTabMenu, {MenuItem} from "./ui/vertical-tabmenu";
 import Accordion from './ui/accordion';
+import NodeContainer, { NodeItem } from "./ui/nodeContainer";
+import { v4 as uuid } from "uuid";
 
 export default function Page() {
   const minBottomSheetHeight = 300;
@@ -27,13 +29,49 @@ export default function Page() {
       setMaxBottomSheetHeight(mainRect.height);
   }, []);
 
-  const accordItems : AccordionData[] = [
-    {title : 'title1...', content : 'content....'},
-    {title : 'title2...', content : 'content....'},
-    {title : 'title3...', content : 'content....'}];
+  const nodeItems : NodeItem[] = [
+    {id: uuid(), node_kind: 'Kind0'},
+    {id: uuid(), node_kind: 'Kind1'},
+    {id: uuid(), node_kind: 'Kind2'},
+    {id: uuid(), node_kind: 'Kind3'},
+    {id: uuid(), node_kind: 'Kind4'},
+    {id: uuid(), node_kind: 'Kind5'},
+    {id: uuid(), node_kind: 'Kind6'},
+    {id: uuid(), node_kind: 'Kind7'},
+    {id: uuid(), node_kind: 'Kind8'},
+    {id: uuid(), node_kind: 'Kind9'},
+    {id: uuid(), node_kind: 'Kind10'},
+    {id: uuid(), node_kind: 'Kind11'},
+    {id: uuid(), node_kind: 'Kind12'},
+    {id: uuid(), node_kind: 'Kind13'},
+    {id: uuid(), node_kind: 'Kind14'},
+    {id: uuid(), node_kind: 'Kind15'},
+    {id: uuid(), node_kind: 'Kind16'},
+    {id: uuid(), node_kind: 'Kind17'}
+  ];
+
+  const node_width_px = 150;
+  const node_height_px = 55;
+  const container_height = 374;
+
+  const nodeContainerComponet = () => (
+    <NodeContainer
+      nodeItems={nodeItems}
+      node_width_px={node_width_px}
+      node_height_px={node_height_px}
+      container_height={container_height}
+      className='bg-white overflow-auto'
+    />
+  );
+  const emptyComponet = () => (<div className="bg-white h-[100px]"/>);
+
+  const accordNodeItems : AccordionData[] = [
+    {title : 'Nodes', component : nodeContainerComponet},
+    {title : 'title2...', component : emptyComponet},
+    {title : 'title3...', component : emptyComponet}];
 
   let tabMenus : boolean[] = [];
-  accordItems.map((accordItem) => {tabMenus.push(false);});
+  accordNodeItems.map((accordItem) => {tabMenus.push(false);});
 
   const [vTabMenuIndexClicked, setVTabIndexClicked] = useState<number>(-1);
   const [tabVisible, setVTabVisible] = useState<boolean[]>(tabMenus);
@@ -49,18 +87,16 @@ export default function Page() {
       </Boundary>
       <Boundary
         className="grid-container"
-        // style={{gridTemplateColumns: `${sidebar_nodes_width}px auto ${sidebar_property_width}px`,
-        //   gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`
-        // }}
         style={{gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`}}
-        >
+      >
         <Boundary className="sidebar-nodes">
           <VerticalTabMenu
            menuItems={menuItems}
            indexClicked={vTabMenuIndexClicked}
            setVTabIndexClicked={setVTabIndexClicked}
-           setVTabVisible={setVTabVisible}/>
-          {(tabVisible[0]) ? <Accordion accordItems={accordItems} /> : null}
+           setVTabVisible={setVTabVisible}
+          />
+            <Accordion accordItems={accordNodeItems} show={tabVisible[0]}/>
         </Boundary>
         <Boundary className="main" ref={mainBoundaryRef}>
           <ReactFlowApp/>
