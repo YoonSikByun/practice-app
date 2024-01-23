@@ -73,7 +73,7 @@ export default function Page() {
 
   const node_width_px = 130;
   const node_height_px = 50;
-  const container_height = 374;
+  const container_height = 327;
 
   const nodeContainerComponet1 = () => (
     <NodeContainer
