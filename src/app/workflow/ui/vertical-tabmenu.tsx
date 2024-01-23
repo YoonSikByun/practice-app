@@ -20,9 +20,7 @@ export default function VerticalTabMenu({
 }) {
     const onButtonClick = (title : string) => {
         let mnu : boolean[] = [];
-        console.log(`title : ${title}`);
         menuItems.map((menuItem, i) => {
-            console.log(`menuItem.title : ${menuItem.title}, i : ${i}`);
             if(menuItem.title == title) {
                 if(indexClicked == i)
                 {
@@ -40,7 +38,6 @@ export default function VerticalTabMenu({
         });
 
         setVTabVisible(mnu);
-        console.log(`mnu : ${mnu}`);
     }
     return (
         <div className="tab">

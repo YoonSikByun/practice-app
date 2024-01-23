@@ -3,19 +3,21 @@
     z-index: 999;
     top: 0px;
     left: 30px;
-    width: 320px;
+    width: 275px;
 }
 
 .accordion {
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 400;
     background-color: #eee;
     color: #444;
     cursor: pointer;
-    padding: 8px;
+    padding: 2px;
     width: 100%;
     border: none;
     text-align: left;
     outline: none;
-    font-size: 15px;
+    font-size: 14px;
     // transition: 0.4s;
 }
 
@@ -26,9 +28,8 @@
 .accordion:after {
     content: '\002B';
     color: #777;
-    font-weight: bold;
     float: right;
-    margin-left: 5px;
+    margin-right: 5px;
 }
 
 .active:after {

@@ -14,16 +14,16 @@ const NodeBoundary = (
 ) => (
     <div className={
         clsx('select-none bg-orange-200 m-1',
-            'shadow-md border-[1px] border-rose-600 border-solid rounded-full',
+            'shadow-md border-[1px] border-rose-600 border-solid rounded-[8px]',
             'node-inner')
             } style={{height: `${height}px`}}>
         <div className={
-            clsx('relative w-fit h-fit', 'top-[4px] left-[17px] px-[4px]',
+            clsx('relative w-fit h-fit', 'top-[4px] left-[5px] px-[4px]',
             'bg-zinc-300 rounded')}>
             {nodeKind}
         </div>
         <div className={
-            clsx('relative w-fit h-fit', 'top-[0px] left-[115px]',
+            clsx('relative w-fit h-fit', 'top-[0px] left-[100px]',
                 'bg-transparent',
                 'shape-play')}/>
     </div>

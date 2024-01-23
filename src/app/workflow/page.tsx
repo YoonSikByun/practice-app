@@ -29,7 +29,7 @@ export default function Page() {
       setMaxBottomSheetHeight(mainRect.height);
   }, []);
 
-  const nodeItems : NodeItem[] = [
+  const nodeItems1 : NodeItem[] = [
     {id: uuid(), node_kind: 'Kind0'},
     {id: uuid(), node_kind: 'Kind1'},
     {id: uuid(), node_kind: 'Kind2'},
@@ -50,25 +50,53 @@ export default function Page() {
     {id: uuid(), node_kind: 'Kind17'}
   ];
 
-  const node_width_px = 150;
-  const node_height_px = 55;
+  const nodeItems2 : NodeItem[] = [
+    {id: uuid(), node_kind: 'Kind0'},
+    {id: uuid(), node_kind: 'Kind1'},
+    {id: uuid(), node_kind: 'Kind2'},
+    {id: uuid(), node_kind: 'Kind3'},
+    {id: uuid(), node_kind: 'Kind4'},
+    {id: uuid(), node_kind: 'Kind5'},
+    {id: uuid(), node_kind: 'Kind6'},
+    {id: uuid(), node_kind: 'Kind7'},
+    {id: uuid(), node_kind: 'Kind8'},
+    {id: uuid(), node_kind: 'Kind9'},
+    {id: uuid(), node_kind: 'Kind10'},
+    {id: uuid(), node_kind: 'Kind11'},
+    {id: uuid(), node_kind: 'Kind12'},
+    {id: uuid(), node_kind: 'Kind13'},
+    {id: uuid(), node_kind: 'Kind14'},
+    {id: uuid(), node_kind: 'Kind15'},
+    {id: uuid(), node_kind: 'Kind16'},
+    {id: uuid(), node_kind: 'Kind17'}
+  ];
+
+  const node_width_px = 130;
+  const node_height_px = 50;
   const container_height = 374;
 
-  const nodeContainerComponet = () => (
+  const nodeContainerComponet1 = () => (
     <NodeContainer
-      nodeItems={nodeItems}
+      nodeItems={nodeItems1}
       node_width_px={node_width_px}
       node_height_px={node_height_px}
       container_height={container_height}
       className='bg-white overflow-auto'
     />
   );
-  const emptyComponet = () => (<div className="bg-white h-[100px]"/>);
+  const nodeContainerComponet2 = () => (
+    <NodeContainer
+      nodeItems={nodeItems2}
+      node_width_px={node_width_px}
+      node_height_px={node_height_px}
+      container_height={container_height}
+      className='bg-white overflow-auto'
+    />
+  );
 
   const accordNodeItems : AccordionData[] = [
-    {title : 'Nodes', component : nodeContainerComponet},
-    {title : 'title2...', component : emptyComponet},
-    {title : 'title3...', component : emptyComponet}];
+    {title : '노드종류1', component : nodeContainerComponet1},
+    {title : '노드종류2', component : nodeContainerComponet2}]
 
   let tabMenus : boolean[] = [];
   accordNodeItems.map((accordItem) => {tabMenus.push(false);});
@@ -110,10 +138,7 @@ export default function Page() {
               if(!bottomBoundaryRef.current) return;
 
               const rect = bottomBoundaryRef.current?.getBoundingClientRect();
-              // console.log(`deltaY : ${deltaY}`);
-
               let change_size = curBottomSheetHeight - deltaY;
-              // console.log(`change_size : ${change_size}, curBottomSheetHeight : ${curBottomSheetHeight}, maxBottomSheetHeight : ${maxBottomSheetHeight}, minBottomSheetHeight : ${minBottomSheetHeight}`);
               const {size, limited} = inRange(change_size, minBottomSheetHeight, maxBottomSheetHeight * 0.8);
 
               setCurBottomSheetHeight(size);

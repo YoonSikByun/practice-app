@@ -5,7 +5,11 @@ import clsx from 'clsx';
 import NodeBoundary from './nodeBoundary';
 import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd';
 import { StrictModeDroppable } from '@/app/draganddrop/strictmodedroppable';
-import { DroppableProvided, DraggableProvided, DroppableStateSnapshot, DraggableStateSnapshot } from 'react-beautiful-dnd';
+import {
+  DroppableProvided, 
+  DraggableProvided, 
+  DroppableStateSnapshot, 
+  DraggableStateSnapshot } from 'react-beautiful-dnd';
 
 export type NodeItem = {
   id: string;
@@ -92,8 +96,6 @@ function NodeColumn(
     onDragEnd : (result : DropResult) => void
   }
 ) {
-  console.log(`item_width : ${item_width}, item_height : ${item_height}`);
-  
   return (
     <DragDropContext onDragEnd={onDragEnd}>
         <StrictModeDroppable droppableId="NodeContainer"
@@ -118,8 +120,7 @@ function NodeColumn(
               {
                   nodeItems.map((nodeItem, index) => {
                     const shouldRenderClone = nodeItem.id === snapshot.draggingFromThisWith;
-                    // console.log(`nodeItem.id : ${nodeItem.id}, snapshot.draggingFromThisWith : ${snapshot.draggingFromThisWith}, shouldRenderClone : ${shouldRenderClone}`);
-                    let temp = () => (
+                    let nodeBoundaryComponent = () => (
                       <NodeBoundary
                         height={item_height}
                         nodeKind={nodeItem.node_kind}
@@ -129,7 +130,7 @@ function NodeColumn(
                       <React.Fragment key={nodeItem.id}>
                         {shouldRenderClone ? (
                           <li className={clsx('node-react-beatiful-dnd-copy')}>
-                            {temp()}
+                            {nodeBoundaryComponent()}
                           </li>
                         ) : (
                           <Draggable draggableId={nodeItem.id} index={index}>
@@ -140,7 +141,7 @@ function NodeColumn(
                                   {...provided.dragHandleProps}
                                   className={clsx({'node_dragging': snapshot.isDragging})}
                                 >
-                                  {temp()}
+                                  {nodeBoundaryComponent()}
                                 </li>
                             )}
                           </Draggable>
