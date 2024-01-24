@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {registMouseEvent, inRange} from "./utils";
 
 import '@/css/workflow/layout.scss';
@@ -10,8 +10,9 @@ import ReactFlowApp from "./reactflow"
 import Boundary from './ui/boundary';
 import VerticalTabMenu, {MenuItem} from "./ui/vertical-tabmenu";
 import Accordion from './ui/accordion';
-import NodeContainer, { NodeItem } from "./ui/nodeContainer";
+import NodeContainer, { NodeItem, DropZone } from "./ui/nodeContainer";
 import { v4 as uuid } from "uuid";
+import { DragDropContext, DropResult} from 'react-beautiful-dnd';
 
 export default function Page() {
   const minBottomSheetHeight = 300;
@@ -76,6 +77,7 @@ export default function Page() {
 
   const nodeContainerComponet1 = () => (
     <NodeContainer
+      id='nc1'
       nodeItems={nodeItems1}
       node_width_px={node_width_px}
       node_height_px={node_height_px}
@@ -83,6 +85,7 @@ export default function Page() {
   );
   const nodeContainerComponet2 = () => (
     <NodeContainer
+      id='nc2'
       nodeItems={nodeItems2}
       node_width_px={node_width_px}
       node_height_px={node_height_px}
@@ -103,6 +106,16 @@ export default function Page() {
     {title : '작업노드', link : ''},
     {title : '변수 설정', link : ''}];
 
+    const onDragEnd = useCallback(
+      (result : DropResult) => {
+        const { source, destination } = result;
+        console.log(`source.droppableId : ${source.droppableId}`);
+        console.log(`destination : ${destination}`);
+        if (!destination) return;
+  
+      }, []
+    );
+
   return (
     <div className="hanaflow">
       <Boundary className="head">
@@ -119,7 +132,10 @@ export default function Page() {
            setVTabIndexClicked={setVTabIndexClicked}
            setVTabVisible={setVTabVisible}
           />
-            <Accordion accordItems={accordNodeItems} show={tabVisible[0]}/>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <Accordion accordItems={accordNodeItems} show={tabVisible[0]}/>
+              <DropZone className=""/>
+            </DragDropContext>
         </Boundary>
         <Boundary className="main" ref={mainBoundaryRef}>
           <ReactFlowApp/>

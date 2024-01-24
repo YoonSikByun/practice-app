@@ -1,6 +1,7 @@
 import '@/css/beautiful-dnd/beautiful-dnd.scss';
 
 import React, { useState } from "react";
+import { createPortal } from 'react-dom';
 import clsx from 'clsx';
 import NodeBoundary from './nodeBoundary';
 import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd';
@@ -18,12 +19,10 @@ export type NodeItem = {
 
 export default function NodeContainer(
   {
-    id,
     nodeItems,
     node_width_px,
     node_height_px,
   } : {
-    id : string,
     nodeItems : NodeItem[],
     node_width_px: number,
     node_height_px : number,
@@ -37,13 +36,11 @@ export default function NodeContainer(
   return (
     <div className={clsx('flex w-full')}>
       <NodeColumn
-        id={`${id}-${1}`}
         nodeItems={col1}
         item_width={node_width_px}
         item_height={node_height_px}
       />
       <NodeColumn
-        id={`${id}-${2}`}
         nodeItems={col2}
         item_width={node_width_px}
         item_height={node_height_px}
@@ -54,12 +51,10 @@ export default function NodeContainer(
 
 function NodeColumn(
   {
-    id,
     nodeItems,
     item_width,
     item_height,
   } : {
-    id : string,
     nodeItems : NodeItem[],
     item_width: number,
     item_height : number,
@@ -97,8 +92,9 @@ function NodeColumn(
   );
 
   return (
-    // <DragDropContext onDragEnd={onDragEnd}>
-        <StrictModeDroppable droppableId={`NodeContainer-${id}`}
+    <DragDropContext onDragStart={()=>{SetIsDragging(true)}} onDragEnd={onDragEnd}>
+
+        <StrictModeDroppable droppableId="NodeContainer"
           renderClone={(provided, snapshot, rubric) => (
               <div
                 {...provided.draggableProps}
@@ -155,30 +151,60 @@ function NodeColumn(
             </ul>
           )}
       </StrictModeDroppable>
-      // </DragDropContext>
-    );
+
+      {(isDragging) ? (
+        <StrictModeDroppable droppableId="DropZone">
+            {(provided : DroppableProvided, snapshot : DroppableStateSnapshot) => (
+              <PortalAwareItem provided={provided} snapshot={snapshot}/>
+              // <div
+              // ref={provided.innerRef}
+              // {...provided.droppableProps}>
+              //   {
+              //     <Draggable key='drop-region' draggableId='drop-region' index={0}>
+              //       {(provided : DraggableProvided, snapshot : DraggableStateSnapshot) => (
+              //         <div ref={provided.innerRef}
+              //           {...provided.draggableProps}
+              //           {...provided.dragHandleProps}>
+              //           Please, Drop here!!!!!!!!!!!
+              //         </div>
+              //       )}
+              //     </Draggable>
+              //   }
+              //   {provided.placeholder}
+              // </div>
+            )}
+        </StrictModeDroppable>
+      ) : null}
+    </DragDropContext>);
 }
 
-export const DropZone = ({className} : {className : string}) => (
-  <StrictModeDroppable droppableId="DropZone">
-  {(provided : DroppableProvided, snapshot : DroppableStateSnapshot) => (
-    <div className={
-      clsx('dropzone-overlayDiv', className)}
-    ref={provided.innerRef}
-    {...provided.droppableProps}>
-      {
+
+function PortalAwareItem(
+  {
+    provided,
+    snapshot
+  } : {
+    provided : DroppableProvided,
+    snapshot : DroppableStateSnapshot
+  }) {
+    const child = (
+    <div
+      ref={provided.innerRef}
+      {...provided.droppableProps}>
+        {
           <Draggable key='drop-region' draggableId='drop-region' index={0}>
             {(provided : DraggableProvided, snapshot : DraggableStateSnapshot) => (
-              <div ref={provided.innerRef}
+              <div className={clsx('dropzone-overlayDiv')} ref={provided.innerRef}
                 {...provided.draggableProps}
                 {...provided.dragHandleProps}>
                 Please, Drop here!!!!!!!!!!!
               </div>
             )}
           </Draggable>
-      }
-      {provided.placeholder}
-    </div>
-  )}
-</StrictModeDroppable>
-);
+        }
+        {provided.placeholder}
+      </div>
+    );
+  let portal : any = document.getElementById('ReactFlow-Area');
+  return createPortal(child, portal);
+}

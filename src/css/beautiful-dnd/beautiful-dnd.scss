@@ -17,12 +17,12 @@
 }
 
 .dropzone-overlayDiv {
-  position: fixed;
-  top: 50px;
-  left: 200px;
-  width: 50%;
-  height: 50%;
+  position: absolute;
+  top: 0px;
+  left: 350px;
+  width: 400px;
+  height: 100%;
   z-index:99;
   text-align: center;
-  background-color: aqua;
+  background-color: rgb(232, 161, 204);
 }
