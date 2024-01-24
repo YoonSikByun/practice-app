@@ -167,8 +167,7 @@ function NodeColumn(
                     {(provided : DraggableProvided, snapshot : DraggableStateSnapshot) => (
                       <div ref={provided.innerRef}
                         {...provided.draggableProps}
-                        {...provided.dragHandleProps}
-                        style={provided.draggableProps.style}>
+                        {...provided.dragHandleProps}>
                         Please, Drop here!!!!!!!!!!!
                       </div>
                     )}
