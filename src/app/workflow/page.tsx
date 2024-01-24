@@ -73,15 +73,12 @@ export default function Page() {
 
   const node_width_px = 130;
   const node_height_px = 50;
-  const container_height = 327;
 
   const nodeContainerComponet1 = () => (
     <NodeContainer
       nodeItems={nodeItems1}
       node_width_px={node_width_px}
       node_height_px={node_height_px}
-      container_height={container_height}
-      className='bg-white overflow-auto'
     />
   );
   const nodeContainerComponet2 = () => (
@@ -89,8 +86,6 @@ export default function Page() {
       nodeItems={nodeItems2}
       node_width_px={node_width_px}
       node_height_px={node_height_px}
-      container_height={container_height}
-      className='bg-white overflow-auto'
     />
   );
 

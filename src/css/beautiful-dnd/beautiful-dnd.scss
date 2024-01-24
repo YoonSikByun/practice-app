@@ -15,3 +15,14 @@
 .node-react-beatiful-dnd-copy ~ [data-rbd-placeholder-context-id] {
   display: none !important;
 }
+
+.dropzone-overlayDiv {
+  position: fixed;
+  top: 0px;
+  left: 300px;
+  width: 50%;
+  height: 50%;
+  // z-index:99;
+  text-align: center;
+  background-color: aqua;
+}

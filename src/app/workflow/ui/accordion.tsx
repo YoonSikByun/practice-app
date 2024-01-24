@@ -18,7 +18,9 @@ export default function Accordion({
     show : boolean
 }) {
     return (
-        <div className={clsx('accordion-container', {'invisible': (!show)})}>
+        <div className={clsx('accordion-container',
+        'overflow-auto',
+        {'invisible': (!show)})}>
         {
             accordItems.map((accordItem) => {
                 return (
@@ -49,7 +51,7 @@ function AccordionNode({
             >
                 {accordItem.title}
             </button>
-            <Panel accordItem={accordItem} height={(clicked) ? 500 : 0}/>
+            <Panel accordItem={accordItem} height={(clicked) ? 0 : 500}/>
         </>
     );
 }
