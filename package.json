@@ -9,10 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.1.0",
     "clsx": "^2.1.0",
     "next": "14.0.4",
     "react": "^18",
-    "react-beautiful-dnd": "^13.1.1",
     "react-dom": "^18",
     "reactflow": "^11.10.1",
     "sass": "^1.69.7",

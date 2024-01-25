@@ -1,15 +1,11 @@
-import '@/css/beautiful-dnd/beautiful-dnd.scss';
-
 import React, { useState } from "react";
 import clsx from 'clsx';
 import NodeBoundary from './nodeBoundary';
-import { DragDropContext, Draggable, DropResult } from 'react-beautiful-dnd';
-import { StrictModeDroppable } from '@/app/draganddrop/strictmodedroppable';
-import {
-  DroppableProvided, 
-  DraggableProvided, 
-  DroppableStateSnapshot, 
-  DraggableStateSnapshot } from 'react-beautiful-dnd';
+
+import DndKitDraggable from "@/app/util/dnd-kit-draggable";
+import DndKitDroppable from "@/app/util/dnd-kit-droppable";
+import "@/css/util/dnd-kit-droppable.scss";
+import {DragOverlay} from '@dnd-kit/core';
 
 export type NodeItem = {
   id: string;
@@ -63,122 +59,47 @@ function NodeColumn(
     nodeItems : NodeItem[],
     item_width: number,
     item_height : number,
-    // onDragEnd : (result : DropResult) => void
   }
 ) {
-  
-  const [isDragging, SetIsDragging] = useState<boolean>(false);
-  // const [shoppingBagItems, setShoppingBagItems] = React.useState<string[]>([]);
-  const onDragEnd = React.useCallback(
-    (result : DropResult) => {
-      const { source, destination } = result;
-      console.log(`source.droppableId : ${source.droppableId}`);
-      console.log(`destination : ${destination}`);
-      SetIsDragging(false);
-      if (!destination) return;
-
-      // switch (source.droppableId) {
-      //   case destination.droppableId:
-      //     console.log(`destination.droppableId : ${destination.droppableId}`);
-      //     setShoppingBagItems((state : any) =>
-      //       reorder(state, source.index, destination.index)
-      //     );
-      //     break;
-      //   case source.droppableId:
-      //     console.log(`source.droppableId : ${source.droppableId}`);
-      //     setShoppingBagItems((state : any) =>
-      //       copy(nodeItems, state, source.index, destination.index)
-      //     );
-      //     break;
-      //   default:
-      //     break;
-      // }
-    }, [SetIsDragging]
-  );
 
   return (
-    // <DragDropContext onDragEnd={onDragEnd}>
-        <StrictModeDroppable droppableId={`NodeContainer-${id}`}
-          renderClone={(provided, snapshot, rubric) => (
-              <div
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}
-                ref={provided.innerRef}
-                className={clsx({'node_dragging': snapshot.isDragging})}
-                style={provided.draggableProps.style}
-              >
-                <NodeBoundary
-                  height={item_height}
-                  nodeKind={nodeItems[rubric.source.index].node_kind}
-                  designMode={true}/>
-              </div>
-            )}
-          isDropDisabled={true} 
-        >
-          {(provided : DroppableProvided, snapshot : DroppableStateSnapshot) => (
-            <ul style={{width:`${item_width}px`}} ref={provided.innerRef} {...provided.droppableProps}>
-              {
-                  nodeItems.map((nodeItem, index) => {
-                    const shouldRenderClone = nodeItem.id === snapshot.draggingFromThisWith;
-                    let nodeBoundaryComponent = () => (
-                      <NodeBoundary
-                        height={item_height}
-                        nodeKind={nodeItem.node_kind}
-                        designMode={true}/>
-                    );
-                    return (
-                      <React.Fragment key={nodeItem.id}>
-                        {shouldRenderClone ? (
-                          <li className={clsx('node-react-beatiful-dnd-copy')}>
-                            {nodeBoundaryComponent()}
-                          </li>
-                        ) : (
-                          <Draggable draggableId={nodeItem.id} index={index}>
-                            {(provided : DraggableProvided, snapshot : DraggableStateSnapshot) => (
-                              <React.Fragment>
-                                <li ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  className={clsx({'node_dragging': snapshot.isDragging})}
-                                >
-                                  {nodeBoundaryComponent()}
-                                </li>
-                              </React.Fragment>
-                            )}
-                          </Draggable>
-                        )}
-                      </React.Fragment>
-                    );
-                  })
-              }
-              {provided.placeholder}
-            </ul>
-          )}
-      </StrictModeDroppable>
-      // </DragDropContext>
+      <div style={{width:`${item_width}px`}}>
+      {
+        nodeItems.map((nodeItem, index) => (
+          <DndKitDraggable key={`${id}-${index}`} drag_key={`${id}-${index}`} height={item_height} nodeKind={nodeItem.node_kind} designMode={true}>
+            <NodeBoundary key={`${id}-${index}`}
+              height={item_height}
+              nodeKind={nodeItem.node_kind}
+              designMode={true}/>
+          </DndKitDraggable>
+        ))
+      }
+      </div>
     );
 }
 
-export const DropZone = ({className} : {className : string}) => (
-  <StrictModeDroppable droppableId="DropZone">
-  {(provided : DroppableProvided, snapshot : DroppableStateSnapshot) => (
-    <div className={
-      clsx('dropzone-overlayDiv', className)}
-    ref={provided.innerRef}
-    {...provided.droppableProps}>
-      {
-          <Draggable key='drop-region' draggableId='drop-region' index={0}>
-            {(provided : DraggableProvided, snapshot : DraggableStateSnapshot) => (
-              <div ref={provided.innerRef}
-                {...provided.draggableProps}
-                {...provided.dragHandleProps}>
-                Please, Drop here!!!!!!!!!!!
-              </div>
-            )}
-          </Draggable>
-      }
-      {provided.placeholder}
+export const DropZone = () => (
+  <DndKitDroppable id='drop-zone'>
+    <div className='dropzone-overlayDiv'>
+      Please, Drop here!!!!!!!!!!!
     </div>
-  )}
-</StrictModeDroppable>
+  </DndKitDroppable>
+);
+
+export type DraggingNodeProps = {
+  key : string;
+  height : number;
+  nodeKind : string;
+  designMode : boolean;
+};
+
+export const NodeDragOverlay = ({draggingNode} : {draggingNode : DraggingNodeProps}) => (
+  <DragOverlay>
+    {draggingNode.height ? (
+      <NodeBoundary
+      height={draggingNode.height}
+      nodeKind={draggingNode.nodeKind}
+      designMode={draggingNode.designMode}/>
+    ): null}
+  </DragOverlay>
 );

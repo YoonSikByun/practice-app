@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect, useCallback } from "react";
-import {registMouseEvent, inRange} from "./utils";
+import {registMouseEvent, inRange} from "../util/moudeMove";
 
 import '@/css/workflow/layout.scss';
 import { AccordionData } from "./ui/accordion";
@@ -10,9 +10,9 @@ import ReactFlowApp from "./reactflow"
 import Boundary from './ui/boundary';
 import VerticalTabMenu, {MenuItem} from "./ui/vertical-tabmenu";
 import Accordion from './ui/accordion';
-import NodeContainer, { NodeItem, DropZone } from "./ui/nodeContainer";
+import NodeContainer, { NodeItem, DropZone, DraggingNodeProps, NodeDragOverlay } from "./ui/nodeContainer";
 import { v4 as uuid } from "uuid";
-import { DragDropContext, DropResult} from 'react-beautiful-dnd';
+import { DndContext, DragStartEvent, DragEndEvent } from "@dnd-kit/core";
 
 export default function Page() {
   const minBottomSheetHeight = 300;
@@ -104,17 +104,31 @@ export default function Page() {
 
   const menuItems : MenuItem[] = [
     {title : '작업노드', link : ''},
-    {title : '변수 설정', link : ''}];
+    {title : '변수 설정', link : ''}
+  ];
 
-    const onDragEnd = useCallback(
-      (result : DropResult) => {
-        const { source, destination } = result;
-        console.log(`source.droppableId : ${source.droppableId}`);
-        console.log(`destination : ${destination}`);
-        if (!destination) return;
-  
-      }, []
-    );
+  const [draggingNode, setDraggingNode] = useState<DraggingNodeProps>({key: '', height: 0, nodeKind: '', designMode: false});
+
+  function onDragStart(e: DragStartEvent) {
+    const startKey = e.active.data.current?.drag_key
+    const startHeight = e.active.data.current?.height
+    console.log(`draggingNode.key : ${draggingNode.key},  startKey : ${startKey}, startHeight : ${startHeight}`);
+    setDraggingNode((prev => ({...prev, 
+      key: e.active.data.current?.drag_key,
+      height: e.active.data.current?.height,
+      nodeKind: e.active.data.current?.nodeKind,
+      designMode: e.active.data.current?.designMode})));
+  }
+
+  const onDragEnd = (e: DragEndEvent) => {
+    const endKey = e.active.data.current?.drag_key;
+    console.log(`draggingNode.key : ${draggingNode.key}, endKey : ${endKey}`);
+    setDraggingNode((prev => ({...prev, 
+      key: '',
+      height: 0,
+      nodeKind: '',
+      designMode: false})));
+  }
 
   return (
     <div className="hanaflow">
@@ -130,12 +144,12 @@ export default function Page() {
            menuItems={menuItems}
            indexClicked={vTabMenuIndexClicked}
            setVTabIndexClicked={setVTabIndexClicked}
-           setVTabVisible={setVTabVisible}
-          />
-            <DragDropContext onDragEnd={onDragEnd}>
+           setVTabVisible={setVTabVisible}/>
+             <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
               <Accordion accordItems={accordNodeItems} show={tabVisible[0]}/>
-              <DropZone className=""/>
-            </DragDropContext>
+              <NodeDragOverlay draggingNode={draggingNode}/>
+              {/* <DropZone/> */}
+            </DndContext>
         </Boundary>
         <Boundary className="main" ref={mainBoundaryRef}>
           <ReactFlowApp/>
@@ -147,11 +161,9 @@ export default function Page() {
           <Boundary className="resize-bar"
             {...registMouseEvent((deltaX, deltaY) => {
               if(!bottomBoundaryRef.current) return;
-
               const rect = bottomBoundaryRef.current?.getBoundingClientRect();
               let change_size = curBottomSheetHeight - deltaY;
               const {size, limited} = inRange(change_size, minBottomSheetHeight, maxBottomSheetHeight * 0.8);
-
               setCurBottomSheetHeight(size);
             })}
           />
