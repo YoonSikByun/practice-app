@@ -26,24 +26,29 @@ export default function NodeContainer(
   }
 ) {
 
-  const midIndex = Math.floor(nodeItems.length / 2);
-  const col1 = nodeItems.slice(0, midIndex);
-  const col2 = nodeItems.slice(midIndex);
+  // const midIndex = Math.floor(nodeItems.length / 2);
+  // const col1 = nodeItems.slice(0, midIndex);
+  // const col2 = nodeItems.slice(midIndex);
 
   return (
     <div className={clsx('flex w-full')}>
-      <NodeColumn
-        id={`${id}-${1}`}
-        nodeItems={col1}
-        item_width={node_width_px}
-        item_height={node_height_px}
-      />
-      <NodeColumn
-        id={`${id}-${2}`}
-        nodeItems={col2}
-        item_width={node_width_px}
-        item_height={node_height_px}
-      />
+    {
+      nodeItems.map((nodeItem, index) => (
+        <DndKitDraggable key={`${id}-${index}`}
+          drag_key={`${id}-${index}`}
+          height={node_height_px}
+          nodeKind={nodeItem.node_kind}
+          designMode={true}>
+
+          <NodeBoundary key={`${id}-${index}`}
+            width={node_width_px}
+            height={node_height_px}
+            nodeKind={nodeItem.node_kind}
+            designMode={true}/>
+
+        </DndKitDraggable>
+      ))
+    }
     </div>
   );
 }
@@ -61,21 +66,20 @@ function NodeColumn(
     item_height : number,
   }
 ) {
-
   return (
-      <div style={{width:`${item_width}px`}}>
-      {
-        nodeItems.map((nodeItem, index) => (
-          <DndKitDraggable key={`${id}-${index}`} drag_key={`${id}-${index}`} height={item_height} nodeKind={nodeItem.node_kind} designMode={true}>
-            <NodeBoundary key={`${id}-${index}`}
-              height={item_height}
-              nodeKind={nodeItem.node_kind}
-              designMode={true}/>
-          </DndKitDraggable>
-        ))
-      }
-      </div>
-    );
+    <div style={{width:`${item_width}px`}}>
+    {
+      nodeItems.map((nodeItem, index) => (
+        <DndKitDraggable key={`${id}-${index}`} drag_key={`${id}-${index}`} height={item_height} nodeKind={nodeItem.node_kind} designMode={true}>
+          <NodeBoundary key={`${id}-${index}`}
+            height={item_height}
+            nodeKind={nodeItem.node_kind}
+            designMode={true}/>
+        </DndKitDraggable>
+      ))
+    }
+    </div>
+  );
 }
 
 export const DropZone = () => (

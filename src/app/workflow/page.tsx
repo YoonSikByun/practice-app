@@ -115,6 +115,7 @@ export default function Page() {
     console.log(`draggingNode.key : ${draggingNode.key},  startKey : ${startKey}, startHeight : ${startHeight}`);
     setDraggingNode((prev => ({...prev, 
       key: e.active.data.current?.drag_key,
+      width: e.active.data.current?.width,
       height: e.active.data.current?.height,
       nodeKind: e.active.data.current?.nodeKind,
       designMode: e.active.data.current?.designMode})));
@@ -124,7 +125,8 @@ export default function Page() {
     const endKey = e.active.data.current?.drag_key;
     console.log(`draggingNode.key : ${draggingNode.key}, endKey : ${endKey}`);
     setDraggingNode((prev => ({...prev, 
-      key: '',
+      drag_key: '',
+      width: 0,
       height: 0,
       nodeKind: '',
       designMode: false})));
