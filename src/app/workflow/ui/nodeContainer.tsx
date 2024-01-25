@@ -25,11 +25,6 @@ export default function NodeContainer(
     node_height_px : number,
   }
 ) {
-
-  // const midIndex = Math.floor(nodeItems.length / 2);
-  // const col1 = nodeItems.slice(0, midIndex);
-  // const col2 = nodeItems.slice(midIndex);
-
   return (
     <div className={clsx('flex w-full')}>
     {
