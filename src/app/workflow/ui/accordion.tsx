@@ -4,6 +4,7 @@ import '@/common/definition';
 import clsx from 'clsx';
 
 import { useState } from 'react';
+import Boundary from './boundary';
 
 export type AccordionData = {
     title: string;
@@ -12,12 +13,15 @@ export type AccordionData = {
 
 export default function Accordion({
     accordItems,
-    show
+    show,
+    ref
 } : {
     accordItems : AccordionData[],
-    show : boolean
+    show : boolean,
+    ref : any
 }) {
     return (
+        <Boundary ref={ref}>
         <div className={clsx('accordion-container',
         'overflow-auto',
         {'invisible': (!show)})}>
@@ -31,6 +35,7 @@ export default function Accordion({
             })
         }
         </div>
+        </Boundary>
     );
 }
 

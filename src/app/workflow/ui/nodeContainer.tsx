@@ -6,6 +6,7 @@ import DndKitDraggable from "@/app/util/dnd-kit-draggable";
 import DndKitDroppable from "@/app/util/dnd-kit-droppable";
 import "@/css/util/dnd-kit-droppable.scss";
 import {DragOverlay} from '@dnd-kit/core';
+import { createPortal } from "react-dom";
 
 export type NodeItem = {
   id: string;
@@ -42,14 +43,6 @@ export default function NodeContainer(
   );
 }
 
-// export const DropZone = () => (
-//   <DndKitDroppable id='drop-zone'>
-//     <div className='dropzone-overlayDiv'>
-//       Please, Drop here!!!!!!!!!!!
-//     </div>
-//   </DndKitDroppable>
-// );
-
 export function DropZone() {
     return (
     <DndKitDroppable id='drop-zone'>
@@ -85,3 +78,12 @@ export const NodeDragOverlay = (
     ): null}
   </DragOverlay>
 );
+
+export function PortalAwareItem({show} : {show : boolean}) {
+    if(!show) return null;
+    const child = (
+      <DropZone/>
+    );
+  let portal : any = document.getElementById('Portal-DropZone');
+  return createPortal(child, portal);
+}

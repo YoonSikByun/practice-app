@@ -10,7 +10,7 @@ import ReactFlowApp from "./reactflow"
 import Boundary from './ui/boundary';
 import VerticalTabMenu, {MenuItem} from "./ui/vertical-tabmenu";
 import Accordion from './ui/accordion';
-import NodeContainer, { NodeItem, DropZone, DraggingNodeProps, NodeDragOverlay } from "./ui/nodeContainer";
+import NodeContainer, { NodeItem, PortalAwareItem, DropZone, DraggingNodeProps, NodeDragOverlay } from "./ui/nodeContainer";
 import { v4 as uuid } from "uuid";
 import { DndContext, DragStartEvent, DragEndEvent } from "@dnd-kit/core";
 
@@ -107,10 +107,13 @@ export default function Page() {
     {title : '변수 설정', link : ''}
   ];
 
+  const showingMenu = useRef<HTMLDivElement>(null);
+  const [dropZoneVisible, setDropZoneVisible] = useState(false);
   const [draggingNode, setDraggingNode] = useState<DraggingNodeProps>({key: '', width: 0, height: 0, nodeKind: '', designMode: false});
+
   function onDragStart(e: DragStartEvent) {
-    const startKey = e.active.data.current?.drag_key
-    const startHeight = e.active.data.current?.height
+    const startKey = e.active.data.current?.drag_key;
+    const startHeight = e.active.data.current?.height;
     console.log(`draggingNode.key : ${draggingNode.key},  startKey : ${startKey}, startHeight : ${startHeight}`);
     setDraggingNode((prev => ({...prev,
       key: e.active.data.current?.drag_key,
@@ -118,6 +121,8 @@ export default function Page() {
       height: e.active.data.current?.height,
       nodeKind: e.active.data.current?.nodeKind,
       designMode: e.active.data.current?.designMode})));
+
+    setDropZoneVisible(true);
   }
 
   const onDragEnd = (e: DragEndEvent) => {
@@ -130,6 +135,15 @@ export default function Page() {
       height: 0,
       nodeKind: '',
       designMode: false})));
+
+      setDropZoneVisible(false);
+
+      const reactDropZone : any = document.getElementById('React-DropZone');
+      const rect = reactDropZone.getBoundingClientRect();
+
+      const drop_rect = e.active.rect.current.translated;
+      console.log(`[DropRect] top : ${drop_rect?.top}, left : ${drop_rect?.left}, right : ${drop_rect?.right}, bottom : ${drop_rect?.bottom}`);
+      console.log(`[ReactFlow-Area] top : ${rect.top}, left : ${rect.left}, right : ${rect.right}, bottom : ${rect.bottom}`);
   }
 
   return (
@@ -139,21 +153,23 @@ export default function Page() {
       </Boundary>
       <Boundary
         className="grid-container"
-        style={{gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`}}
-      >
+        style={{gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`}}>
         <Boundary className="sidebar-nodes">
           <VerticalTabMenu
            menuItems={menuItems}
            indexClicked={vTabMenuIndexClicked}
            setVTabIndexClicked={setVTabIndexClicked}
-           setVTabVisible={setVTabVisible}/>
-             <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-                <Accordion accordItems={accordNodeItems} show={tabVisible[0]}/>
-                <NodeDragOverlay draggingNode={draggingNode}/>
-                <DropZone/>
+           setVTabVisible={setVTabVisible}
+           />
+            <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+              <Accordion ref={showingMenu} accordItems={accordNodeItems} show={tabVisible[0]}/>
+              <NodeDragOverlay draggingNode={draggingNode}/>
+              {/* <DropZone/> */}
+              <PortalAwareItem show={dropZoneVisible}/>
             </DndContext>
         </Boundary>
         <Boundary className="main" ref={mainBoundaryRef}>
+          <div id='Portal-DropZone'></div>
           <ReactFlowApp/>
         </Boundary>
         <Boundary className="sidebar-property">
