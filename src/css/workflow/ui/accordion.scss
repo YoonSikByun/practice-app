@@ -2,10 +2,10 @@ $top_head_height: 50px;
 
 .accordion-container {
     position: absolute;
-    z-index: 999;
+    z-index: 20;
     top: 0px;
     left: 30px;
-    width: 275px;
+    width: 285px;
     height: calc(100vh - $top_head_height);
     background-color: white;
 }
@@ -22,7 +22,6 @@ $top_head_height: 50px;
     text-align: left;
     outline: none;
     font-size: 14px;
-    // transition: 0.4s;
 }
 
 .active, .accordion:hover {
@@ -45,5 +44,4 @@ $top_head_height: 50px;
     background-color: white;
     max-height: 0;
     overflow: hidden;
-    // transition: max-height 0.2s ease-out;
 }

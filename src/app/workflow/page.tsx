@@ -107,13 +107,12 @@ export default function Page() {
     {title : '변수 설정', link : ''}
   ];
 
-  const [draggingNode, setDraggingNode] = useState<DraggingNodeProps>({key: '', height: 0, nodeKind: '', designMode: false});
-
+  const [draggingNode, setDraggingNode] = useState<DraggingNodeProps>({key: '', width: 0, height: 0, nodeKind: '', designMode: false});
   function onDragStart(e: DragStartEvent) {
     const startKey = e.active.data.current?.drag_key
     const startHeight = e.active.data.current?.height
     console.log(`draggingNode.key : ${draggingNode.key},  startKey : ${startKey}, startHeight : ${startHeight}`);
-    setDraggingNode((prev => ({...prev, 
+    setDraggingNode((prev => ({...prev,
       key: e.active.data.current?.drag_key,
       width: e.active.data.current?.width,
       height: e.active.data.current?.height,
@@ -123,8 +122,9 @@ export default function Page() {
 
   const onDragEnd = (e: DragEndEvent) => {
     const endKey = e.active.data.current?.drag_key;
-    console.log(`draggingNode.key : ${draggingNode.key}, endKey : ${endKey}`);
-    setDraggingNode((prev => ({...prev, 
+    
+    console.log(`e.over?.id : ${e.over?.id}, draggingNode.key : ${draggingNode.key}, endKey : ${endKey}`);
+    setDraggingNode((prev => ({...prev,
       drag_key: '',
       width: 0,
       height: 0,
@@ -148,9 +148,9 @@ export default function Page() {
            setVTabIndexClicked={setVTabIndexClicked}
            setVTabVisible={setVTabVisible}/>
              <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-              <Accordion accordItems={accordNodeItems} show={tabVisible[0]}/>
-              <NodeDragOverlay draggingNode={draggingNode}/>
-              {/* <DropZone/> */}
+                <Accordion accordItems={accordNodeItems} show={tabVisible[0]}/>
+                <NodeDragOverlay draggingNode={draggingNode}/>
+                <DropZone/>
             </DndContext>
         </Boundary>
         <Boundary className="main" ref={mainBoundaryRef}>

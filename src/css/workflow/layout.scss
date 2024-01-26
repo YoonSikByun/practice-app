@@ -44,14 +44,14 @@ $sidebar_property_width: 150px;
 .hanaflow .grid-container .bottom-sheet {
     display: block;
     position: relative;
-    z-index: 990;
+    z-index: 10;
     background-color: aqua;
     grid-area: bottom-sheet;
 }
 .hanaflow .grid-container .bottom-sheet .resize-bar {
     display: block;
     position: absolute;
-    z-index: 990;
+    z-index: 10;
     top: 0px;
     left: 0px;
     width: 100%;

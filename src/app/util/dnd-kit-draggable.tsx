@@ -1,5 +1,6 @@
 import { useDraggable } from "@dnd-kit/core";
 import React, { FC } from "react";
+import {CSS} from '@dnd-kit/utilities';
 
 interface IDndKitDraggable {
   drag_key : string;
@@ -25,21 +26,28 @@ const DndKitDraggable: FC<IDndKitDraggable> = (
     nodeKind : string,
     designMode : boolean,
     children : React.ReactNode
-  }) => {
+  }
+) => {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: drag_key,
-    data: {drag_key : drag_key, width: width, height : height, nodeKind : nodeKind, designMode : designMode}
+    data: {
+      drag_key : drag_key,
+      width: width,
+      height : height,
+      nodeKind : nodeKind,
+      designMode : designMode }
   });
+
+  // const style = {transform: CSS.Translate.toString(transform)};
 
   return (
     <div
       ref={setNodeRef}
       {...attributes}
-      {...listeners}
-    >
+      {...listeners}>
+      
       {children}
-    </div>
-  );
+    </div>);
 };
 
 export default DndKitDraggable;

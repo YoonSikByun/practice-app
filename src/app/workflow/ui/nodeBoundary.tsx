@@ -1,6 +1,11 @@
 import '@/css/workflow/ui/nodeBoundary.scss'
 import clsx from "clsx"
 
+export type NodeItem = {
+    id: string;
+    node_kind: string;
+};
+
 const NodeBoundary = (
     {
         width,

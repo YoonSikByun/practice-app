@@ -26,79 +26,62 @@ export default function NodeContainer(
   }
 ) {
   return (
-    <div className={clsx('flex w-full')}>
+    <div className={clsx('grid grid-cols-2')}>
     {
       nodeItems.map((nodeItem, index) => (
-        <DndKitDraggable key={`${id}-${index}`}
-          drag_key={`${id}-${index}`}
-          height={node_height_px}
-          nodeKind={nodeItem.node_kind}
+        <DndKitDraggable key={`${id}-${index}`} drag_key={`${id}-${index}`}
+          width={node_width_px} height={node_height_px} nodeKind={nodeItem.node_kind}
           designMode={true}>
 
-          <NodeBoundary key={`${id}-${index}`}
-            width={node_width_px}
-            height={node_height_px}
-            nodeKind={nodeItem.node_kind}
-            designMode={true}/>
+          <NodeBoundary key={`${id}-${index}`} width={node_width_px}
+            height={node_height_px} nodeKind={nodeItem.node_kind} designMode={true}/>
 
-        </DndKitDraggable>
-      ))
+        </DndKitDraggable>))
     }
     </div>
   );
 }
 
-function NodeColumn(
-  {
-    id,
-    nodeItems,
-    item_width,
-    item_height,
-  } : {
-    id : string,
-    nodeItems : NodeItem[],
-    item_width: number,
-    item_height : number,
-  }
-) {
-  return (
-    <div style={{width:`${item_width}px`}}>
-    {
-      nodeItems.map((nodeItem, index) => (
-        <DndKitDraggable key={`${id}-${index}`} drag_key={`${id}-${index}`} height={item_height} nodeKind={nodeItem.node_kind} designMode={true}>
-          <NodeBoundary key={`${id}-${index}`}
-            height={item_height}
-            nodeKind={nodeItem.node_kind}
-            designMode={true}/>
-        </DndKitDraggable>
-      ))
-    }
-    </div>
-  );
-}
+// export const DropZone = () => (
+//   <DndKitDroppable id='drop-zone'>
+//     <div className='dropzone-overlayDiv'>
+//       Please, Drop here!!!!!!!!!!!
+//     </div>
+//   </DndKitDroppable>
+// );
 
-export const DropZone = () => (
-  <DndKitDroppable id='drop-zone'>
-    <div className='dropzone-overlayDiv'>
-      Please, Drop here!!!!!!!!!!!
-    </div>
-  </DndKitDroppable>
-);
+export function DropZone() {
+    return (
+    <DndKitDroppable id='drop-zone'>
+      <div className='dropzone-overlayDiv'>
+        Please, Drop here!!!!!!!!!!!
+      </div>
+    </DndKitDroppable>
+    );
+}
 
 export type DraggingNodeProps = {
   key : string;
+  width: number;
   height : number;
   nodeKind : string;
   designMode : boolean;
 };
 
-export const NodeDragOverlay = ({draggingNode} : {draggingNode : DraggingNodeProps}) => (
-  <DragOverlay>
+export const NodeDragOverlay = (
+  {
+    draggingNode
+  } : {
+    draggingNode : DraggingNodeProps
+  }
+) => (
+  <DragOverlay dropAnimation={null}>
     {draggingNode.height ? (
       <NodeBoundary
-      height={draggingNode.height}
-      nodeKind={draggingNode.nodeKind}
-      designMode={draggingNode.designMode}/>
+        width={draggingNode.width}
+        height={draggingNode.height}
+        nodeKind={draggingNode.nodeKind}
+        designMode={draggingNode.designMode}/>
     ): null}
   </DragOverlay>
 );
