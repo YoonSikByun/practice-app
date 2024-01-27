@@ -132,28 +132,22 @@ export default function Page() {
     {
       const accordion : any = document.getElementById('accordion-container');
       const accordionRect : any = accordion.getBoundingClientRect();
-      console.log(`----top : ${accordionRect.top}, left : ${accordionRect.left}, right : ${accordionRect.right}, bottom : ${accordionRect.bottom}`);
       showMenuPanelHeight = accordionRect.bottom - accordionRect.top;
       showMenuPanelWidth = accordionRect.right - accordionRect.left;
-      const top : number = accordionRect.top;
-      console.log(`---- top : ${top}, showMenuPanelHeight : ${showMenuPanelHeight}, showMenuPanelWidth : ${showMenuPanelWidth}`);
-
     }
 
     //React-flow 영역
     const reactflowdom : any = document.getElementById('React-DropZone');
     const reactFlowRect : any = reactflowdom.getBoundingClientRect();
     
-    const size : ComponentRegionSize = {
+    const componentRegionsize : ComponentRegionSize = {
       reactFlowRect : reactFlowRect, //React-flow 영역 rect 정보
       curBottomSheetHeight : curBottomSheetHeight, //하단시크 현재 높이 크기
       showMenuPanelHeight : showMenuPanelHeight, //현제 보여지는 메뉴 높이
       showMenuPanelWidth : showMenuPanelWidth //현재 보여지는 메뉴 너비
     };
 
-    console.log(`----showMenuPanelWidth : ${showMenuPanelWidth}, showMenuPanelWidth : ${showMenuPanelWidth}`);
-
-    return size;
+    return componentRegionsize;
   }
 
   return (
