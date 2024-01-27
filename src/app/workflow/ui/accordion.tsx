@@ -2,9 +2,7 @@ import '@/app/globals.css';
 import '@/css/workflow/ui/accordion.scss';
 import '@/common/definition';
 import clsx from 'clsx';
-
 import { useState } from 'react';
-import Boundary from './boundary';
 
 export type AccordionData = {
     title: string;
@@ -13,18 +11,14 @@ export type AccordionData = {
 
 export default function Accordion({
     accordItems,
-    show,
-    ref
+    show
 } : {
     accordItems : AccordionData[],
-    show : boolean,
-    ref : any
+    show : boolean
 }) {
     return (
-        <Boundary ref={ref}>
-        <div className={clsx('accordion-container',
-        'overflow-auto',
-        {'invisible': (!show)})}>
+        <div id='accordion-container' className={clsx('accordion-container',
+            'overflow-auto', {'invisible': (!show)})}>
         {
             accordItems.map((accordItem) => {
                 return (
@@ -35,7 +29,6 @@ export default function Accordion({
             })
         }
         </div>
-        </Boundary>
     );
 }
 

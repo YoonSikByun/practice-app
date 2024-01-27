@@ -43,16 +43,6 @@ export default function NodeContainer(
   );
 }
 
-export function DropZone() {
-    return (
-    <DndKitDroppable id='drop-zone'>
-      <div className='dropzone-overlayDiv'>
-        Please, Drop here!!!!!!!!!!!
-      </div>
-    </DndKitDroppable>
-    );
-}
-
 export type DraggingNodeProps = {
   key : string;
   width: number;
@@ -79,11 +69,21 @@ export const NodeDragOverlay = (
   </DragOverlay>
 );
 
-export function PortalAwareItem({show} : {show : boolean}) {
-    if(!show) return null;
-    const child = (
-      <DropZone/>
-    );
-  let portal : any = document.getElementById('Portal-DropZone');
-  return createPortal(child, portal);
-}
+// export function DropZone() {
+//   return (
+//   <DndKitDroppable id='drop-zone'>
+//     <div className='dropzone-overlayDiv'>
+//       Please, Drop here!!!!!!!!!!!
+//     </div>
+//   </DndKitDroppable>
+//   );
+// }
+
+// export function PortalAwareItem({show} : {show : boolean}) {
+//     if(!show) return null;
+//     const child = (
+//       <DropZone/>
+//     );
+//   let portal : any = document.getElementById('Portal-DropZone');
+//   return createPortal(child, portal);
+// }

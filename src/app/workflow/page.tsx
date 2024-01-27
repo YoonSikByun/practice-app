@@ -10,17 +10,20 @@ import ReactFlowApp from "./reactflow"
 import Boundary from './ui/boundary';
 import VerticalTabMenu, {MenuItem} from "./ui/vertical-tabmenu";
 import Accordion from './ui/accordion';
-import NodeContainer, { NodeItem, PortalAwareItem, DropZone, DraggingNodeProps, NodeDragOverlay } from "./ui/nodeContainer";
+import NodeContainer, { NodeItem, DraggingNodeProps, NodeDragOverlay } from "./ui/nodeContainer";
 import { v4 as uuid } from "uuid";
-import { DndContext, DragStartEvent, DragEndEvent } from "@dnd-kit/core";
+import NodeDndContext, {ComponentRegionSize} from "@/app/util/dnd-kit-node-dnd-context";
 
 export default function Page() {
+
+  // 하단시트 사이즈를 마우스 드래그로 조정할 때 필요한 값들
   const minBottomSheetHeight = 300;
   const mainBoundaryRef = useRef<HTMLDivElement>(null);
   const bottomBoundaryRef = useRef<HTMLDivElement>(null);
   const [maxBottomSheetHeight, setMaxBottomSheetHeight] = useState(0);
   const [curBottomSheetHeight, setCurBottomSheetHeight] = useState(minBottomSheetHeight);
 
+  // 초기 하단시트 크기와 Reactflow영역 크기를 구해서 저장해 놓는다. 초기 1회만 호출된다.
   useEffect(() => {
     const bottomRect = bottomBoundaryRef.current?.getBoundingClientRect();
     if(bottomRect != null)
@@ -28,8 +31,10 @@ export default function Page() {
     const mainRect = mainBoundaryRef.current?.getBoundingClientRect();
     if(mainRect != null)
       setMaxBottomSheetHeight(mainRect.height);
+    console.log('useEffect..........')
   }, []);
 
+  //좌측 아코디언 메뉴 패널에 표시될 항목들
   const nodeItems1 : NodeItem[] = [
     {id: uuid(), node_kind: 'Kind0'},
     {id: uuid(), node_kind: 'Kind1'},
@@ -51,6 +56,7 @@ export default function Page() {
     {id: uuid(), node_kind: 'Kind17'}
   ];
 
+  //좌측 아코디언 메뉴 패널에 표시될 항목들
   const nodeItems2 : NodeItem[] = [
     {id: uuid(), node_kind: 'Kind0'},
     {id: uuid(), node_kind: 'Kind1'},
@@ -72,9 +78,11 @@ export default function Page() {
     {id: uuid(), node_kind: 'Kind17'}
   ];
 
+  // 노드 너비와 높이 크기
   const node_width_px = 130;
   const node_height_px = 50;
 
+  // 아코디언 메뉴 패널에 표시될 컨퍼넌트
   const nodeContainerComponet1 = () => (
     <NodeContainer
       id='nc1'
@@ -83,6 +91,8 @@ export default function Page() {
       node_height_px={node_height_px}
     />
   );
+
+  // 아코디언 메뉴 패널에 표시될 컨퍼넌트
   const nodeContainerComponet2 = () => (
     <NodeContainer
       id='nc2'
@@ -92,58 +102,58 @@ export default function Page() {
     />
   );
 
+  //아코디언 메뉴 구성 설정
   const accordNodeItems : AccordionData[] = [
     {title : '노드종류1', component : nodeContainerComponet1},
     {title : '노드종류2', component : nodeContainerComponet2}]
 
-  let tabMenus : boolean[] = [];
-  accordNodeItems.map((accordItem) => {tabMenus.push(false);});
-
+  //좌측 세로탭 메뉴 토글 시에 보임/숨김 설정하기 위한 변수
+  let tabMenus : boolean[] = Array(accordNodeItems.length).fill(false);
+ 
+  //좌측 세로탭 메뉴 중에 현제 선택된 탭 index 저장 및 렌더링 반영 위한 useState 
   const [vTabMenuIndexClicked, setVTabIndexClicked] = useState<number>(-1);
+  // 좌측 새로탭 메뉴 토글 시에 보임/숨김 설정을 컨퍼넌트에 렌더링에 반영하기 위한 useState
   const [tabVisible, setVTabVisible] = useState<boolean[]>(tabMenus);
 
+  //세로탭 메뉴 구성 설정
   const menuItems : MenuItem[] = [
     {title : '작업노드', link : ''},
-    {title : '변수 설정', link : ''}
-  ];
+    {title : '변수 설정', link : ''}];
 
-  const showingMenu = useRef<HTMLDivElement>(null);
-  const [dropZoneVisible, setDropZoneVisible] = useState(false);
   const [draggingNode, setDraggingNode] = useState<DraggingNodeProps>({key: '', width: 0, height: 0, nodeKind: '', designMode: false});
 
-  function onDragStart(e: DragStartEvent) {
-    const startKey = e.active.data.current?.drag_key;
-    const startHeight = e.active.data.current?.height;
-    console.log(`draggingNode.key : ${draggingNode.key},  startKey : ${startKey}, startHeight : ${startHeight}`);
-    setDraggingNode((prev => ({...prev,
-      key: e.active.data.current?.drag_key,
-      width: e.active.data.current?.width,
-      height: e.active.data.current?.height,
-      nodeKind: e.active.data.current?.nodeKind,
-      designMode: e.active.data.current?.designMode})));
+  // React-flow 영역에 노드 끌어다 놓을 때 영역 계산을 위해 컨퍼넌트 위치과 크기 정보 제공
+  const getComponentRegionSize = () => {
+    let showMenuPanelHeight : number = 0;
+    let showMenuPanelWidth : number = 0;
 
-    setDropZoneVisible(true);
-  }
+    //현재 보이는 메뉴 너비와 폭 크기
+    if(tabVisible[0])
+    {
+      const accordion : any = document.getElementById('accordion-container');
+      const accordionRect : any = accordion.getBoundingClientRect();
+      console.log(`----top : ${accordionRect.top}, left : ${accordionRect.left}, right : ${accordionRect.right}, bottom : ${accordionRect.bottom}`);
+      showMenuPanelHeight = accordionRect.bottom - accordionRect.top;
+      showMenuPanelWidth = accordionRect.right - accordionRect.left;
+      const top : number = accordionRect.top;
+      console.log(`---- top : ${top}, showMenuPanelHeight : ${showMenuPanelHeight}, showMenuPanelWidth : ${showMenuPanelWidth}`);
 
-  const onDragEnd = (e: DragEndEvent) => {
-    const endKey = e.active.data.current?.drag_key;
+    }
+
+    //React-flow 영역
+    const reactflowdom : any = document.getElementById('React-DropZone');
+    const reactFlowRect : any = reactflowdom.getBoundingClientRect();
     
-    console.log(`e.over?.id : ${e.over?.id}, draggingNode.key : ${draggingNode.key}, endKey : ${endKey}`);
-    setDraggingNode((prev => ({...prev,
-      drag_key: '',
-      width: 0,
-      height: 0,
-      nodeKind: '',
-      designMode: false})));
+    const size : ComponentRegionSize = {
+      reactFlowRect : reactFlowRect, //React-flow 영역 rect 정보
+      curBottomSheetHeight : curBottomSheetHeight, //하단시크 현재 높이 크기
+      showMenuPanelHeight : showMenuPanelHeight, //현제 보여지는 메뉴 높이
+      showMenuPanelWidth : showMenuPanelWidth //현재 보여지는 메뉴 너비
+    };
 
-      setDropZoneVisible(false);
+    console.log(`----showMenuPanelWidth : ${showMenuPanelWidth}, showMenuPanelWidth : ${showMenuPanelWidth}`);
 
-      const reactDropZone : any = document.getElementById('React-DropZone');
-      const rect = reactDropZone.getBoundingClientRect();
-
-      const drop_rect = e.active.rect.current.translated;
-      console.log(`[DropRect] top : ${drop_rect?.top}, left : ${drop_rect?.left}, right : ${drop_rect?.right}, bottom : ${drop_rect?.bottom}`);
-      console.log(`[ReactFlow-Area] top : ${rect.top}, left : ${rect.left}, right : ${rect.right}, bottom : ${rect.bottom}`);
+    return size;
   }
 
   return (
@@ -159,17 +169,13 @@ export default function Page() {
            menuItems={menuItems}
            indexClicked={vTabMenuIndexClicked}
            setVTabIndexClicked={setVTabIndexClicked}
-           setVTabVisible={setVTabVisible}
-           />
-            <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-              <Accordion ref={showingMenu} accordItems={accordNodeItems} show={tabVisible[0]}/>
+           setVTabVisible={setVTabVisible}/>
+            <NodeDndContext setDraggingNode={setDraggingNode} getComponentRegionSize={getComponentRegionSize}>
+              <Accordion accordItems={accordNodeItems} show={tabVisible[0]}/>
               <NodeDragOverlay draggingNode={draggingNode}/>
-              {/* <DropZone/> */}
-              <PortalAwareItem show={dropZoneVisible}/>
-            </DndContext>
+            </NodeDndContext>
         </Boundary>
         <Boundary className="main" ref={mainBoundaryRef}>
-          <div id='Portal-DropZone'></div>
           <ReactFlowApp/>
         </Boundary>
         <Boundary className="sidebar-property">
@@ -183,8 +189,7 @@ export default function Page() {
               let change_size = curBottomSheetHeight - deltaY;
               const {size, limited} = inRange(change_size, minBottomSheetHeight, maxBottomSheetHeight * 0.8);
               setCurBottomSheetHeight(size);
-            })}
-          />
+            })}/>
           Bottom
         </Boundary>
       </Boundary>
