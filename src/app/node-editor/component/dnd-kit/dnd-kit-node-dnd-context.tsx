@@ -38,8 +38,6 @@ class DbClickMngr {
     const timeDiff = performance.now() - this.elapsedTime['startDragTime']; //in ms
     const secDiff = timeDiff / 1000; // strip the ms 
 
-    console.log(`secDiff : ${secDiff}`);
-
     if(0 < secDiff &&  1 >= secDiff)
       if(this.elapsedTime['id'] == id) return true;
     
@@ -93,8 +91,8 @@ export default function NodeDndContext(
         width: e.active.data.current?.width,
         height: e.active.data.current?.height,
         nodeKind: e.active.data.current?.nodeKind,
-        designMode: e.active.data.current?.designMode})));
-
+        className: e.active.data.current?.className})));
+      console.log(`e.active.id : ${e.active.id}`)
       if(dblClickMngr.isFirstClick())
         dblClickMngr.firstClick(e.active.id as string);
       else if(dblClickMngr.isSecondClick(e.active.id as string))
@@ -110,7 +108,7 @@ export default function NodeDndContext(
         width: 0,
         height: 0,
         nodeKind: '',
-        designMode: false})));
+        className: ''})));
 
       if(dblClickMngr.isDoubleClick())
       { 
@@ -120,7 +118,7 @@ export default function NodeDndContext(
       }
 
       const droppedRect = e.active.rect.current.translated;
-      console.log(`[DropRect] top : ${droppedRect?.top}, left : ${droppedRect?.left}, right : ${droppedRect?.right}, bottom : ${droppedRect?.bottom}`);
+      // console.log(`[DropRect] top : ${droppedRect?.top}, left : ${droppedRect?.left}, right : ${droppedRect?.right}, bottom : ${droppedRect?.bottom}`);
     
       const componentRegionSize : ComponentRegionSize = getComponentRegionSize();
       const reactFlowRegionRect : any = componentRegionSize.reactFlowRect;
@@ -154,9 +152,9 @@ export default function NodeDndContext(
       }
     }
 
-      return (
-        <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
-            {children}
-        </DndContext>
-      );
+    return (
+      <DndContext onDragStart={onDragStart} onDragEnd={onDragEnd}>
+          {children}
+      </DndContext>
+    );
 }

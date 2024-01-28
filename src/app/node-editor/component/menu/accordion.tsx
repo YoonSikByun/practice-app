@@ -1,19 +1,16 @@
 import '@/app/globals.css';
-import '@/css/workflow/ui/accordion.scss';
+import '@/css/node-editor/ui/accordion.scss';
 import '@/common/definition';
 import clsx from 'clsx';
 import { useState } from 'react';
+import { AccordionPanelItem } from '@/app/node-editor/config/menu';
 
-export type AccordionData = {
-    title: string;
-    component: () => React.ReactNode;
-};
 
 export default function Accordion({
     accordItems,
     show
 } : {
-    accordItems : AccordionData[],
+    accordItems : AccordionPanelItem[],
     show : boolean
 }) {
     return (
@@ -35,7 +32,7 @@ export default function Accordion({
 function AccordionNode({
     accordItem
 } : {
-    accordItem : AccordionData
+    accordItem : AccordionPanelItem
 }) {
     const [clicked, setClicked] = useState<boolean>(false);
     return (
@@ -58,7 +55,7 @@ function Panel({
     accordItem,
     height
 } : {
-    accordItem : AccordionData,
+    accordItem : AccordionPanelItem,
     height : number
 }) {
     return (

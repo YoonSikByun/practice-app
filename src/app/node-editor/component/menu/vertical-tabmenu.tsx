@@ -1,11 +1,6 @@
-import '@/css/workflow/ui/vertical-menu.scss';
-import { useState } from 'react';
+import '@/css/node-editor/ui/vertical-menu.scss';
 import clsx from 'clsx';
-
-export type MenuItem = {
-    title : string,
-    link : string
-}
+import { VerticalTabMenuItem } from '@/app/node-editor/config/menu';
 
 export default function VerticalTabMenu({
     menuItems,
@@ -13,7 +8,7 @@ export default function VerticalTabMenu({
     setVTabIndexClicked,
     setVTabVisible,
 } : {
-    menuItems : MenuItem[],
+    menuItems : VerticalTabMenuItem[],
     indexClicked : number,
     setVTabIndexClicked : (index : number) => void,
     setVTabVisible : (prev : boolean[]) => void
@@ -61,7 +56,7 @@ function TabHead({
     clicked,
     onButtonClick
 } : {
-    menuItem : MenuItem,
+    menuItem : VerticalTabMenuItem,
     clicked : boolean,
     onButtonClick : (title : string) => void
 }) {

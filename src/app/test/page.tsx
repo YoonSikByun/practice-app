@@ -12,24 +12,24 @@ import DndKitDroppable from "@/app/node-editor/component/dnd-kit/dnd-kit-droppab
 import NodeBoundary from "../node-editor/component/node/nodeBoundary";
 
 const nodeItems1 : NodeItem[] = [
-  {id: uuid(), node_kind: 'Kind0'},
-  {id: uuid(), node_kind: 'Kind1'},
-  {id: uuid(), node_kind: 'Kind2'},
-  {id: uuid(), node_kind: 'Kind3'},
-  {id: uuid(), node_kind: 'Kind4'},
-  {id: uuid(), node_kind: 'Kind5'},
-  {id: uuid(), node_kind: 'Kind6'},
-  {id: uuid(), node_kind: 'Kind7'},
-  {id: uuid(), node_kind: 'Kind8'},
-  {id: uuid(), node_kind: 'Kind9'},
-  {id: uuid(), node_kind: 'Kind10'},
-  {id: uuid(), node_kind: 'Kind11'},
-  {id: uuid(), node_kind: 'Kind12'},
-  {id: uuid(), node_kind: 'Kind13'},
-  {id: uuid(), node_kind: 'Kind14'},
-  {id: uuid(), node_kind: 'Kind15'},
-  {id: uuid(), node_kind: 'Kind16'},
-  {id: uuid(), node_kind: 'Kind17'}
+  {id: uuid(), nodeKind: 'Kind0'},
+  {id: uuid(), nodeKind: 'Kind1'},
+  {id: uuid(), nodeKind: 'Kind2'},
+  {id: uuid(), nodeKind: 'Kind3'},
+  {id: uuid(), nodeKind: 'Kind4'},
+  {id: uuid(), nodeKind: 'Kind5'},
+  {id: uuid(), nodeKind: 'Kind6'},
+  {id: uuid(), nodeKind: 'Kind7'},
+  {id: uuid(), nodeKind: 'Kind8'},
+  {id: uuid(), nodeKind: 'Kind9'},
+  {id: uuid(), nodeKind: 'Kind10'},
+  {id: uuid(), nodeKind: 'Kind11'},
+  {id: uuid(), nodeKind: 'Kind12'},
+  {id: uuid(), nodeKind: 'Kind13'},
+  {id: uuid(), nodeKind: 'Kind14'},
+  {id: uuid(), nodeKind: 'Kind15'},
+  {id: uuid(), nodeKind: 'Kind16'},
+  {id: uuid(), nodeKind: 'Kind17'}
 ];
 
 const node_width_px = 130;

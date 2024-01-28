@@ -1,42 +1,37 @@
-import React, { useState } from "react";
 import clsx from 'clsx';
-// import NodeBoundary from '@/app/node-editor/component/node/nodeBoundary';
 import NodeDesignBoundary from '@/app/node-editor/component/node/nodeDesignBoundary';
 
 import DndKitDraggable from "@/app/node-editor/component/dnd-kit/dnd-kit-draggable";
-// import DndKitDroppable from "@/app/node-editor/component/dnd-kit/dnd-kit-droppable";
-import "@/css/util/dnd-kit-droppable.scss";
 import {DragOverlay} from '@dnd-kit/core';
-// import { createPortal } from "react-dom";
-
-export type NodeItem = {
-  id: string;
-  node_kind: string;
-};
+import {NodeItem} from '@/app/node-editor/config/node';
+import NodeBoundary from '@/app/node-editor/component/node/nodeBoundary';
 
 export default function NodeContainer(
   {
-    id,
-    nodeItems,
-    node_width_px,
-    node_height_px,
+    nodeItems
   } : {
-    id : string,
-    nodeItems : NodeItem[],
-    node_width_px: number,
-    node_height_px : number,
+    nodeItems : NodeItem[]
   }
 ) {
+
   return (
     <div className={clsx('grid grid-cols-2')}>
     {
       nodeItems.map((nodeItem, index) => (
-        <DndKitDraggable key={`${id}-${index}`} drag_key={`${id}-${index}`}
-          width={node_width_px} height={node_height_px} nodeKind={nodeItem.node_kind}
-          designMode={true}>
+        <DndKitDraggable
+          key={nodeItem['id']} drag_key={nodeItem['id']}
+          width={nodeItem['designNodeSize'].width}
+          height={nodeItem['runNodeSize'].height}
+          nodeKind={nodeItem.nodeKind}
+          //드래그 했을 때 보이는 디자인은 Run모드로 보여준다.
+          className={nodeItem['runClassName']}>
 
-          <NodeDesignBoundary key={`${id}-${index}`} width={node_width_px}
-            height={node_height_px} nodeKind={nodeItem.node_kind}/>
+          <NodeDesignBoundary
+            key={nodeItem['id']}
+            nodeKind={nodeItem['nodeKind']}
+            width={nodeItem['designNodeSize'].width}
+            height={nodeItem['runNodeSize'].height}
+            className={nodeItem['designClassName']}/>
 
         </DndKitDraggable>))
     }
@@ -49,7 +44,7 @@ export type DraggingNodeProps = {
   width: number;
   height : number;
   nodeKind : string;
-  designMode : boolean;
+  className : string;
 };
 
 export const NodeDragOverlay = (
@@ -61,10 +56,12 @@ export const NodeDragOverlay = (
 ) => (
   <DragOverlay dropAnimation={null}>
     {draggingNode.height ? (
-      <NodeDesignBoundary
+      <NodeBoundary
         width={draggingNode.width}
         height={draggingNode.height}
-        nodeKind={draggingNode.nodeKind}/>
+        nodeKind={draggingNode.nodeKind}
+        className={draggingNode.className}
+        />
     ): null}
   </DragOverlay>
 );

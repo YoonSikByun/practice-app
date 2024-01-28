@@ -6,7 +6,7 @@ $sidebar_inner_menu_width: 200px;
 $sidebar_nodes_width : $vertical_menu_width;
 $sidebar_property_width: 150px;
 
-.hanaflow .head {
+.node-editor .head {
     display: block; top: 0px; left: 0px;
     position: relative;
     height: $top_margin;
@@ -14,7 +14,7 @@ $sidebar_property_width: 150px;
     padding: 5px;
     background-color: brown;
 }
-.hanaflow .grid-container {
+.node-editor .grid-container {
     display: grid;
     position: relative;
     grid-template-columns: $sidebar_nodes_width auto $sidebar_property_width;
@@ -23,32 +23,32 @@ $sidebar_property_width: 150px;
     'sidebar-nodes main sidebar-property'
     'sidebar-nodes bottom-sheet sidebar-property';
 }
-.hanaflow .grid-container .sidebar-nodes {
+.node-editor .grid-container .sidebar-nodes {
     display: block;
     position: relative;
     height: calc(100vh - $top_margin); padding: 10px;
     background-color: white;
     grid-area: sidebar-nodes;
 }
-.hanaflow .grid-container .sidebar-property {
+.node-editor .grid-container .sidebar-property {
     display: block; height: calc(100vh - $top_margin); padding: 10px;
     background-color: burlywood;
     grid-area: sidebar-property;
 }
-.hanaflow .grid-container .main {
+.node-editor .grid-container .main {
     display: block;
     position: relative;
     height: calc(100vh - $top_margin); width: auto;
     grid-area: main;
 }
-.hanaflow .grid-container .bottom-sheet {
+.node-editor .grid-container .bottom-sheet {
     display: block;
     position: relative;
     z-index: 10;
     background-color: aqua;
     grid-area: bottom-sheet;
 }
-.hanaflow .grid-container .bottom-sheet .resize-bar {
+.node-editor .grid-container .bottom-sheet .resize-bar {
     display: block;
     position: absolute;
     z-index: 10;

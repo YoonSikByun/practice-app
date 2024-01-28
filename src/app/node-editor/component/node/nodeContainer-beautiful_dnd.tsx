@@ -14,7 +14,7 @@ import {
 
 export type NodeItem = {
   id: string;
-  node_kind: string;
+  nodeKind: string;
 };
 
 export default function NodeContainer(
@@ -105,7 +105,7 @@ function NodeColumn(
               >
                 <NodeBoundary
                   height={item_height}
-                  nodeKind={nodeItems[rubric.source.index].node_kind}
+                  nodeKind={nodeItems[rubric.source.index].nodeKind}
                   designMode={true}/>
               </div>
             )}
@@ -119,7 +119,7 @@ function NodeColumn(
                     let nodeBoundaryComponent = () => (
                       <NodeBoundary
                         height={item_height}
-                        nodeKind={nodeItem.node_kind}
+                        nodeKind={nodeItem.nodeKind}
                         designMode={true}/>
                     );
                     return (

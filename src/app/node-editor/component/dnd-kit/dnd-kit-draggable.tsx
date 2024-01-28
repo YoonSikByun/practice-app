@@ -7,7 +7,7 @@ interface IDndKitDraggable {
   width: number;
   height : number;
   nodeKind : string;
-  designMode : boolean;
+  className : string;
   children : React.ReactNode;
 }
 
@@ -17,14 +17,14 @@ const DndKitDraggable: FC<IDndKitDraggable> = (
     width,
     height,
     nodeKind,
-    designMode,
+    className,
     children
   } : {
     drag_key : string,
     width : number,
     height : number,
     nodeKind : string,
-    designMode : boolean,
+    className : string,
     children : React.ReactNode
   }
 ) => {
@@ -35,10 +35,8 @@ const DndKitDraggable: FC<IDndKitDraggable> = (
       width: width,
       height : height,
       nodeKind : nodeKind,
-      designMode : designMode }
+      className : className }
   });
-
-  // const style = {transform: CSS.Translate.toString(transform)};
 
   return (
     <div

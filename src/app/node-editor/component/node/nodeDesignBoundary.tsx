@@ -3,17 +3,20 @@ import NodeBoundary from "./nodeBoundary";
 export default function NodeDesignBoundary(    {
     width,
     height,
-    nodeKind
+    nodeKind,
+    className
 } : {
     width : number,
     height : number,
-    nodeKind : string
+    nodeKind : string,
+    className : string
 }) {
 
     return (
         <NodeBoundary width={width}
         height={height}
         nodeKind={nodeKind}
-        designMode={true}/>
+        designMode={true}
+        className={className}/>
     )
 }

@@ -9,7 +9,7 @@ import {DragOverlay} from '@dnd-kit/core';
 
 export type NodeItem = {
   id: string;
-  node_kind: string;
+  nodeKind: string;
 };
 
 export default function NodeContainer(
@@ -34,11 +34,11 @@ export default function NodeContainer(
     <div className={clsx('flex w-full')}>
     {
       nodeItems.map((nodeItem, index) => (
-        <DndKitDraggable key={`${id}-${index}`} drag_key={`${id}-${index}`} width={node_width_px} height={node_height_px} nodeKind={nodeItem.node_kind} designMode={true}>
+        <DndKitDraggable key={`${id}-${index}`} drag_key={`${id}-${index}`} width={node_width_px} height={node_height_px} nodeKind={nodeItem.nodeKind} designMode={true}>
           <NodeBoundary key={`${id}-${index}`}
             width={node_width_px}
             height={node_height_px}
-            nodeKind={nodeItem.node_kind}
+            nodeKind={nodeItem.nodeKind}
             designMode={true}/>
         </DndKitDraggable>
       ))
