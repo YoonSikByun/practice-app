@@ -36,7 +36,7 @@ export default function NodeContainer(
           designMode={true}>
 
           <NodeDesignBoundary key={`${id}-${index}`} width={node_width_px}
-            height={node_height_px} nodeKind={nodeItem.node_kind} designMode={true}/>
+            height={node_height_px} nodeKind={nodeItem.node_kind}/>
 
         </DndKitDraggable>))
     }
@@ -64,8 +64,7 @@ export const NodeDragOverlay = (
       <NodeDesignBoundary
         width={draggingNode.width}
         height={draggingNode.height}
-        nodeKind={draggingNode.nodeKind}
-        designMode={draggingNode.designMode}/>
+        nodeKind={draggingNode.nodeKind}/>
     ): null}
   </DragOverlay>
 );

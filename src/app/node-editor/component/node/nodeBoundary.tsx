@@ -12,17 +12,15 @@ const NodeBoundary = (
         width,
         height,
         nodeKind,
-        designMode,
-        handleClick,
+        designMode = false
     } : {
         width : number,
         height : number,
         nodeKind : string,
-        designMode : boolean
-        handleClick? : (e : any) => void
+        designMode? : boolean
     }
 ) => (
-    <div onClick={handleClick} className={
+    <div className={
         clsx('select-none bg-orange-200 m-1',
             'shadow-md border-[1px] border-rose-600 border-solid rounded-[8px]',
             'node-inner')} style={{width: `${width}px`, height: `${height}px`}}>
