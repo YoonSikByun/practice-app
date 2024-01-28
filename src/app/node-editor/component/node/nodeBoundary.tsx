@@ -1,5 +1,6 @@
 import '@/css/workflow/ui/nodeBoundary.scss'
 import clsx from "clsx"
+import { MouseEventHandler } from 'react';
 
 export type NodeItem = {
     id: string;
@@ -11,15 +12,17 @@ const NodeBoundary = (
         width,
         height,
         nodeKind,
-        designMode
+        designMode,
+        handleClick,
     } : {
         width : number,
         height : number,
         nodeKind : string,
         designMode : boolean
+        handleClick? : (e : any) => void
     }
 ) => (
-    <div className={
+    <div onClick={handleClick} className={
         clsx('select-none bg-orange-200 m-1',
             'shadow-md border-[1px] border-rose-600 border-solid rounded-[8px]',
             'node-inner')} style={{width: `${width}px`, height: `${height}px`}}>

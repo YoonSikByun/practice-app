@@ -2,14 +2,14 @@
 
 import NodeContainer,
 { NodeItem, DropZone, DraggingNodeProps, NodeDragOverlay }
-from "@/app/workflow/ui/nodeContainer";
+from "@/app/node-editor/component/node/nodeContainer";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { v4 as uuid } from "uuid";
 import { DndContext, DragStartEvent, DragEndEvent } from "@dnd-kit/core";
 
-import DndKitDraggable from "@/app/util/dnd-kit-draggable";
-import DndKitDroppable from "@/app/util/dnd-kit-droppable";
-import NodeBoundary from "../workflow/ui/nodeBoundary";
+import DndKitDraggable from "@/app/node-editor/component/dnd-kit/dnd-kit-draggable";
+import DndKitDroppable from "@/app/node-editor/component/dnd-kit/dnd-kit-droppable";
+import NodeBoundary from "../node-editor/component/node/nodeBoundary";
 
 const nodeItems1 : NodeItem[] = [
   {id: uuid(), node_kind: 'Kind0'},

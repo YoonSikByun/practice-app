@@ -1,12 +1,13 @@
 import React, { useState } from "react";
 import clsx from 'clsx';
-import NodeBoundary from './nodeBoundary';
+// import NodeBoundary from '@/app/node-editor/component/node/nodeBoundary';
+import NodeDesignBoundary from '@/app/node-editor/component/node/nodeDesignBoundary';
 
-import DndKitDraggable from "@/app/util/dnd-kit-draggable";
-import DndKitDroppable from "@/app/util/dnd-kit-droppable";
+import DndKitDraggable from "@/app/node-editor/component/dnd-kit/dnd-kit-draggable";
+// import DndKitDroppable from "@/app/node-editor/component/dnd-kit/dnd-kit-droppable";
 import "@/css/util/dnd-kit-droppable.scss";
 import {DragOverlay} from '@dnd-kit/core';
-import { createPortal } from "react-dom";
+// import { createPortal } from "react-dom";
 
 export type NodeItem = {
   id: string;
@@ -34,7 +35,7 @@ export default function NodeContainer(
           width={node_width_px} height={node_height_px} nodeKind={nodeItem.node_kind}
           designMode={true}>
 
-          <NodeBoundary key={`${id}-${index}`} width={node_width_px}
+          <NodeDesignBoundary key={`${id}-${index}`} width={node_width_px}
             height={node_height_px} nodeKind={nodeItem.node_kind} designMode={true}/>
 
         </DndKitDraggable>))
@@ -60,7 +61,7 @@ export const NodeDragOverlay = (
 ) => (
   <DragOverlay dropAnimation={null}>
     {draggingNode.height ? (
-      <NodeBoundary
+      <NodeDesignBoundary
         width={draggingNode.width}
         height={draggingNode.height}
         nodeKind={draggingNode.nodeKind}

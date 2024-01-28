@@ -4,15 +4,15 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import {registMouseEvent, inRange} from "../util/moudeMove";
 
 import '@/css/workflow/layout.scss';
-import { AccordionData } from "./ui/accordion";
+import { AccordionData } from "@/app/node-editor/component/menu/accordion";
 
-import ReactFlowApp from "./reactflow"
-import Boundary from './ui/boundary';
-import VerticalTabMenu, {MenuItem} from "./ui/vertical-tabmenu";
-import Accordion from './ui/accordion';
-import NodeContainer, { NodeItem, DraggingNodeProps, NodeDragOverlay } from "./ui/nodeContainer";
+import ReactFlowApp from "@/app/node-editor/component/react-flow/reactflow"
+import Boundary from '@/app/node-editor/component/boundary';
+import VerticalTabMenu, {MenuItem} from "./component/menu/vertical-tabmenu";
+import Accordion from '@/app/node-editor/component/menu/accordion';
+import NodeContainer, { NodeItem, DraggingNodeProps, NodeDragOverlay } from "@/app/node-editor/component/node/nodeContainer";
 import { v4 as uuid } from "uuid";
-import NodeDndContext, {ComponentRegionSize} from "@/app/util/dnd-kit-node-dnd-context";
+import NodeDndContext, {ComponentRegionSize} from "@/app/node-editor/component/dnd-kit/dnd-kit-node-dnd-context";
 
 export default function Page() {
 

@@ -1,5 +1,5 @@
 import { DndContext, DragStartEvent, DragEndEvent } from "@dnd-kit/core";
-import { DraggingNodeProps } from "../workflow/ui/nodeContainer";
+import { DraggingNodeProps } from "../node/nodeContainer";
 
 export type ComponentRegionSize = {
     reactFlowRect : any,

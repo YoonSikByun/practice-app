@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import clsx from 'clsx';
 import NodeBoundary from './nodeBoundary';
 
-import DndKitDraggable from "@/app/util/dnd-kit-draggable";
-import DndKitDroppable from "@/app/util/dnd-kit-droppable";
+import DndKitDraggable from "@/app/node-editor/component/dnd-kit/dnd-kit-draggable";
+import DndKitDroppable from "@/app/node-editor/component/dnd-kit/dnd-kit-droppable";
 import "@/css/util/dnd-kit-droppable.scss";
 import {DragOverlay} from '@dnd-kit/core';
 
