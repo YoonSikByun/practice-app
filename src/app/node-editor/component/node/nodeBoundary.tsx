@@ -24,10 +24,10 @@ const NodeBoundary = (
             {nodeKind}
         </div>
         {/* 노드 실행/정지버튼 표시 */}
-        {(designMode) && <div className={
+        <div className={
             clsx('relative w-fit h-fit', 'top-[0px] left-[100px]',
             'bg-transparent',
-            'shape-play')}/>}
+            'shape-play')}/>
     </div>
 );
 

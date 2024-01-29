@@ -61,11 +61,18 @@ function TabHead({
     onButtonClick : (title : string) => void
 }) {
     return (
-        <button
-            className={clsx({"active" : clicked === true})}
-            onClick={(e)=>{onButtonClick(menuItem.title)}}
-        >
-            {menuItem.title}
-        </button>
+        <div
+            // className={clsx({"active" : clicked === true})}
+            className={clsx(
+                'tab-head', 'select-none',
+                {'bg-orange-400 font-bold' : clicked === true},
+                {'bg-red-100' : clicked === false},
+                'h-[110px] w-full'
+            )}
+            onClick={(e)=>{onButtonClick(menuItem.title)}}>
+            <p className={clsx('text-black text-center')}>
+                {menuItem.title}
+            </p>
+        </div>
     );
 }

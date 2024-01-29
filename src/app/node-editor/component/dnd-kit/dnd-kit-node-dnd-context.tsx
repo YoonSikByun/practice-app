@@ -3,7 +3,7 @@ import { DraggingNodeProps } from "../node/nodeContainer";
 import { useRef } from "react";
 import { memo } from "react";
 
-export type ComponentRegionSize = {
+export type LayoutRegionSIze = {
     reactFlowRect : any,
     curBottomSheetHeight : number,
     showMenuPanelHeight : number,
@@ -75,11 +75,11 @@ const dblClickMngr = new DbClickMngr({id : "", startDragTime : 0, endDragTime: 0
 export default function NodeDndContext(
     {
         setDraggingNode,
-        getComponentRegionSize,
+        getLayoutRegionSIze,
         children
     } : {
         setDraggingNode : (prev : any) => void,
-        getComponentRegionSize : () => ComponentRegionSize,
+        getLayoutRegionSIze : () => LayoutRegionSIze,
         children : React.ReactNode
     })
 {
@@ -120,20 +120,20 @@ export default function NodeDndContext(
       const droppedRect = e.active.rect.current.translated;
       // console.log(`[DropRect] top : ${droppedRect?.top}, left : ${droppedRect?.left}, right : ${droppedRect?.right}, bottom : ${droppedRect?.bottom}`);
     
-      const componentRegionSize : ComponentRegionSize = getComponentRegionSize();
-      const reactFlowRegionRect : any = componentRegionSize.reactFlowRect;
+      const LayoutRegionSIze : LayoutRegionSIze = getLayoutRegionSIze();
+      const reactFlowRegionRect : any = LayoutRegionSIze.reactFlowRect;
 
       //실제 노드 Drop이 가능한 영역만 계산한다.
       const reactFlowValidRegion = {
         top : reactFlowRegionRect.top,
-        left : reactFlowRegionRect.left + componentRegionSize.showMenuPanelWidth,
+        left : reactFlowRegionRect.left + LayoutRegionSIze.showMenuPanelWidth,
         right : reactFlowRegionRect.right,
-        bottom : reactFlowRegionRect.bottom - componentRegionSize.curBottomSheetHeight
+        bottom : reactFlowRegionRect.bottom - LayoutRegionSIze.curBottomSheetHeight
       }
 
       // console.log(`reactFlowRegionRect top : ${reactFlowRegionRect.top}, left : ${reactFlowRegionRect.left}, right : ${reactFlowRegionRect.right}, bottom: ${reactFlowRegionRect.bottom}`);
       // console.log(`reactFlowValidRegion top : ${reactFlowValidRegion.top}, left : ${reactFlowValidRegion.left}, right : ${reactFlowValidRegion.right}, bottom: ${reactFlowValidRegion.bottom}`);
-      // console.log(`curBottomSheetHeight : ${componentRegionSize.curBottomSheetHeight}, showMenuPanelHeight : ${componentRegionSize.showMenuPanelHeight}, showMenuPanelWidth : ${componentRegionSize.showMenuPanelWidth}`);
+      // console.log(`curBottomSheetHeight : ${LayoutRegionSIze.curBottomSheetHeight}, showMenuPanelHeight : ${LayoutRegionSIze.showMenuPanelHeight}, showMenuPanelWidth : ${LayoutRegionSIze.showMenuPanelWidth}`);
 
       // 노드가 Drop된 위치가 React-flow 유효 영역인지 확인한다.
       const isDroppable = (

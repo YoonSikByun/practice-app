@@ -1,9 +1,9 @@
 'use client'
 
+import '@/css/node-editor/layout.scss';
+
 import { useState, useRef, useEffect } from "react";
 import {registMouseEvent, inRange} from "@/app/util/moudeMove";
-
-import '@/css/node-editor/layout.scss';
 
 import ReactFlowApp from "@/app/node-editor/component/react-flow/reactflow"
 import Boundary from '@/app/node-editor/component/boundary';
@@ -11,7 +11,7 @@ import VerticalTabMenu from "@/app/node-editor/component/menu/vertical-tabmenu";
 import Accordion from '@/app/node-editor/component/menu/accordion';
 import { DraggingNodeProps, NodeDragOverlay } from "@/app/node-editor/component/node/nodeContainer";
 // import { v4 as uuid } from "uuid";
-import NodeDndContext, {ComponentRegionSize} from "@/app/node-editor/component/dnd-kit/dnd-kit-node-dnd-context";
+import NodeDndContext, {LayoutRegionSIze} from "@/app/node-editor/component/dnd-kit/dnd-kit-node-dnd-context";
 import {minBottomSheetHeight} from '@/app/node-editor/config/common'
 import {verticalTablMenuItems, accordionPanelItems} from '@/app/node-editor/config/menu'
 
@@ -30,7 +30,7 @@ export default function Page() {
       setCurBottomSheetHeight(bottomRect.height);
     const mainRect = mainBoundaryRef.current?.getBoundingClientRect();
     if(mainRect != null)
-      setMaxBottomSheetHeight(mainRect.height);
+      setMaxBottomSheetHeight(mainRect.height * 0.8);
   }, []);
 
   //좌측 세로탭 메뉴 중에 현제 선택된 탭 index 저장 및 렌더링 반영 위한 useState 
@@ -43,7 +43,7 @@ export default function Page() {
   const [draggingNode, setDraggingNode] = useState<DraggingNodeProps>({key: '', width: 0, height: 0, nodeKind: '', className: ''});
 
   // React-flow 영역에 노드 끌어다 놓을 때 영역 계산을 위해 컨퍼넌트 위치과 크기 정보 제공
-  const getComponentRegionSize = () => {
+  const getLayoutRegionSIze = () => {
     let showMenuPanelHeight : number = 0;
     let showMenuPanelWidth : number = 0;
 
@@ -60,14 +60,14 @@ export default function Page() {
     const reactflowdom : any = document.getElementById('React-DropZone');
     const reactFlowRect : any = reactflowdom.getBoundingClientRect();
 
-    const componentRegionsize : ComponentRegionSize = {
+    const layoutRegionSIze : LayoutRegionSIze = {
       reactFlowRect : reactFlowRect, //React-flow 영역 rect 정보
       curBottomSheetHeight : curBottomSheetHeight, //하단시크 현재 높이 크기
       showMenuPanelHeight : showMenuPanelHeight, //현제 보여지는 메뉴 높이
       showMenuPanelWidth : showMenuPanelWidth //현재 보여지는 메뉴 너비
     };
 
-    return componentRegionsize;
+    return layoutRegionSIze;
   }
 
   return (
@@ -84,7 +84,7 @@ export default function Page() {
            indexClicked={vTabMenuIndexClicked}
            setVTabIndexClicked={setVTabIndexClicked}
            setVTabVisible={setVTabVisible}/>
-            <NodeDndContext setDraggingNode={setDraggingNode} getComponentRegionSize={getComponentRegionSize}>
+            <NodeDndContext setDraggingNode={setDraggingNode} getLayoutRegionSIze={getLayoutRegionSIze}>
               <Accordion accordItems={accordionPanelItems} show={tabVisible[0]}/>
               <NodeDragOverlay draggingNode={draggingNode}/>
             </NodeDndContext>
@@ -99,9 +99,8 @@ export default function Page() {
           <Boundary className="resize-bar"
             {...registMouseEvent((deltaX, deltaY) => {
               if(!bottomBoundaryRef.current) return;
-              const rect = bottomBoundaryRef.current?.getBoundingClientRect();
               let change_size = curBottomSheetHeight - deltaY;
-              const {size, limited} = inRange(change_size, minBottomSheetHeight, maxBottomSheetHeight * 0.8);
+              const {size, limited} = inRange(change_size, minBottomSheetHeight, maxBottomSheetHeight);
               setCurBottomSheetHeight(size);
             })}/>
           Bottom
