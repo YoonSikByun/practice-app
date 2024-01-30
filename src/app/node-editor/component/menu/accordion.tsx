@@ -4,6 +4,7 @@ import '@/common/definition';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { AccordionPanelItem } from '@/app/node-editor/config/menu';
+import {layoutSize} from '@/app/node-editor/config/layoutFrame'
 
 export default function Accordion({
     accordItems,
