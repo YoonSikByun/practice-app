@@ -1,4 +1,4 @@
-import '@/css/beautiful-dnd/beautiful-dnd.scss';
+import '@/app/beautiful-dnd/beautiful-dnd.scss';
 
 import React, { useState } from "react";
 import { createPortal } from 'react-dom';

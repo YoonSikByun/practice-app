@@ -1,4 +1,4 @@
-import '@/css/node-editor/ui/nodeBoundary.scss'
+import '@/app/node-editor/css/ui/nodeBoundary.scss'
 import clsx from "clsx"
 
 const NodeBoundary = (

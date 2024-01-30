@@ -1,15 +1,7 @@
-$top_head_height: 50px;
-$top_margin: $top_head_height;
-$vertical_menu_width: 30px;
-$sidebar_inner_menu_width: 200px;
-// $sidebar_nodes_width: $vertical_menu_width + $sidebar_inner_menu_width;
-$sidebar_nodes_width : $vertical_menu_width;
-$sidebar_property_width: 150px;
 
 .node-editor .head {
     display: block; top: 0px; left: 0px;
     position: relative;
-    height: $top_margin;
     width: 100vw;
     padding: 5px;
     background-color: brown;
@@ -17,29 +9,26 @@ $sidebar_property_width: 150px;
 .node-editor .grid-container {
     display: grid;
     position: relative;
-    grid-template-columns: $sidebar_nodes_width auto $sidebar_property_width;
-    // grid-template-rows: calc((100vh - $top_head_height) - 300px) 300px;
     grid-template-areas: 
-    'sidebar-nodes main sidebar-property'
+    'sidebar-nodes reactFlowRegion sidebar-property'
     'sidebar-nodes bottom-sheet sidebar-property';
 }
 .node-editor .grid-container .sidebar-nodes {
     display: block;
-    position: relative;
-    height: calc(100vh - $top_margin); padding: 10px;
+    position: relative; padding: 10px;
     background-color: white;
     grid-area: sidebar-nodes;
 }
 .node-editor .grid-container .sidebar-property {
-    display: block; height: calc(100vh - $top_margin); padding: 10px;
+    display: block; padding: 10px;
     background-color: burlywood;
     grid-area: sidebar-property;
 }
-.node-editor .grid-container .main {
+.node-editor .grid-container .reactFlow-Region {
     display: block;
     position: relative;
-    height: calc(100vh - $top_margin); width: auto;
-    grid-area: main;
+    width: auto;
+    grid-area: reactFlowRegion;
 }
 .node-editor .grid-container .bottom-sheet {
     display: block;

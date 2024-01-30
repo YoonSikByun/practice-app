@@ -1,10 +1,9 @@
 import '@/app/globals.css';
-import '@/css/node-editor/ui/accordion.scss';
+import '@/app/node-editor/css/ui/accordion.scss';
 import '@/common/definition';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { AccordionPanelItem } from '@/app/node-editor/config/menu';
-
 
 export default function Accordion({
     accordItems,

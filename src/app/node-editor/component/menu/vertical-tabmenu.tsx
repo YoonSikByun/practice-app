@@ -1,4 +1,4 @@
-import '@/css/node-editor/ui/vertical-menu.scss';
+import '@/app/node-editor/css/ui/vertical-menu.scss';
 import clsx from 'clsx';
 import { VerticalTabMenuItem } from '@/app/node-editor/config/menu';
 

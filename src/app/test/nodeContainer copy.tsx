@@ -4,7 +4,7 @@ import NodeBoundary from './nodeBoundary';
 
 import DndKitDraggable from "@/app/node-editor/component/dnd-kit/dnd-kit-draggable";
 import DndKitDroppable from "@/app/node-editor/component/dnd-kit/dnd-kit-droppable";
-import "@/css/util/dnd-kit-droppable.scss";
+import "@/app/node-editor/css/util/dnd-kit-droppable.scss";
 import {DragOverlay} from '@dnd-kit/core';
 
 export type NodeItem = {

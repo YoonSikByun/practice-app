@@ -1,9 +1,9 @@
 'use client'
 
-import '@/css/node-editor/layout.scss';
+import '@/app/node-editor/css/layout.scss';
 
 import { useState, useRef, useEffect } from "react";
-import {registMouseEvent, inRange} from "@/app/util/moudeMove";
+import {registMouseEvent, inRange} from "@/app/node-editor/util/moudeMove";
 
 import ReactFlowApp from "@/app/node-editor/component/react-flow/reactflow"
 import Boundary from '@/app/node-editor/component/boundary';
@@ -12,25 +12,25 @@ import Accordion from '@/app/node-editor/component/menu/accordion';
 import { DraggingNodeProps, NodeDragOverlay } from "@/app/node-editor/component/node/nodeContainer";
 // import { v4 as uuid } from "uuid";
 import NodeDndContext, {LayoutRegionSIze} from "@/app/node-editor/component/dnd-kit/dnd-kit-node-dnd-context";
-import {minBottomSheetHeight} from '@/app/node-editor/config/common'
+import {layoutSize} from '@/app/node-editor/config/layoutFrame'
 import {verticalTablMenuItems, accordionPanelItems} from '@/app/node-editor/config/menu'
 
 export default function Page() {
 
   // 하단시트 사이즈를 마우스 드래그로 조정할 때 필요한 값들
-  const mainBoundaryRef = useRef<HTMLDivElement>(null);
+  const reactFlowRegionBoundaryRef = useRef<HTMLDivElement>(null);
   const bottomBoundaryRef = useRef<HTMLDivElement>(null);
   const [maxBottomSheetHeight, setMaxBottomSheetHeight] = useState(0);
-  const [curBottomSheetHeight, setCurBottomSheetHeight] = useState(minBottomSheetHeight);
+  const [curBottomSheetHeight, setCurBottomSheetHeight] = useState(layoutSize['minBottomSheet'].height);
 
   // 초기 하단시트 크기와 Reactflow영역 크기를 구해서 저장해 놓는다. 초기 1회만 호출된다.
   useEffect(() => {
     const bottomRect = bottomBoundaryRef.current?.getBoundingClientRect();
     if(bottomRect != null)
       setCurBottomSheetHeight(bottomRect.height);
-    const mainRect = mainBoundaryRef.current?.getBoundingClientRect();
-    if(mainRect != null)
-      setMaxBottomSheetHeight(mainRect.height * 0.8);
+    const reactFlowRegionRect = reactFlowRegionBoundaryRef.current?.getBoundingClientRect();
+    if(reactFlowRegionRect != null)
+      setMaxBottomSheetHeight(reactFlowRegionRect.height * 0.8);
   }, []);
 
   //좌측 세로탭 메뉴 중에 현제 선택된 탭 index 저장 및 렌더링 반영 위한 useState 
@@ -72,13 +72,19 @@ export default function Page() {
 
   return (
     <div className="node-editor">
-      <Boundary className="head">
+      <Boundary className="head"
+       style={{height: `${layoutSize['topHead'].height}`}}>
         Head
       </Boundary>
       <Boundary
         className="grid-container"
-        style={{gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`}}>
-        <Boundary className="sidebar-nodes">
+        style={{
+          gridTemplateAreas: 'sidebar-nodes reactFlowRegion sidebar-property sidebar-nodes bottom-sheet sidebar-property',
+          gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`,
+          gridTemplateColumns: `${layoutSize['verticalTabMenu'].width}px auto ${layoutSize['sidebarProperty'].width}`,
+        }}>
+        <Boundary className="sidebar-nodes"
+         style={{height: `calc(100vh - ${layoutSize['topHead'].height})`}}>
           <VerticalTabMenu
            menuItems={verticalTablMenuItems}
            indexClicked={vTabMenuIndexClicked}
@@ -89,10 +95,12 @@ export default function Page() {
               <NodeDragOverlay draggingNode={draggingNode}/>
             </NodeDndContext>
         </Boundary>
-        <Boundary className="main" ref={mainBoundaryRef}>
+        <Boundary className="reactFlow-Region" ref={reactFlowRegionBoundaryRef}
+         style={{height: `calc(100vh - ${layoutSize['topHead'].height})`}}>
           <ReactFlowApp/>
         </Boundary>
-        <Boundary className="sidebar-property">
+        <Boundary className="sidebar-property"
+         style={{height: `calc(100vh - ${layoutSize['topHead'].height})`}}>
           Right
         </Boundary>
         <Boundary className="bottom-sheet" ref={bottomBoundaryRef}>
@@ -100,7 +108,7 @@ export default function Page() {
             {...registMouseEvent((deltaX, deltaY) => {
               if(!bottomBoundaryRef.current) return;
               let change_size = curBottomSheetHeight - deltaY;
-              const {size, limited} = inRange(change_size, minBottomSheetHeight, maxBottomSheetHeight);
+              const {size, limited} = inRange(change_size, layoutSize['minBottomSheet'].height, maxBottomSheetHeight);
               setCurBottomSheetHeight(size);
             })}/>
           Bottom
