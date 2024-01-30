@@ -71,50 +71,49 @@ export default function Page() {
   }
 
   return (
-  <div className="node-editor">
-    <Boundary className='head'
-      style={{height: `${layoutSize['topHead'].height}px`}}>
-      Head
-    </Boundary>
-    <Boundary
-        className="main-container">
-      <Boundary className="vertical-menu"
-        style={{width: `${layoutSize['verticalTabMenu'].width}px`,
-        height: `calc(100vh - ${layoutSize['topHead'].height}px)`}}>
-        <VerticalTabMenu
-          menuItems={verticalTablMenuItems}
-          indexClicked={vTabMenuIndexClicked}
-          setVTabIndexClicked={setVTabIndexClicked}
-          setVTabVisible={setVTabVisible}/>
-          <NodeDndContext setDraggingNode={setDraggingNode} getLayoutRegionSIze={getLayoutRegionSIze}>
-            <Accordion accordItems={accordionPanelItems} show={tabVisible[0]}/>
-            <NodeDragOverlay draggingNode={draggingNode}/>
-          </NodeDndContext>
+    <div className="node-editor">
+      <Boundary className="head"
+       style={{height: `${layoutSize['topHead'].height}`}}>
+        Head
       </Boundary>
-      <Boundary className="reactFlow-Region" ref={reactFlowRegionBoundaryRef}
-        style={{left: `${layoutSize['verticalTabMenu'].width}px`,
-         height: `calc(100vh - ${layoutSize['topHead'].height})`,
-         width: `calc(100vw - ${layoutSize['verticalTabMenu'].width}px)`}}>
-        <ReactFlowApp/>
+      <Boundary
+        style={{
+          gridTemplateColumns: `30px auto ${layoutSize['sidebarProperty'].width}`,
+          gridTemplateRows: `calc((100vh - 50px) - ${curBottomSheetHeight}px) ${curBottomSheetHeight}px`
+        }}
+        className="main-container"
+        >
+        <Boundary className="vertical-menu"
+         style={{height: `calc(100vh - ${layoutSize['topHead'].height})`}}>
+          <VerticalTabMenu
+           menuItems={verticalTablMenuItems}
+           indexClicked={vTabMenuIndexClicked}
+           setVTabIndexClicked={setVTabIndexClicked}
+           setVTabVisible={setVTabVisible}/>
+            <NodeDndContext setDraggingNode={setDraggingNode} getLayoutRegionSIze={getLayoutRegionSIze}>
+              <Accordion accordItems={accordionPanelItems} show={tabVisible[0]}/>
+              <NodeDragOverlay draggingNode={draggingNode}/>
+            </NodeDndContext>
+        </Boundary>
+        <Boundary className="reactFlow-Region" ref={reactFlowRegionBoundaryRef}
+         style={{height: `calc(100vh - ${layoutSize['topHead'].height})`}}>
+          <ReactFlowApp/>
+        </Boundary>
+        <Boundary className="sidebar-property"
+         style={{height: `calc(100vh - ${layoutSize['topHead'].height})`}}>
+          Right
+        </Boundary>
+        <Boundary className="bottom-sheet" ref={bottomBoundaryRef}>
+          <Boundary className="resize-bar"
+            {...registMouseEvent((deltaX, deltaY) => {
+              if(!bottomBoundaryRef.current) return;
+              let change_size = curBottomSheetHeight - deltaY;
+              const {size, limited} = inRange(change_size, layoutSize['minBottomSheet'].height, maxBottomSheetHeight);
+              setCurBottomSheetHeight(size);
+            })}/>
+          Bottom
+        </Boundary>
       </Boundary>
-      <Boundary className="sidebar-property"
-      style={{top: `${layoutSize['topHead'].height}px`,
-        left: `calc(100vw - ${layoutSize['sidebarProperty'].width}px`,
-        height: `calc(100vh - ${layoutSize['topHead'].height}px)`,
-        width: `${layoutSize['sidebarProperty'].width}px`}}>
-        Right
-      </Boundary>
-      {/* <Boundary className="bottom-sheet" ref={bottomBoundaryRef}>
-        <Boundary className="resize-bar"
-          {...registMouseEvent((deltaX, deltaY) => {
-            if(!bottomBoundaryRef.current) return;
-            let change_size = curBottomSheetHeight - deltaY;
-            const {size, limited} = inRange(change_size, layoutSize['minBottomSheet'].height, maxBottomSheetHeight);
-            setCurBottomSheetHeight(size);
-          })}/>
-        Bottom
-      </Boundary> */}
-    </Boundary>
-  </div>
+    </div>
   );
 }

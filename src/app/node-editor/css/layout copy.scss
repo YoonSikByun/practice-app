@@ -6,35 +6,37 @@
     padding: 5px;
     background-color: brown;
 }
-
-.node-editor .vertical-menu {
-    display: block;
-    position: absolute;
-    padding: 10px;
-    background-color: white;
+.node-editor .main-container {
+    display: grid;
+    position: relative;
+    grid-template-areas: 
+    'vertical-menu reactFlowRegion sidebar-property'
+    'vertical-menu bottom-sheet sidebar-property';
 }
-
+.node-editor .main-container .vertical-menu {
+    display: block;
+    position: relative; padding: 10px;
+    background-color: white;
+    grid-area: vertical-menu;
+}
+.node-editor .main-container .sidebar-property {
+    display: block; padding: 10px;
+    background-color: burlywood;
+    grid-area: sidebar-property;
+}
 .node-editor .main-container .reactFlow-Region {
     display: block;
     position: relative;
-    top: 0px;
+    width: auto;
+    grid-area: reactFlowRegion;
 }
-
 .node-editor .main-container .bottom-sheet {
     display: block;
-    position: absolute;
+    position: relative;
     z-index: 10;
     background-color: aqua;
     grid-area: bottom-sheet;
 }
-
-.node-editor .main-container .sidebar-property {
-    display: block;
-    position: absolute;
-    padding: 10px;
-    background-color: burlywood;
-}
-
 .node-editor .main-container .bottom-sheet .resize-bar {
     display: block;
     position: absolute;
