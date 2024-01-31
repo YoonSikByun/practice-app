@@ -1,6 +1,7 @@
-import '@/app/node-editor/css/ui/vertical-menu.scss';
+import '@/app/node-editor/css/ui/verticalMenu.scss';
 import clsx from 'clsx';
 import { VerticalTabMenuItem } from '@/app/node-editor/config/menu';
+import { calcStyle } from '@/app/node-editor/util/calcStyleRegion';
 
 export default function VerticalTabMenu({
     menuItems,
@@ -35,7 +36,7 @@ export default function VerticalTabMenu({
         setVTabVisible(mnu);
     }
     return (
-        <div className="tab">
+        <div className="tab" style={{width: calcStyle.verticalMenuWidth()}}>
         {
             menuItems.map((menuItem, i) => {
                 return (
@@ -62,7 +63,6 @@ function TabHead({
 }) {
     return (
         <div
-            // className={clsx({"active" : clicked === true})}
             className={clsx(
                 'tab-head', 'select-none',
                 {'bg-orange-400 font-bold' : clicked === true},

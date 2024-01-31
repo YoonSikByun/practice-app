@@ -24,12 +24,13 @@ export default function ReactFlowApp() {
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
 
     const onConnect = useCallback(
-        (params : any) => setEdges((eds) => addEdge(params, eds)),
+        (params : any) => setEdges((eds : any) => addEdge(params, eds)),
         [setEdges],
       );
 
   return (
-    <div id='React-DropZone' style={{width: 'auto', height: 'calc(100vh - 50px)' }}>
+    <div id='React-DropZone'
+    style={{width: 'auto', height: 'calc(100vh - 50px)' }}>
       <ReactFlow
         className='bg-white'
         nodes={nodes}

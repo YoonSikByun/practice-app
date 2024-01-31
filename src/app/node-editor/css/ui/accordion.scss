@@ -1,12 +1,7 @@
-$top_head_height: 50px;
-
 .accordion-container {
     position: absolute;
     z-index: 20;
     top: 0px;
-    left: 30px;
-    width: 285px;
-    height: calc(100vh - $top_head_height);
     background-color: white;
 }
 

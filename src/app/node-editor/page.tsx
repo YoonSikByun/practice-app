@@ -7,13 +7,15 @@ import {registMouseEvent, inRange} from "@/app/node-editor/util/moudeMove";
 
 import ReactFlowApp from "@/app/node-editor/component/react-flow/reactflow"
 import Boundary from '@/app/node-editor/component/boundary';
-import VerticalTabMenu from "@/app/node-editor/component/menu/vertical-tabmenu";
+import VerticalTabMenu from "@/app/node-editor/component/menu/verticalTabmenu";
 import Accordion from '@/app/node-editor/component/menu/accordion';
 import { DraggingNodeProps, NodeDragOverlay } from "@/app/node-editor/component/node/nodeContainer";
 // import { v4 as uuid } from "uuid";
-import NodeDndContext, {LayoutRegionSIze} from "@/app/node-editor/component/dnd-kit/dnd-kit-node-dnd-context";
-import {layoutSize} from '@/app/node-editor/config/layoutFrame'
+import NodeDndContext from "@/app/node-editor/component/dnd-kit/dnd-kit-node-dnd-context";
 import {verticalTablMenuItems, accordionPanelItems} from '@/app/node-editor/config/menu'
+import {layoutSize, ShowingPanelSize, Size} from '@/app/node-editor/config/layoutFrame'
+import { calcStyle, getElementSize } from '@/app/node-editor/util/calcStyleRegion';
+import clsx from 'clsx';
 
 export default function Page() {
 
@@ -39,81 +41,95 @@ export default function Page() {
   // 좌측 새로탭 메뉴 토글 시에 보임/숨김 설정을 컨퍼넌트에 렌더링에 반영하기 위한 useState
   const [tabVisible, setVTabVisible] = useState<boolean[]>(Array(verticalTablMenuItems.length).fill(false));
 
+  const [panelVisible, setPanelVisible] = useState({bottomSheet: true, property: true});
+
   // 메뉴에서 노드를 드래그할 땔 선택되어 드래중인 노드정보 보관한다.
   const [draggingNode, setDraggingNode] = useState<DraggingNodeProps>({key: '', width: 0, height: 0, nodeKind: '', className: ''});
 
-  // React-flow 영역에 노드 끌어다 놓을 때 영역 계산을 위해 컨퍼넌트 위치과 크기 정보 제공
-  const getLayoutRegionSIze = () => {
-    let showMenuPanelHeight : number = 0;
-    let showMenuPanelWidth : number = 0;
 
-    //현재 보이는 메뉴 너비와 폭 크기
+  // React-flow 영역에 노드 끌어다 놓을 때 영역 계산을 위해 컨퍼넌트 위치와 크기 정보 제공
+  const getShowingPanelSize = () => {
+    let showingMenuSize : Size = {width: 0, height: 0};
+    let showingPropertySize : Size = {width: 0, height: 0};
+    let showingBottomSheetSize : Size = {width: 0, height: 0};
+    
     if(tabVisible[0])
-    {
-      const accordion : any = document.getElementById('accordion-container');
-      const accordionRect : any = accordion.getBoundingClientRect();
-      showMenuPanelHeight = accordionRect.bottom - accordionRect.top;
-      showMenuPanelWidth = accordionRect.right - accordionRect.left;
-    }
+      showingMenuSize = getElementSize('accordion-container');
 
-    //React-flow 영역
+    if(panelVisible['property'])
+      showingPropertySize = getElementSize('sidebar-property');
+
+    if(panelVisible['bottomSheet'])
+      showingBottomSheetSize = getElementSize('bottom-sheet');
+
+      //React-flow 영역
     const reactflowdom : any = document.getElementById('React-DropZone');
     const reactFlowRect : any = reactflowdom.getBoundingClientRect();
 
-    const layoutRegionSIze : LayoutRegionSIze = {
+    const showingPanelSize : ShowingPanelSize = {
       reactFlowRect : reactFlowRect, //React-flow 영역 rect 정보
-      curBottomSheetHeight : curBottomSheetHeight, //하단시크 현재 높이 크기
-      showMenuPanelHeight : showMenuPanelHeight, //현제 보여지는 메뉴 높이
-      showMenuPanelWidth : showMenuPanelWidth //현재 보여지는 메뉴 너비
+      showingMenuSize : showingMenuSize, //하단시크 현재 높이 크기
+      showingPropertySize : showingPropertySize, //현제 보여지는 메뉴 높이
+      showingBottomSheetSize : showingBottomSheetSize //현재 보여지는 메뉴 너비
     };
 
-    return layoutRegionSIze;
+    return showingPanelSize;
   }
 
   return (
   <div className="node-editor">
     <Boundary className='head'
-      style={{height: `${layoutSize['topHead'].height}px`}}>
+      style={{height: calcStyle.topHeadHeight()}}>
       Head
     </Boundary>
-    <Boundary
-        className="main-container">
+    <Boundary className="main-container">
       <Boundary className="vertical-menu"
-        style={{width: `${layoutSize['verticalTabMenu'].width}px`,
-        height: `calc(100vh - ${layoutSize['topHead'].height}px)`}}>
+        style={{width: calcStyle.verticalMenuWidth(),
+        height: calcStyle.verticalMenuHeight()}}>
         <VerticalTabMenu
           menuItems={verticalTablMenuItems}
           indexClicked={vTabMenuIndexClicked}
           setVTabIndexClicked={setVTabIndexClicked}
           setVTabVisible={setVTabVisible}/>
-          <NodeDndContext setDraggingNode={setDraggingNode} getLayoutRegionSIze={getLayoutRegionSIze}>
+          <NodeDndContext setDraggingNode={setDraggingNode}
+            getShowingPanelSize={getShowingPanelSize}>
             <Accordion accordItems={accordionPanelItems} show={tabVisible[0]}/>
             <NodeDragOverlay draggingNode={draggingNode}/>
           </NodeDndContext>
       </Boundary>
       <Boundary className="reactFlow-Region" ref={reactFlowRegionBoundaryRef}
-        style={{left: `${layoutSize['verticalTabMenu'].width}px`,
-         height: `calc(100vh - ${layoutSize['topHead'].height})`,
-         width: `calc(100vw - ${layoutSize['verticalTabMenu'].width}px)`}}>
+        style={{left: calcStyle.leftMargin(),
+         height: calcStyle.reactFlowHeight(),
+         width: calcStyle.reactFlowWidth()}}>
         <ReactFlowApp/>
       </Boundary>
-      <Boundary className="sidebar-property"
-      style={{top: `${layoutSize['topHead'].height}px`,
-        left: `calc(100vw - ${layoutSize['sidebarProperty'].width}px`,
-        height: `calc(100vh - ${layoutSize['topHead'].height}px)`,
-        width: `${layoutSize['sidebarProperty'].width}px`}}>
+      <Boundary id='sidebar-property'
+        className={clsx('sidebar-property',
+          {'invisible' : !panelVisible['property']})}
+        style={{top: calcStyle.topMargin(),
+          left: calcStyle.sidePropertyLeftMargin(),
+          height: calcStyle.sidePropertyHeight(),
+          width: calcStyle.sidePropertyWidth()}}>
         Right
       </Boundary>
-      {/* <Boundary className="bottom-sheet" ref={bottomBoundaryRef}>
+      <Boundary id='bottom-sheet'
+        className={clsx('bottom-sheet',
+        {'invisible' : !panelVisible['bottomSheet']} )}
+      style={{
+        top: calcStyle.bottomSheetCurTopMargin(curBottomSheetHeight),
+        height: calcStyle.bottomSheetCurHeight(curBottomSheetHeight),
+        width: `100vw`}}
+      ref={bottomBoundaryRef}>
         <Boundary className="resize-bar"
           {...registMouseEvent((deltaX, deltaY) => {
             if(!bottomBoundaryRef.current) return;
             let change_size = curBottomSheetHeight - deltaY;
             const {size, limited} = inRange(change_size, layoutSize['minBottomSheet'].height, maxBottomSheetHeight);
             setCurBottomSheetHeight(size);
-          })}/>
+          })}
+          />
         Bottom
-      </Boundary> */}
+      </Boundary>
     </Boundary>
   </div>
   );

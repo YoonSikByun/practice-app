@@ -4,7 +4,7 @@ import '@/common/definition';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { AccordionPanelItem } from '@/app/node-editor/config/menu';
-import {layoutSize} from '@/app/node-editor/config/layoutFrame'
+import { calcStyle } from '../../util/calcStyleRegion';
 
 export default function Accordion({
     accordItems,
@@ -14,8 +14,12 @@ export default function Accordion({
     show : boolean
 }) {
     return (
-        <div id='accordion-container' className={clsx('accordion-container',
-            'overflow-auto', {'invisible': (!show)})}>
+        <div id='accordion-container'
+            className={clsx('accordion-container',
+                'overflow-auto', {'invisible': (!show)})}
+            style={{left: calcStyle.leftMargin(),
+            height: calcStyle.accordionHeight(),
+            width: calcStyle.accordionWidth()}}>
         {
             accordItems.map((accordItem) => {
                 return (

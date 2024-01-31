@@ -16,7 +16,8 @@ const NodeBoundary = (
         className : string
     }
 ) => (
-    <div className={className} style={{width: `${width}px`, height: `${height}px`}}>
+    <div className={className} 
+    style={{width: `${width}px`, height: `${height}px`}}>
         {/* 노드 타이틀 */}
         <div className={
             clsx('relative w-fit h-fit', 'top-[4px] left-[5px] px-[4px]',

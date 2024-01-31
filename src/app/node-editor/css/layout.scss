@@ -20,19 +20,18 @@
     top: 0px;
 }
 
-.node-editor .main-container .bottom-sheet {
-    display: block;
-    position: absolute;
-    z-index: 10;
-    background-color: aqua;
-    grid-area: bottom-sheet;
-}
-
 .node-editor .main-container .sidebar-property {
     display: block;
     position: absolute;
     padding: 10px;
     background-color: burlywood;
+}
+
+.node-editor .main-container .bottom-sheet {
+    display: block;
+    position: absolute;
+    z-index: 10;
+    background-color: aqua;
 }
 
 .node-editor .main-container .bottom-sheet .resize-bar {
