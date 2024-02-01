@@ -4,18 +4,14 @@ import '@/common/definition';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { AccordionPanelItem } from '@/app/node-editor/config/menu';
-import { calcStyle } from '../../util/calcStyleRegion';
+import { calcStyle } from '@/app/node-editor/util/calcStyleRegion';
+import {forwardRef} from 'react';
 
-export default function Accordion({
-    accordItems,
-    show
-} : {
-    accordItems : AccordionPanelItem[],
-    show : boolean
-}) {
+export default forwardRef(
+    function Accordion({accordItems, show} : {accordItems : AccordionPanelItem[], show : boolean}, ref:any) {
+        
     return (
-        <div id='accordion-container'
-            className={clsx('accordion-container',
+        <div  ref={ref} className={clsx('accordion-container',
                 'overflow-auto', {'invisible': (!show)})}
             style={{left: calcStyle.leftMargin(),
             height: calcStyle.accordionHeight(),
@@ -31,7 +27,7 @@ export default function Accordion({
         }
         </div>
     );
-}
+});
 
 function AccordionNode({
     accordItem

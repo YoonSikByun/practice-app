@@ -29,8 +29,7 @@ export default function ReactFlowApp() {
       );
 
   return (
-    <div id='React-DropZone'
-    style={{width: 'auto', height: 'calc(100vh - 50px)' }}>
+    <div style={{width: 'auto', height: 'calc(100vh - 50px)' }}>
       <ReactFlow
         className='bg-white'
         nodes={nodes}

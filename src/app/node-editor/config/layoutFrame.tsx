@@ -3,6 +3,15 @@ export type Size = {
     height : number;
 }
 
+export type Rect = {
+    top: number;
+    left: number;
+    right: number;
+    bottom: number;
+    width: number;
+    height: number;
+}
+
 export type ShowingPanelSize = {
     reactFlowRect : any;
     showingMenuSize : Size; //하단시크 현재 높이 크기
@@ -27,4 +36,9 @@ export const layoutSize : LayoutSize = {
     sidebarProperty : {width: 200, height: 0},
     accordionContainer : {width: 285, height: 0},
     minBottomSheet : {width: 0, height: 300}
+}
+
+export type PanelVisible = {
+    bottomSheet: boolean;
+    sideProperty: boolean;
 }

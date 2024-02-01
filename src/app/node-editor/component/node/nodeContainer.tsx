@@ -1,10 +1,9 @@
-import dynamic from 'next/dynamic';
-
 import clsx from 'clsx';
 import NodeDesignBoundary from '@/app/node-editor/component/node/nodeDesignBoundary';
 
 // import DndKitDraggable from "@/app/node-editor/component/dnd-kit/dnd-kit-draggable";
 
+import dynamic from 'next/dynamic';
 const DndKitDraggable = dynamic(() => import('@/app/node-editor/component/dnd-kit/dnd-kit-draggable'), {
   ssr: false,
 });
