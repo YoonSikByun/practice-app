@@ -1,12 +1,7 @@
 import clsx from 'clsx';
 import NodeDesignBoundary from '@/app/node-editor/component/node/nodeDesignBoundary';
+import DndKitDraggable from '@/app/node-editor/component/dnd-kit/dnd-kit-draggable';
 
-// import DndKitDraggable from "@/app/node-editor/component/dnd-kit/dnd-kit-draggable";
-
-import dynamic from 'next/dynamic';
-const DndKitDraggable = dynamic(() => import('@/app/node-editor/component/dnd-kit/dnd-kit-draggable'), {
-  ssr: false,
-});
 
 import {DragOverlay} from '@dnd-kit/core';
 import {NodeItem} from '@/app/node-editor/config/node';
@@ -19,7 +14,6 @@ export default function NodeContainer(
     nodeItems : NodeItem[]
   }
 ) {
-
   return (
     <div className={clsx('grid grid-cols-2')}>
     {
@@ -71,22 +65,3 @@ export const NodeDragOverlay = (
     ): null}
   </DragOverlay>
 );
-
-// export function DropZone() {
-//   return (
-//   <DndKitDroppable id='drop-zone'>
-//     <div className='dropzone-overlayDiv'>
-//       Please, Drop here!!!!!!!!!!!
-//     </div>
-//   </DndKitDroppable>
-//   );
-// }
-
-// export function PortalAwareItem({show} : {show : boolean}) {
-//     if(!show) return null;
-//     const child = (
-//       <DropZone/>
-//     );
-//   let portal : any = document.getElementById('Portal-DropZone');
-//   return createPortal(child, portal);
-// }

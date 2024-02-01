@@ -6,7 +6,6 @@ const NodeBoundary = (
         width,
         height,
         nodeKind,
-        designMode = false,
         className
     } : {
         width : number,

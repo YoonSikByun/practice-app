@@ -2,7 +2,7 @@
 
 import '@/app/node-editor/css/layout.scss';
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect } from "react";
 import {registMouseEvent, inRange} from "@/app/node-editor/util/moudeMove";
 
 import ReactFlowApp from "@/app/node-editor/component/react-flow/reactflow"
@@ -63,20 +63,15 @@ export default function Page() {
     setMaxBottomSheetHeight(getRefRect(rectFlowRef).height * 0.8);
   }, []);
 
-  const test = () => {
-    // const r = getShowingSideProperyRect('sideProperty');
-    const r = getValidReactFlowRect();
-    alert(`top: ${r.top}, left: ${r.left}, right: ${r.right}, bottom: ${r.bottom}, width: ${r.width}, height: ${r.height}`);
-    // alert(`${tabVisible[0]} ${tabVisible[1]}`)
-    // alert(`${panelVisible['sideProperty']}`);
-  }
+  const closeBottomSheet = () => (setPanelVisible((prev : PanelVisible) => ({...prev, bottomSheet: false})));
+  const closeSideProperty = () => (setPanelVisible((prev : PanelVisible) => ({...prev, sideProperty: false})));
 
   return (
   <div className="node-editor">
     <Boundary className='head'
       style={{height: calcStyle.topHeadHeight()}}
     >
-      <button onClick={test}>Head</button>
+      Head
     </Boundary>
     <Boundary className="main-container">
       <Boundary className="vertical-menu"
@@ -109,7 +104,7 @@ export default function Page() {
           height: calcStyle.sidePropertyHeight(),
           width: calcStyle.sidePropertyWidth()}}
       >
-        Right
+        <p>Side property</p><button className={clsx('border-solid border-2 border-indigo-600')} onClick={closeSideProperty}>Close X</button>
       </Boundary>
       <Boundary className={clsx('bottom-sheet',
         {'invisible' : !panelVisible['bottomSheet']} )}
@@ -128,7 +123,7 @@ export default function Page() {
             setCurBottomSheetHeight(size);
           })}
         />
-        Bottom
+          <p>Bottom</p><button className={clsx('border-solid border-2 border-indigo-600')} onClick={closeBottomSheet}>Close X</button>
       </Boundary>
     </Boundary>
   </div>

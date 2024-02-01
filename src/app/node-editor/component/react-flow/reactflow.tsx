@@ -1,47 +1,47 @@
-'use client'
-
-import React, { useCallback } from 'react';
-import ReactFlow, {
-    MiniMap,
-    Controls,
-    Background,
-    useNodesState,
-    useEdgesState,
-    addEdge,
-    BackgroundVariant,
-  } from 'reactflow';
-
+import { useCallback, useState } from 'react';
+import ReactFlow, { addEdge, applyEdgeChanges, applyNodeChanges, NodeProps } from 'reactflow';
 import 'reactflow/dist/style.css';
 
-const initialNodes = [
-  { id: '1', position: { x: 0, y: 0 }, data: { label: '1' } },
-  { id: '2', position: { x: 0, y: 100 }, data: { label: '2' } },
-];
-const initialEdges = [{ id: 'e1-2', source: '1', target: '2' }];
- 
-export default function ReactFlowApp() {
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+import {TextUpdaterNode, NodeData} from './custom-nodes/TextUpdaterNode';
 
-    const onConnect = useCallback(
-        (params : any) => setEdges((eds : any) => addEdge(params, eds)),
-        [setEdges],
-      );
+
+const rfStyle = { backgroundColor: '#FFFFFF' };
+type DataType = { id: string; type: string; position: { x: number; y: number; }; data: { value: number; }; }
+const initialNodes : DataType[] = [ { id: 'node-1', type: 'textUpdater', position: { x: 0, y: 0 }, data: { value: 123 } }, ];
+
+
+// we define the nodeTypes outside of the component to prevent re-renderings
+// you could also use useMemo inside the component
+const nodeTypes = { textUpdater: TextUpdaterNode };
+
+function Flow() {
+  const [nodes, setNodes] = useState(initialNodes);
+  const [edges, setEdges] = useState([]);
+
+  const onNodesChange = useCallback(
+    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
+    [setNodes]);
+
+  const onEdgesChange = useCallback(
+    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
+    [setEdges]);
+
+  const onConnect = useCallback(
+    (connection) => setEdges((eds) => addEdge(connection, eds)),
+    [setEdges]);
 
   return (
-    <div style={{width: 'auto', height: 'calc(100vh - 50px)' }}>
-      <ReactFlow
-        className='bg-white'
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-      >
-        <Controls/>
-        <MiniMap/>
-        <Background variant={BackgroundVariant.Dots} gap={12} size={1} />
-      </ReactFlow>
-    </div>
+    <ReactFlow
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      nodeTypes={nodeTypes}
+      fitView
+      style={rfStyle}
+    />
   );
 }
+
+export default Flow;

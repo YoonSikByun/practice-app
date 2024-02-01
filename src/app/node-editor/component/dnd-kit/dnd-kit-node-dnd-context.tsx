@@ -1,7 +1,5 @@
 import { DndContext, DragStartEvent, DragEndEvent } from "@dnd-kit/core";
 import { DraggingNodeProps } from "../node/nodeContainer";
-import { ShowingPanelSize } from "../../config/layoutFrame";
-// import { getShowingPanelSize} from '@/app/node-editor/util/calcStyleRegion';
 import {Rect} from '@/app/node-editor/config/layoutFrame'
 
 type ElapsedTime = {
