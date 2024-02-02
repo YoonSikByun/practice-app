@@ -1,4 +1,4 @@
-import {layoutSize, Size, Rect} from '@/app/node-editor/config/layoutFrame'
+import {layoutSize} from '@/app/node-editor/config/layoutFrame'
 
 class CalcStyleRegion {
     topMargin() { return `${layoutSize['topHead'].height}px`; }
@@ -22,7 +22,8 @@ class CalcStyleRegion {
     getShowingMenuWidth(tabVisible : boolean[]) {
         if(tabVisible[0])
             return layoutSize['accordionContainer'].width;
-        return 0; }
+        return 0;
+    }
 
     bottomSheetCurTopMargin(curHeight : number) { return `calc(100vh - ${curHeight}px)`;}
     bottomSheetCurLeftMargin(tabVisible : boolean[]) {

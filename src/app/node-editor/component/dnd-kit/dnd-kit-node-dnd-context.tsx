@@ -1,6 +1,7 @@
 import { DndContext, DragStartEvent, DragEndEvent } from "@dnd-kit/core";
-import { DraggingNodeProps } from "../node/nodeContainer";
-import {Rect} from '@/app/node-editor/config/layoutFrame'
+import { DraggingNodeProps } from "@/app/node-editor/component/node/nodeContainer";
+import {Rect} from '@/app/node-editor/config/layoutFrame';
+import { CreateReactFlowNewNode } from "@/app/node-editor/component/react-flow/reactflow";
 
 type ElapsedTime = {
   id : string;
@@ -13,15 +14,12 @@ type ElapsedTime = {
 class DbClickMngr {
   elapsedTime: ElapsedTime;
 
-  constructor( value : ElapsedTime) {
-    this.elapsedTime = value;
-  }
+  constructor( value : ElapsedTime) { this.elapsedTime = value; }
 
   //첫 번째 클릭인지 확인
   isFirstClick() {
     if(this.elapsedTime['startDragTime'] > 0) return false;
-    return true;
-  }
+    return true; }
 
   //두 번째 클릭인지 확인
   isSecondClick(id : string) {
@@ -33,33 +31,27 @@ class DbClickMngr {
     if(0 < secDiff &&  1 >= secDiff)
       if(this.elapsedTime['id'] == id) return true;
     
-    return false;
-  }
+    return false; }
 
   //첫 번째 클릭 처리
   firstClick(id : string) {
     this.elapsedTime['startDragTime'] = performance.now();
     this.elapsedTime['id'] = id;
-    this.elapsedTime['clickCount'] = 1;
-  }
+    this.elapsedTime['clickCount'] = 1; }
 
   //두 번째 클릭 처리
-  secondClick() {
-    this.elapsedTime['clickCount']++;
-  }
+  secondClick() { this.elapsedTime['clickCount']++; }
 
   //더블 클릭되었는지 확인
   isDoubleClick() {
     if(this.elapsedTime['clickCount'] > 1) return true;
-    return false;
-  }
+    return false; }
 
   //클릭 상태 초기화
   clear() {
     this.elapsedTime['startDragTime'] = 0;
     this.elapsedTime['id'] = '';
-    this.elapsedTime['clickCount'] = 0;
-  }
+    this.elapsedTime['clickCount'] = 0;}
 }
 
 const dblClickMngr = new DbClickMngr({id : "", startDragTime : 0, endDragTime: 0, clickCount : 0});
@@ -84,7 +76,7 @@ export default function NodeDndContext(
         height: e.active.data.current?.height,
         nodeKind: e.active.data.current?.nodeKind,
         className: e.active.data.current?.className})));
-      console.log(`e.active.id : ${e.active.id}`)
+
       if(dblClickMngr.isFirstClick())
         dblClickMngr.firstClick(e.active.id as string);
       else if(dblClickMngr.isSecondClick(e.active.id as string))
@@ -102,28 +94,38 @@ export default function NodeDndContext(
         nodeKind: '',
         className: ''})));
 
+      const droppedRect = e.active.rect.current.translated;
+
+      const dr : Rect = {
+        top : (droppedRect?.top ?? 0),
+        left : (droppedRect?.left ?? 0),
+        right : (droppedRect?.right ?? 0),
+        bottom : (droppedRect?.bottom ?? 0),
+        height : (droppedRect?.bottom ?? 0) - (droppedRect?.top ?? 0),
+        width : (droppedRect?.right ?? 0) - (droppedRect?.left ?? 0)};
+
       if(dblClickMngr.isDoubleClick())
-      { 
-          alert(`Double Click! : ${dblClickMngr.elapsedTime['id']}`);
+      {
+          // alert(`Double Click! - ${lt}`);
+          CreateReactFlowNewNode('double-click', dblClickMngr.elapsedTime['id'], dr);
           dblClickMngr.clear();
           return;
       }
 
-      const droppedRect = e.active.rect.current.translated;
-
       // 노드가 Drop된 위치가 React-flow 유효 영역인지 확인한다.
       const isDroppable = (
           droppedRect && (
-            targetValidRect.top <= droppedRect.top &&
-            targetValidRect.left <= droppedRect.left &&
-            targetValidRect.right >= droppedRect.right &&
-            targetValidRect.bottom >= droppedRect.bottom
+            targetValidRect.top <= dr.top &&
+            targetValidRect.left <= dr.left &&
+            targetValidRect.right >= dr.right &&
+            targetValidRect.bottom >= dr.bottom
           )) ? true : false;
 
       //Drop 가능한 유효 영역이면 노드를 생성한다.
       if(isDroppable) 
       {
-        alert(`생성할 수 있습니다!!!! : ${dblClickMngr.elapsedTime['id']}`);
+        // alert(`Dropped in valid-regin!! - ${lt}`);
+        CreateReactFlowNewNode('drop', dblClickMngr.elapsedTime['id'], dr);
         dblClickMngr.clear();
       }
     }

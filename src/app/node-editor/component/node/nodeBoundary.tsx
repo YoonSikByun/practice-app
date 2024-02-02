@@ -1,6 +1,6 @@
-import '@/app/node-editor/css/ui/nodeBoundary.scss'
+import '@/app/node-editor/css/component/nodeBoundary.scss'
 import clsx from "clsx"
-
+ 
 const NodeBoundary = (
     {
         width,
@@ -11,7 +11,6 @@ const NodeBoundary = (
         width : number,
         height : number,
         nodeKind : string,
-        designMode? : boolean,
         className : string
     }
 ) => (

@@ -1,5 +1,5 @@
 import '@/app/globals.css';
-import '@/app/node-editor/css/ui/accordion.scss';
+import '@/app/node-editor/css/component/accordion.scss';
 import '@/common/definition';
 import clsx from 'clsx';
 import { useState } from 'react';

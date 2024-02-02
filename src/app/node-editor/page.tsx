@@ -10,7 +10,6 @@ import Boundary from '@/app/node-editor/component/boundary';
 import VerticalTabMenu from "@/app/node-editor/component/menu/verticalTabmenu";
 import Accordion from '@/app/node-editor/component/menu/accordion';
 import { DraggingNodeProps, NodeDragOverlay } from "@/app/node-editor/component/node/nodeContainer";
-// import { v4 as uuid } from "uuid";
 import NodeDndContext from "@/app/node-editor/component/dnd-kit/dnd-kit-node-dnd-context";
 import {verticalTablMenuItems, accordionPanelItems} from '@/app/node-editor/config/menu'
 import {layoutSize, PanelVisible, Rect} from '@/app/node-editor/config/layoutFrame'

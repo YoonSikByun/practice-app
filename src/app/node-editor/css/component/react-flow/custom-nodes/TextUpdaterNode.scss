@@ -1,9 +1,9 @@
 .text-updater-node {
     height: 50px;
-    border: 1px solid #000000;
+    border: 1px solid #eee;
     padding: 5px;
     border-radius: 5px;
-    background: rgb(236, 230, 186);
+    background: white;
   }
   
   .text-updater-node label {
@@ -12,3 +12,8 @@
     font-size: 12px;
   }
   
+  .text-updater-node input {
+    display: block;
+    color: #777;
+    font-size: 12px;
+  }

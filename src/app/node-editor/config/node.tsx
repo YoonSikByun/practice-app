@@ -23,6 +23,8 @@ const defaultClass : string = clsx(
 
 const desginNodeSize : NodeSize = {width: 130, height: 50};
 
+export const nullNode = {id: 'NotDefined', nodeKind: 'NotDefined', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize};
+
 //좌측 아코디언 메뉴 패널에 표시될 항목들
 export const blueprintNodes : NodeItem[] = [
     {id: 'Kind0', nodeKind: 'Kind0', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize},
@@ -66,3 +68,5 @@ export const chartNodes : NodeItem[] = [
     {id: 'Kind34', nodeKind: 'Kind34', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize},
     {id: 'Kind35', nodeKind: 'Kind35', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize}
 ];
+
+export const allNode = [blueprintNodes, chartNodes];
