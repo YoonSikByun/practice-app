@@ -1,5 +1,5 @@
 import { NormalNode } from "./normalNode";
-import { blueprintNodes, allNode, nullNode } from "@/app/node-editor/config/node";
+import { allNode, nullNode } from "@/app/node-editor/config/node";
 
 const findNodeItem = (id : string) =>{
     for(const i of allNode) {
@@ -9,6 +9,12 @@ const findNodeItem = (id : string) =>{
     return nullNode;
 }
 
+export const getNodeSize = (id : string) => {
+    const i = findNodeItem(id);
+    return {
+        width : i['runNodeSize'].width,
+        height : i['runNodeSize'].height }
+};
 
 const Component = (id : string) => {
     const i = findNodeItem(id);

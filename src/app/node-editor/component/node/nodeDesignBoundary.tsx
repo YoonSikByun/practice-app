@@ -16,7 +16,7 @@ export default function NodeDesignBoundary(    {
         <NodeBoundary width={width}
         height={height}
         nodeKind={nodeKind}
-        designMode={true}
-        className={className}/>
+        className={className}
+        isDraggable={true}/>
     )
 }

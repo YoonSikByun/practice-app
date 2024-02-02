@@ -7,14 +7,19 @@ import ReactFlow,
   MiniMap,
   ConnectionMode,
   NodeChange,
-  ReactFlowInstance,
-  XYPosition
+  ReactFlowInstance
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import {TextUpdaterNode, NodeDataType} from '@/app/node-editor/component/react-flow/custom/TextUpdaterNode';
-import { Rect } from '@/app/node-editor/config/layoutFrame';
-import { customNodeTypes } from './custom/nodeTypes';
+import { customNodeTypes, getNodeSize } from './custom/nodeTypes';
 import { v4 as uuid } from "uuid";
+import { Size } from '@/app/node-editor/config/layoutFrame';
+
+const selector = (s : any) => ({
+  nodeInternals: s.nodeInternals,
+  edges: s.edges,
+});
+
 
 const rfStyle = { backgroundColor: '#FFFFFF' };
 
@@ -26,48 +31,11 @@ const initialNodes : NodeDataType[] = [
 // we define the nodeTypes outside of the component to prevent re-renderings
 // you could also use useMemo inside the component
 const nodeTypes = { textUpdater: TextUpdaterNode };
-let externalSetNodes : any = null;
-let screenToFlowPosition : any = null;
-
-export function CreateReactFlowNewNode(
-  dropType : string,
-  nodeId : string,
-  dropRect : Rect) {
-
-  if(!screenToFlowPosition) {
-    alert(`screenToFlowPosition 없음`);
-    return;
-  }
-
-  if(dropType != 'drop') {
-    alert(`[${dropType} 지원하지 않는 유형입니다.]`);
-    return;
-  }
-
-  const p : XYPosition = screenToFlowPosition({x: dropRect.top, y: dropRect.left});
-  // const p : XYPosition = {x: dropRect.top, y: dropRect.left};
-  const newNode : NodeDataType = { id: uuid(), type: 'Kind0', position: { x: p.x, y: p.y }, data: { value: 123 } };
-
-  console.log(`------- dropRect.top : ${dropRect.top}, dropRect.left : ${dropRect.left}`);
-
-  if(externalSetNodes)
-  {
-    console.log(`------- Call externalSetNodes`);
-    externalSetNodes((nds) => nds.concat(newNode));
-  }
-}
 
 export default function ReactFlowApp() {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState([]);
-  const [instance, setReactFlowInstance] = useState<ReactFlowInstance<any, any>>();
-
-  externalSetNodes = setNodes;
-
-  screenToFlowPosition = useCallback((p : XYPosition) => {
-    if(instance) return instance.screenToFlowPosition(p);
-    return {x: 0, y: 0};
-  }, [instance]);
+  const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<any, any>>();
 
   const onNodesChange = useCallback(
     (changes : NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -81,6 +49,42 @@ export default function ReactFlowApp() {
     (connection : any) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]);
 
+  const onDragOver = useCallback((event : any) => {
+    event.preventDefault();
+    event.dataTransfer.dropEffect = 'move';
+  }, []);
+
+  const onDrop = useCallback(
+    (event : any) => {
+      event.preventDefault();
+
+      const type = event.dataTransfer.getData('application/reactflow');
+
+      // check if the dropped element is valid
+      if (typeof type === 'undefined' || !type || !reactFlowInstance)
+        return;
+
+      const s : Size = getNodeSize(type);
+      const p = reactFlowInstance.screenToFlowPosition({
+        x: event.clientX - (s.width / 2),
+        y: event.clientY - (s.height / 2),
+      });
+      const newNode : NodeDataType = { id: uuid(), type: 'Kind0', position: { x: p.x, y: p.y }, data: { value: 123 } };
+      setNodes((nds) => nds.concat(newNode));
+    },
+    [reactFlowInstance],
+  );
+
+  const isValidConnection = (connection) => {
+    console.log(`[isValidConnection] ${connection.target}, ${connection.source}, ${connection.target},${connection.sourceHandle},${connection.targetHandle}`);
+    if(connection.target === connection.source)
+      return false;
+    return true;
+  }
+  const onConnectStart = (_, { nodeId, handleType }) =>
+    console.log('on connect start', { nodeId, handleType });
+  const onConnectEnd = (event) => console.log('on connect end', event);
+
   return (
     <ReactFlow
       nodes={nodes}
@@ -88,10 +92,15 @@ export default function ReactFlowApp() {
       onNodesChange={onNodesChange}
       onEdgesChange={onEdgesChange}
       onConnect={onConnect}
-      onInit={(instance : any) => setReactFlowInstance(instance)}
+      onInit={setReactFlowInstance}
       nodeTypes={customNodeTypes}
       connectionMode={ConnectionMode.Loose}
+      onDrop={onDrop}
+      onDragOver={onDragOver}
       style={rfStyle}
+      isValidConnection={isValidConnection}
+      onConnectStart={onConnectStart}
+      onConnectEnd={onConnectEnd}
     >
       <Controls/>
       <MiniMap/>

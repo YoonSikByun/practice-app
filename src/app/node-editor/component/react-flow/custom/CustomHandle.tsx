@@ -24,6 +24,11 @@ const CustomHandle = (
     const isHandleConnectable = useMemo(() => {
         const node = nodeInternals.get(nodeId);
         const connectedEdges = getConnectedEdges([node], edges);
+
+        // for (const i of connectedEdges)
+        //     for (const key in i)
+        //         console.log(`key : ${key}`);
+
         return connectedEdges.length < isConnectable;
     }, [nodeInternals, edges, nodeId, isConnectable]);
 

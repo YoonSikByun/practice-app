@@ -9,8 +9,6 @@ import ReactFlowApp from "@/app/node-editor/component/react-flow/reactflow"
 import Boundary from '@/app/node-editor/component/boundary';
 import VerticalTabMenu from "@/app/node-editor/component/menu/verticalTabmenu";
 import Accordion from '@/app/node-editor/component/menu/accordion';
-import { DraggingNodeProps, NodeDragOverlay } from "@/app/node-editor/component/node/nodeContainer";
-import NodeDndContext from "@/app/node-editor/component/dnd-kit/dnd-kit-node-dnd-context";
 import {verticalTablMenuItems, accordionPanelItems} from '@/app/node-editor/config/menu'
 import {layoutSize, PanelVisible, Rect} from '@/app/node-editor/config/layoutFrame'
 import {calcStyle} from '@/app/node-editor/util/calcStyleRegion';
@@ -35,24 +33,9 @@ export default function Page() {
   //하단시트(패널)와 우측 패널 보임/숨김 상태 변경 렌터링 하긴 위한 useState
   const [panelVisible, setPanelVisible] = useState<PanelVisible>({bottomSheet: true, sideProperty: true});
 
-  // 메뉴에서 선택되어 드래중인 컨퍼넌트 렌더링위한 값들
-  const [draggingNode, setDraggingNode] = useState<DraggingNodeProps>({key: '', width: 0, height: 0, nodeKind: '', className: ''});
-
   const getRefRect = (ref : any) => {
     const r : Rect = ref.current?.getBoundingClientRect() as Rect;
     if(r) return r; else  return {top: 0, left: 0, right: 0, bottom: 0, width: 0, height: 0};}
-
-  const getValidReactFlowRect = () => {
-    const r = getRefRect(rectFlowRef);
-    let sr = {
-      top : r.top,
-      left : r.left + calcStyle.getShowingMenuWidth(tabVisible),
-      right: r.right - (panelVisible['sideProperty'] ? layoutSize['sidebarProperty'].width : 0),
-      bottom: r.bottom - (panelVisible['bottomSheet'] ? curBottomSheetHeight : 0),
-      width: 0, height: 0};
-    sr['height'] = sr['bottom'] - sr['top'];
-    sr['width'] = sr['right'] - sr['left'];
-    return sr;}
 
   // 초기 렌더링 직후 1회만 호출하기 위해 useEffect 사용
   useEffect(() => {
@@ -82,12 +65,7 @@ export default function Page() {
           indexClicked={vTabMenuIndexClicked}
           setVTabIndexClicked={setVTabIndexClicked}
           setVTabVisible={setVTabVisible}/>
-          <NodeDndContext setDraggingNode={setDraggingNode}
-            targetValidRect={getValidReactFlowRect()}
-          >
             <Accordion accordItems={accordionPanelItems} show={tabVisible[0]}/>
-            <NodeDragOverlay draggingNode={draggingNode}/>
-          </NodeDndContext>
       </Boundary>
       <Boundary className="reactFlow-Region" ref={rectFlowRef}
         style={{left: calcStyle.leftMargin(),
