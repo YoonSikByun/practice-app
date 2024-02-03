@@ -1,7 +1,5 @@
-import { NormalNode } from "./normalNode";
 import { allNode, nullNode } from "@/app/node-editor/config/node";
-
-export type NodeDataType = { id: string; type: string; position: { x: number; y: number; }; data: { value: number; }; }
+import { NormalNode } from "./normalNode";
 
 const findNodeItem = (id : string) =>{
     for(const i of allNode) {
@@ -18,23 +16,30 @@ export const getNodeSize = (id : string) => {
         height : i['runNodeSize'].height }
 };
 
-const Component = (id : string) => {
+export type NoramlNodeData = {
+    width? : number;
+    height? : number;
+    nodeKind? : string;
+    className? : string;
+}
+
+export type NodeDataType = { id: string; type: string; position: { x: number; y: number; }; data: NoramlNodeData; }
+
+
+export const getNodeData = (id : string) => {
     const i = findNodeItem(id);
-    return <NormalNode
-        width={i['runNodeSize'].width}
-        height={i['runNodeSize'].height}
-        nodeKind={i['nodeKind']}
-        className={i['runClassName']} />;
+    return {
+        width: i['runNodeSize'].width,
+        height: i['runNodeSize'].height,
+        nodeKind: i['nodeKind'],
+        className: i['runClassName']
+    }
 };
 
-function Kind0() { return Component('Kind0'); }
-function Kind1() { return Component('Kind1'); }
-function Kind2() { return Component('Kind2'); }
-
 export const customNodeTypes = {
-    Kind0: Kind0,
-    Kind1: Kind1,
-    Kind2: Kind2
+    Kind0: NormalNode,
+    Kind1: NormalNode,
+    Kind2: NormalNode
 }
 
 // export const customNodeTypes = {

@@ -32,7 +32,15 @@ const CustomHandle = (
         return connectedEdges.length < isConnectable;
     }, [nodeInternals, edges, nodeId, isConnectable]);
 
-    return <Handle type={type} position={position} id={id} isConnectable={isHandleConnectable}/>;
+    return (
+    <Handle
+        style={{cursor: "all-scroll"}}
+        className='h-[10px] w-[10px] bg-slate-400'
+        type={type}
+        position={position}
+        id={id}
+        isConnectable={isHandleConnectable}/>
+    );
 };
 
 export default CustomHandle;

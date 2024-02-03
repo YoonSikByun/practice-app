@@ -8,30 +8,32 @@ import ReactFlow,
   // ConnectionMode,
   NodeChange,
   ReactFlowInstance,
+  Panel,
   getOutgoers,
-  useNodesState,
-  useEdgesState 
+  Background,
+  BackgroundVariant
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import { customNodeTypes, getNodeSize, NodeDataType } from '@/app/node-editor/component/react-flow/custom/nodeTypes';
+import { customNodeTypes, getNodeSize, getNodeData, NodeDataType, NoramlNodeData } from '@/app/node-editor/component/react-flow/custom/nodeTypes';
 import CustomEdge from '@/app/node-editor/component/react-flow/custom/CustomEdge';
 import { v4 as uuid } from "uuid";
 import { Size } from '@/app/node-editor/config/layoutFrame';
+import { bgGuideType, RadioBox } from './custom/panel';
 
 const rfStyle = { backgroundColor: '#FFFFFF' };
 
-const initialNodes : NodeDataType[] = [
-  { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: { value: 123 } },
-  { id: uuid(), type: 'Kind1', position: { x: 50, y: 100 }, data: { value: 123 } },
+const initialNodes = [
+  { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: getNodeData('Kind0') },
+  { id: uuid(), type: 'Kind1', position: { x: 50, y: 100 }, data: getNodeData('Kind1')},
 ];
 
-const edgeTypes = {
-  'custom-edge': CustomEdge,
-};
+const edgeTypes = { 'custom-edge': CustomEdge};
+
 
 export default function ReactFlowApp() {
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState([]);
+  const [bgGuideTypeIdx, setBgGuideTypeIdx] = useState(0);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<any, any>>();
 
   const onNodesChange = useCallback(
@@ -61,7 +63,7 @@ export default function ReactFlowApp() {
         x: event.clientX - (s.width / 2),
         y: event.clientY - (s.height / 2),
       });
-      const newNode : NodeDataType = { id: uuid(), type: 'Kind0', position: { x: p.x, y: p.y }, data: { value: 123 } };
+      const newNode = { id: uuid(), type: 'Kind0', position: { x: p.x, y: p.y }, data: getNodeData('Kind0') };
       setNodes((nds) => nds.concat(newNode));
     },
     [reactFlowInstance],
@@ -108,9 +110,6 @@ export default function ReactFlowApp() {
     },
     [setEdges],
   );
-  // const onConnect = useCallback(
-  //   (connection : any) => setEdges((eds) => addEdge(connection, eds)),
-  // [setEdges]);
 
   return (
     <ReactFlow
@@ -129,9 +128,14 @@ export default function ReactFlowApp() {
       isValidConnection={isValidConnection}
       onConnectStart={onConnectStart}
       onConnectEnd={onConnectEnd}
+      snapToGrid={true}
     >
+      <Panel position="top-left">
+        <RadioBox selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
+      </Panel>
       <Controls position='top-right'/>
       <MiniMap/>
+      <Background variant={bgGuideType[bgGuideTypeIdx] as BackgroundVariant}/>
     </ReactFlow>
   );
 }
