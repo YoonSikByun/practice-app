@@ -1,10 +1,9 @@
 import { useCallback } from 'react';
 import { Position, NodeProps } from 'reactflow';
-import '@/app/node-editor/css/component/react-flow/custom-nodes/TextUpdaterNode.scss';
+import '@/app/node-editor/css/component/react-flow/custom/TextUpdaterNode.scss';
 import CustomHandle from '@/app/node-editor/component/react-flow/custom/CustomHandle';
 
 const handleStyle = { left: 10 };
-export type NodeDataType = { id: string; type: string; position: { x: number; y: number; }; data: { value: number; }; }
 
 export function TextUpdaterNode() {
   const onChange = useCallback((evt : any) => {console.log(evt.target.value);}, []);

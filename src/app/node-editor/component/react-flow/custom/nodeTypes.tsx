@@ -1,6 +1,8 @@
 import { NormalNode } from "./normalNode";
 import { allNode, nullNode } from "@/app/node-editor/config/node";
 
+export type NodeDataType = { id: string; type: string; position: { x: number; y: number; }; data: { value: number; }; }
+
 const findNodeItem = (id : string) =>{
     for(const i of allNode) {
         for(const j of i)

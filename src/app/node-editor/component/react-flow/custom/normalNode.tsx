@@ -1,5 +1,4 @@
 import { Position } from 'reactflow';
-import '@/app/node-editor/css/component/react-flow/custom-nodes/TextUpdaterNode.scss';
 import CustomHandle from '@/app/node-editor/component/react-flow/custom/CustomHandle';
 import NodeBoundary from '@/app/node-editor/component/node/nodeBoundary';
 

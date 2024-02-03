@@ -5,32 +5,29 @@ import ReactFlow,
   applyNodeChanges,
   Controls,
   MiniMap,
-  ConnectionMode,
+  // ConnectionMode,
   NodeChange,
-  ReactFlowInstance
+  ReactFlowInstance,
+  getOutgoers,
+  useNodesState,
+  useEdgesState 
 } from 'reactflow';
 import 'reactflow/dist/style.css';
-import {TextUpdaterNode, NodeDataType} from '@/app/node-editor/component/react-flow/custom/TextUpdaterNode';
-import { customNodeTypes, getNodeSize } from './custom/nodeTypes';
+import { customNodeTypes, getNodeSize, NodeDataType } from '@/app/node-editor/component/react-flow/custom/nodeTypes';
+import CustomEdge from '@/app/node-editor/component/react-flow/custom/CustomEdge';
 import { v4 as uuid } from "uuid";
 import { Size } from '@/app/node-editor/config/layoutFrame';
-
-const selector = (s : any) => ({
-  nodeInternals: s.nodeInternals,
-  edges: s.edges,
-});
-
 
 const rfStyle = { backgroundColor: '#FFFFFF' };
 
 const initialNodes : NodeDataType[] = [
   { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: { value: 123 } },
-  { id: uuid(), type: 'Kind1', position: { x: 150, y: 100 }, data: { value: 123 } },
+  { id: uuid(), type: 'Kind1', position: { x: 50, y: 100 }, data: { value: 123 } },
 ];
 
-// we define the nodeTypes outside of the component to prevent re-renderings
-// you could also use useMemo inside the component
-const nodeTypes = { textUpdater: TextUpdaterNode };
+const edgeTypes = {
+  'custom-edge': CustomEdge,
+};
 
 export default function ReactFlowApp() {
   const [nodes, setNodes] = useState(initialNodes);
@@ -45,10 +42,6 @@ export default function ReactFlowApp() {
     (changes : any) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     [setEdges]);
 
-  const onConnect = useCallback(
-    (connection : any) => setEdges((eds) => addEdge(connection, eds)),
-    [setEdges]);
-
   const onDragOver = useCallback((event : any) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = 'move';
@@ -61,8 +54,7 @@ export default function ReactFlowApp() {
       const type = event.dataTransfer.getData('application/reactflow');
 
       // check if the dropped element is valid
-      if (typeof type === 'undefined' || !type || !reactFlowInstance)
-        return;
+      if (typeof type === 'undefined' || !type || !reactFlowInstance) return;
 
       const s : Size = getNodeSize(type);
       const p = reactFlowInstance.screenToFlowPosition({
@@ -75,15 +67,50 @@ export default function ReactFlowApp() {
     [reactFlowInstance],
   );
 
-  const isValidConnection = (connection) => {
-    console.log(`[isValidConnection] ${connection.target}, ${connection.source}, ${connection.target},${connection.sourceHandle},${connection.targetHandle}`);
-    if(connection.target === connection.source)
-      return false;
-    return true;
-  }
-  const onConnectStart = (_, { nodeId, handleType }) =>
-    console.log('on connect start', { nodeId, handleType });
+  const isValidConnection = useCallback(
+    (connection : any) => {
+      // we are using getNodes and getEdges helpers here
+      // to make sure we create isValidConnection function only once
+      
+      if(!reactFlowInstance) return false;
+      const nodes = reactFlowInstance.getNodes();
+      const edges = reactFlowInstance.getEdges();
+      const target = nodes.find((node) => node.id === connection.target);
+
+      console.log(`[source] ${connection.source}, [target] ${connection.target}`);
+
+      if(typeof target === 'undefined')
+        return false;      
+
+      const hasCycle = (node : any, visited = new Set()) => {
+        if (visited.has(node.id)) return false;
+
+        visited.add(node.id);
+
+        for (const outgoer of getOutgoers(node, nodes, edges)) {
+          console.log(`outgoer.id : ${outgoer.id}`);
+          if (outgoer.id === connection.source) return true;
+          if (hasCycle(outgoer, visited)) return true;
+        }
+      }
+
+      if (target.id === connection.source) return false;
+      return !hasCycle(target);
+    },
+    [reactFlowInstance],
+  );
+  const onConnectStart = (_, { nodeId, handleType }) => console.log('on connect start', { nodeId, handleType });
   const onConnectEnd = (event) => console.log('on connect end', event);
+  const onConnect = useCallback(
+    (connection : any) => {
+      const edge = { ...connection, type: 'custom-edge' };
+      setEdges((eds) => addEdge(edge, eds));
+    },
+    [setEdges],
+  );
+  // const onConnect = useCallback(
+  //   (connection : any) => setEdges((eds) => addEdge(connection, eds)),
+  // [setEdges]);
 
   return (
     <ReactFlow
@@ -94,7 +121,8 @@ export default function ReactFlowApp() {
       onConnect={onConnect}
       onInit={setReactFlowInstance}
       nodeTypes={customNodeTypes}
-      connectionMode={ConnectionMode.Loose}
+      edgeTypes={edgeTypes}
+      // connectionMode={ConnectionMode.Loose}
       onDrop={onDrop}
       onDragOver={onDragOver}
       style={rfStyle}
@@ -102,7 +130,7 @@ export default function ReactFlowApp() {
       onConnectStart={onConnectStart}
       onConnectEnd={onConnectEnd}
     >
-      <Controls/>
+      <Controls position='top-right'/>
       <MiniMap/>
     </ReactFlow>
   );
