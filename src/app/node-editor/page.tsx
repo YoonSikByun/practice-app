@@ -34,7 +34,7 @@ export default function Page() {
 
   //하단시트(패널)와 우측 패널 보임/숨김 상태 변경 렌터링 하긴 위한 useState
   const [sidePropertyVisible, setSidePropertyVisible] = useState<boolean>(true);
-  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(true);
+  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false);
 
   const getRefRect = (ref : any) => {
     const r : Rect = ref.current?.getBoundingClientRect() as Rect;
