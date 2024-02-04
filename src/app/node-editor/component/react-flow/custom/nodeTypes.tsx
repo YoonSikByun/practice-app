@@ -1,5 +1,5 @@
 import { allNode, nullNode } from "@/app/node-editor/config/node";
-import { NormalNode } from "./normalNode";
+import { CustomNode } from "./CustomNode";
 
 const findNodeItem = (id : string) =>{
     for(const i of allNode) {
@@ -37,9 +37,9 @@ export const getNodeData = (id : string) => {
 };
 
 export const customNodeTypes = {
-    Kind0: NormalNode,
-    Kind1: NormalNode,
-    Kind2: NormalNode
+    Kind0: CustomNode,
+    Kind1: CustomNode,
+    Kind2: CustomNode
 }
 
 // export const customNodeTypes = {

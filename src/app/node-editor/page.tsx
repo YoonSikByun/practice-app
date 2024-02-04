@@ -2,7 +2,7 @@
 
 import '@/app/node-editor/css/layout.scss';
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import {registMouseEvent, inRange} from "@/app/node-editor/util/moudeMove";
 
 import ReactFlowApp from "@/app/node-editor/component/react-flow/reactflow"
@@ -45,8 +45,19 @@ export default function Page() {
     setMaxBottomSheetHeight(getRefRect(rectFlowRef).height * 0.8);
   }, []);
 
+  // 패널들 보여짐 상태 변경 렌더링 위해
   const closeBottomSheet = () => (setPanelVisible((prev : PanelVisible) => ({...prev, bottomSheet: false})));
   const closeSideProperty = () => (setPanelVisible((prev : PanelVisible) => ({...prev, sideProperty: false})));
+
+  const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
+  const [selectedEdges, setSelectedEdges] = useState<string[]>([]);
+  
+  const callBackReactFlowChanges = useCallback((nodes : string[], edges : string[]) => {
+    setSelectedNodes(nodes);
+    setSelectedEdges(edges);
+    console.log(`----- Selected nodes: ${nodes.join(', ')}`);
+    console.log(`----- Selected edges: ${edges.join(', ')}`);
+  }, [setSelectedNodes, setSelectedEdges]);
 
   return (
   <div className="node-editor">
@@ -71,7 +82,7 @@ export default function Page() {
         style={{left: calcStyle.leftMargin(),
          height: calcStyle.reactFlowHeight(),
          width: calcStyle.reactFlowWidth()}}>
-        <ReactFlowApp/>
+        <ReactFlowApp callBackReactFlowChanges={callBackReactFlowChanges}/>
       </Boundary>
       <Boundary
         className={clsx('sidebar-property',

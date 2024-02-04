@@ -4,8 +4,7 @@ import {
   EdgeLabelRenderer,
   EdgeProps,
   getSmoothStepPath,
-  useReactFlow,
-  MarkerType
+  useReactFlow
 } from 'reactflow';
 import '@/app/node-editor/css/component/react-flow/custom/buttonedge.scss';
 
@@ -55,15 +54,14 @@ export default function CustomEdge({
   const onEdgeClick = () => {
     setEdges((edges) => edges.filter((edge) => edge.id !== id));
   };
-  
+
   return (
     <>
       <BaseEdge 
       style={{...style, strokeWidth: 2.5}}
-      path={edgePath} markerEnd={"url(type=MarkerType.ArrowClosed)"}/>
+      path={edgePath} markerEnd={markerEnd}/>
       <EdgeLabelRenderer>
         <DeleteButton x={labelX} y={labelY} onEdgeClick={onEdgeClick}/>
-        {/* <DeleteButton x={targetX} y={targetY-15} onEdgeClick={onEdgeClick}/> */}
       </EdgeLabelRenderer>
     </>
   );

@@ -4,21 +4,24 @@ import NodeBoundary from '@/app/node-editor/component/node/nodeBoundary';
 import {NoramlNodeData} from '@/app/node-editor/component/react-flow/custom/nodeTypes';
 import clsx from 'clsx';
 
-export function NormalNode(
+export function CustomNode(
   {
+    id,
+    type,
     data,
     selected
   } : {
+    id : string,
+    type : string,
     data : NoramlNodeData,
     selected : boolean
   }
 ) {
+  console.log(` selected Node : ${type} - ${id}`);
   return (
     <>
-      <CustomHandle type='target' position={Position.Top} id='Top' isConnectable={2}/>
-      <CustomHandle type='target' position={Position.Left} id='Left' isConnectable={2}/>
-      <CustomHandle type='source' position={Position.Right} id='Right' isConnectable={2}/>
-      <CustomHandle type='source' position={Position.Bottom} id='Bottom' isConnectable={2}/>
+      <CustomHandle type='target' position={Position.Left} id='left' isConnectable={2}/>
+      <CustomHandle type='source' position={Position.Right} id='right' isConnectable={2}/>
       <NodeBoundary
         width={data?.width ?? 0}
         height={data?.height ?? 0}
