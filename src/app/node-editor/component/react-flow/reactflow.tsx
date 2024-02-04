@@ -32,9 +32,9 @@ const edgeTypes = { 'custom-edge': CustomEdge};
 
 export default function ReactFlowApp(
   {
-    callBackReactFlowChanges
+    callBackReactFlowSelectionChanges
   } : {
-    callBackReactFlowChanges : (nodes : string[], edges : string[]) => void
+    callBackReactFlowSelectionChanges : (nodes : string[], edges : string[]) => void
   }
 ) {
   const [nodes, setNodes] = useState<any[]>(initialNodes);
@@ -156,7 +156,7 @@ export default function ReactFlowApp(
         <Controls position='top-right'/>
         <MiniMap/>
         <Background variant={bgGuideType[bgGuideTypeIdx] as BackgroundVariant}/>
-        <CallBackSelectedNodesEdges callBackReactFlowChanges={callBackReactFlowChanges}/>
+        <CallBackSelectedNodesEdges callBackReactFlowSelectionChanges={callBackReactFlowSelectionChanges}/>
       </ReactFlow>
     </ReactFlowProvider>
   );

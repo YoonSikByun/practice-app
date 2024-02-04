@@ -53,7 +53,7 @@ export default function Page() {
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const [selectedEdges, setSelectedEdges] = useState<string[]>([]);
   
-  const callBackReactFlowChanges = useCallback((nodes : string[], edges : string[]) => {
+  const callBackReactFlowSelectionChanges = useCallback((nodes : string[], edges : string[]) => {
     setSelectedNodes(nodes);
     setSelectedEdges(edges);
     console.log(`----- Selected nodes: ${nodes.join(', ')}`);
@@ -84,7 +84,7 @@ export default function Page() {
         style={{left: calcStyle.leftMargin(),
          height: calcStyle.reactFlowHeight(),
          width: calcStyle.reactFlowWidth()}}>
-        <ReactFlowApp callBackReactFlowChanges={callBackReactFlowChanges}/>
+        <ReactFlowApp callBackReactFlowSelectionChanges={callBackReactFlowSelectionChanges}/>
       </Boundary>
       <Boundary
         className={clsx('sidebar-property',

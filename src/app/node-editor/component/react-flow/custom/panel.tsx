@@ -6,9 +6,9 @@ import { useOnSelectionChange } from 'reactflow';
 
 export function CallBackSelectedNodesEdges(
   {
-    callBackReactFlowChanges
+    callBackReactFlowSelectionChanges
   } : {
-    callBackReactFlowChanges : (nodes : string[], edges : string[]) => void
+    callBackReactFlowSelectionChanges : (nodes : string[], edges : string[]) => void
   }
 ) {
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
@@ -21,7 +21,7 @@ export function CallBackSelectedNodesEdges(
     },
   });
   
-  callBackReactFlowChanges(selectedNodes, selectedEdges);
+  callBackReactFlowSelectionChanges(selectedNodes, selectedEdges);
 
 
  return <div className="invisible"/>;
