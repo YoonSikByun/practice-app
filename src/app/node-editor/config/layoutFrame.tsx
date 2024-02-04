@@ -37,8 +37,3 @@ export const layoutSize : LayoutSize = {
     accordionContainer : {width: 285, height: 0},
     minBottomSheet : {width: 0, height: 300}
 }
-
-export type PanelVisible = {
-    bottomSheet: boolean;
-    sideProperty: boolean;
-}

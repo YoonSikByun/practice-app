@@ -10,9 +10,11 @@ import Boundary from '@/app/node-editor/component/boundary';
 import VerticalTabMenu from "@/app/node-editor/component/menu/verticalTabmenu";
 import Accordion from '@/app/node-editor/component/menu/accordion';
 import {verticalTablMenuItems, accordionPanelItems} from '@/app/node-editor/config/menu'
-import {layoutSize, PanelVisible, Rect} from '@/app/node-editor/config/layoutFrame'
+import {layoutSize, Rect} from '@/app/node-editor/config/layoutFrame'
 import {calcStyle} from '@/app/node-editor/util/calcStyleRegion';
 import clsx from 'clsx';
+import BottomSheet from "@/app/node-editor/component/bottomSheet/BottomSheet";
+
 
 export default function Page() {
 
@@ -31,7 +33,8 @@ export default function Page() {
   const [tabVisible, setVTabVisible] = useState<boolean[]>(Array(verticalTablMenuItems.length).fill(false));
 
   //하단시트(패널)와 우측 패널 보임/숨김 상태 변경 렌터링 하긴 위한 useState
-  const [panelVisible, setPanelVisible] = useState<PanelVisible>({bottomSheet: true, sideProperty: true});
+  const [sidePropertyVisible, setSidePropertyVisible] = useState<boolean>(true);
+  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(true);
 
   const getRefRect = (ref : any) => {
     const r : Rect = ref.current?.getBoundingClientRect() as Rect;
@@ -46,9 +49,7 @@ export default function Page() {
   }, []);
 
   // 패널들 보여짐 상태 변경 렌더링 위해
-  const closeBottomSheet = () => (setPanelVisible((prev : PanelVisible) => ({...prev, bottomSheet: false})));
-  const closeSideProperty = () => (setPanelVisible((prev : PanelVisible) => ({...prev, sideProperty: false})));
-
+  
   const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
   const [selectedEdges, setSelectedEdges] = useState<string[]>([]);
   
@@ -57,6 +58,7 @@ export default function Page() {
     setSelectedEdges(edges);
     console.log(`----- Selected nodes: ${nodes.join(', ')}`);
     console.log(`----- Selected edges: ${edges.join(', ')}`);
+    setBottomSheetVisible(nodes.length === 1);
   }, [setSelectedNodes, setSelectedEdges]);
 
   return (
@@ -86,21 +88,21 @@ export default function Page() {
       </Boundary>
       <Boundary
         className={clsx('sidebar-property',
-          {'invisible' : !panelVisible['sideProperty']})}
+          {'invisible' : !sidePropertyVisible})}
         style={{top: calcStyle.topMargin(),
           left: calcStyle.sidePropertyLeftMargin(),
           height: calcStyle.sidePropertyHeight(),
           width: calcStyle.sidePropertyWidth()}}
       >
-        <p>Side property</p><button className={clsx('border-solid border-2 border-indigo-600')} onClick={closeSideProperty}>Close X</button>
+        <p>Side property</p><button className={clsx('border-solid border-2 border-indigo-600')} onClick={()=>setSidePropertyVisible(false)}>Close X</button>
       </Boundary>
       <Boundary className={clsx('bottom-sheet',
-        {'invisible' : !panelVisible['bottomSheet']} )}
+        {'invisible' : !bottomSheetVisible} )}
         style={{
           top: calcStyle.bottomSheetCurTopMargin(curBottomSheetHeight),
           left: calcStyle.bottomSheetCurLeftMargin(tabVisible),
           height: calcStyle.bottomSheetCurHeight(curBottomSheetHeight),
-          width: calcStyle.bottomSheetCurWidth(tabVisible, panelVisible['sideProperty'])}}
+          width: calcStyle.bottomSheetCurWidth(tabVisible, sidePropertyVisible)}}
         ref={bottomRef}
       >
         <Boundary className="resize-bar"
@@ -111,7 +113,10 @@ export default function Page() {
             setCurBottomSheetHeight(size);
           })}
         />
-          <p>Bottom</p><button className={clsx('border-solid border-2 border-indigo-600')} onClick={closeBottomSheet}>Close X</button>
+        {/* <BottomSheet
+        selectedNodes={selectedNodes}
+        showBottomSheet={showBottomSheet} /> */}
+          <p>Bottom</p><button className={clsx('border-solid border-2 border-indigo-600')} onClick={() => setBottomSheetVisible(false)}>Close X</button>
       </Boundary>
     </Boundary>
   </div>

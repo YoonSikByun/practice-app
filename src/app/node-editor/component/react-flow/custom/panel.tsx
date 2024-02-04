@@ -23,6 +23,7 @@ export function CallBackSelectedNodesEdges(
   
   callBackReactFlowChanges(selectedNodes, selectedEdges);
 
+
  return <div className="invisible"/>;
 }
 
