@@ -1,11 +1,13 @@
+import { useCallback, useEffect, useState } from 'react';
 import { Position, useReactFlow } from 'reactflow';
 import CustomHandle from '@/app/node-editor/component/react-flow/custom/CustomHandle';
 import NodeBoundary from '@/app/node-editor/component/node/nodeBoundary';
 import {NoramlNodeData} from '@/app/node-editor/component/react-flow/custom/nodeTypes';
 import clsx from 'clsx';
 import '@/app/node-editor/css/component/react-flow/custom/CustomNode.scss';
-
 import { TrashIcon, PlayIcon } from '@heroicons/react/24/solid';
+import { getNodeSize } from '@/app/node-editor/component/react-flow/custom/nodeTypes';
+import { showOffNodeOptBtnCallBack } from './panel';
 
 function OptionButtons({
   id
@@ -15,21 +17,38 @@ function OptionButtons({
   const { setNodes } = useReactFlow();
 
   const onDelNodeClick = () => {
-    setNodes((nodes) => nodes.filter((nodes) => nodes.id !== id));
+    setNodes((nodes) => nodes.filter((nodes) => {
+      if(nodes.id !== id)
+        return true;
+
+      showOffNodeOptBtnCallBack.delete(id);
+
+      return false;
+    }));
   };
 
   return (
-    <button className='node-option-button' onClick={onDelNodeClick}><TrashIcon/></button>
+    <div className={clsx('invisible group-hover:visible',
+                'w-full h-[40px] absolute top-[-42px] left-[0px]'
+              )}
+    >
+      <button className='node-option-button' onClick={onDelNodeClick}><TrashIcon/></button>
+    </div>
   )
 }
 
 function OperationButtons({
-  id
+  id,
+  type
 } : {
-  id : string
+  id : string,
+  type : string
 }) {
+  const nodeSize = getNodeSize(type);
   return (
-    <button className='node-option-button' onClick={()=>alert(`Play a node[${id}]`)}><PlayIcon/></button>
+    <div className={clsx(`w-full h-full absolute top-[${nodeSize.height-10}px] left-[0px]`)}>
+      <button className='node-option-button' onClick={()=>alert(`Play a node[${id}]`)}><PlayIcon/></button>
+    </div>
   )
 }
 
@@ -46,7 +65,9 @@ export function CustomNode(
     selected : boolean
   }
 ) {
-  console.log(` selected Node : ${type} - ${id}`);
+  const [showOptButtons, setShowOptButtons] = useState(false);
+  useEffect(() => showOffNodeOptBtnCallBack.push(id, setShowOptButtons), [id, setShowOptButtons]);
+
   return (
     <div className='group'>
       <CustomHandle type='target' position={Position.Left} id='left' isConnectable={2}/>
@@ -62,20 +83,9 @@ export function CustomNode(
         Icon={data?.icon}
         isDraggable={false}
       >
-          <div className={clsx('invisible group-hover:visible',
-                'w-full h-[40px] absolute top-[-42px] left-[0px]'
-              )}
-          >
-            <OptionButtons id={id}/>
-          </div>
-
-          {selected &&
-            <div className={clsx('w-full h-[40px] absolute top-[45px] left-[0px]')}
-            >
-              <OperationButtons id={id}/>
-            </div>
-          }
-        </NodeBoundary>
+        <OptionButtons id={id}/>
+        {(showOptButtons) && <OperationButtons id={id} type={type}/>}
+      </NodeBoundary>
     </div>
   );
 }

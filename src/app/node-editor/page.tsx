@@ -15,7 +15,6 @@ import {calcStyle} from '@/app/node-editor/util/calcStyleRegion';
 import clsx from 'clsx';
 import BottomSheet from "@/app/node-editor/component/bottomSheet/BottomSheet";
 
-
 export default function Page() {
 
   // div dom 현재 크기를 구하기 위한 ref를 생성한다.
@@ -34,7 +33,7 @@ export default function Page() {
 
   //하단시트(패널)와 우측 패널 보임/숨김 상태 변경 렌터링 하긴 위한 useState
   const [sidePropertyVisible, setSidePropertyVisible] = useState<boolean>(true);
-  const [bottomSheetVisible, setBottomSheetVisible] = useState<boolean>(false);
+  const [bottomsheetNodeId, setBottomsheetNodeId] = useState<string>('');
 
   const getRefRect = (ref : any) => {
     const r : Rect = ref.current?.getBoundingClientRect() as Rect;
@@ -47,17 +46,6 @@ export default function Page() {
     //하단시크 최대 높이는 ReactFlow 영역 80%까지로 제한
     setMaxBottomSheetHeight(getRefRect(rectFlowRef).height * 0.8);
   }, []);
-
-  // 패널들 보여짐 상태 변경 렌더링 위해
-  
-  const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
-  const [selectedEdges, setSelectedEdges] = useState<string[]>([]);
-  
-  const callBackReactFlowSelectionChanges = useCallback((nodes : string[], edges : string[]) => {
-    setSelectedNodes(nodes);
-    setSelectedEdges(edges);
-    setBottomSheetVisible(nodes.length === 1);
-  }, [setSelectedNodes, setSelectedEdges]);
 
   return (
   <div className="node-editor">
@@ -82,7 +70,7 @@ export default function Page() {
         style={{left: calcStyle.leftMargin(),
          height: calcStyle.reactFlowHeight(),
          width: calcStyle.reactFlowWidth()}}>
-        <ReactFlowApp callBackReactFlowSelectionChanges={callBackReactFlowSelectionChanges}/>
+        <ReactFlowApp setBottomsheetNodeId={setBottomsheetNodeId}/>
       </Boundary>
       <Boundary
         className={clsx('sidebar-property',
@@ -95,7 +83,7 @@ export default function Page() {
         <p>Side property</p><button className={clsx('border-solid border-2 border-indigo-600')} onClick={()=>setSidePropertyVisible(false)}>Close X</button>
       </Boundary>
       <Boundary className={clsx('bottom-sheet',
-        {'invisible' : !bottomSheetVisible} )}
+        {'invisible' : bottomsheetNodeId === ''} )}
         style={{
           top: calcStyle.bottomSheetCurTopMargin(curBottomSheetHeight),
           left: calcStyle.bottomSheetCurLeftMargin(tabVisible),
@@ -114,10 +102,10 @@ export default function Page() {
         <p>Bottom</p>
         <button
           className={clsx('border-solid border-2 border-indigo-600')}
-          onClick={() => setBottomSheetVisible(false)}>
+          onClick={() => setBottomsheetNodeId('')}>
           Close X
         </button>
-        <BottomSheet selectedNodes={selectedNodes} />
+        <BottomSheet selectedNodes={bottomsheetNodeId} />
       </Boundary>
     </Boundary>
   </div>

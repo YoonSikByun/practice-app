@@ -1,8 +1,44 @@
 import { BackgroundVariant } from "reactflow";
 import clsx from "clsx";
-
 import { useState } from 'react';
 import { useOnSelectionChange } from 'reactflow';
+
+class StateCallbackManager {
+    prevSelectedNodeId: string = '';
+    nodesCallbackFuncs: { [key: string]: (show : boolean) => void } = {};
+    setBottomsheetNodeIdCallbackFunc: any = null;
+
+    setBottomSheetStateCallback(setBottomsheetNodeId : (v : string ) => void) {
+        this.setBottomsheetNodeIdCallbackFunc = setBottomsheetNodeId;
+    }
+
+    callBottomSheetStateCallback(nodeId : string) {
+        if(!this.setBottomsheetNodeIdCallbackFunc) return;
+        this.setBottomsheetNodeIdCallbackFunc(nodeId);
+    }
+
+    push(key : string, callBackFunc : any) {
+        console.log(`push key : ${key}`);
+        this.nodesCallbackFuncs[key] = callBackFunc;
+    }
+    delete(key : string) {
+        console.log(`delete key : ${key}`);
+        if(this.nodesCallbackFuncs.hasOwnProperty(key))
+        {
+            delete this.nodesCallbackFuncs[key];
+            console.log(`delete key : ${key}`);
+        }
+    }
+    callStateCallback(key : string, value : any) {
+        console.log(`callStateCallback key : ${key}`);
+        if(!this.nodesCallbackFuncs.hasOwnProperty(key))
+            return;
+        this.prevSelectedNodeId = key;
+        this.nodesCallbackFuncs[key](value);
+    }
+}
+
+export const showOffNodeOptBtnCallBack = new StateCallbackManager();
 
 export function CallBackSelectedNodesEdges(
   {
@@ -20,9 +56,8 @@ export function CallBackSelectedNodesEdges(
       setSelectedEdges(edges.map((edge) => edge.id));
     },
   });
-  
-  callBackReactFlowSelectionChanges(selectedNodes, selectedEdges);
 
+  callBackReactFlowSelectionChanges(selectedNodes, selectedEdges);
 
  return <div className="invisible"/>;
 }

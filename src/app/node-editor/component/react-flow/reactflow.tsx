@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import ReactFlow, 
 {
   addEdge,
@@ -20,8 +20,9 @@ import { customNodeTypes, getNodeSize, getNodeData, NodeDataType } from '@/app/n
 import CustomEdge from '@/app/node-editor/component/react-flow/custom/CustomEdge';
 import { v4 as uuid } from "uuid";
 import { Size } from '@/app/node-editor/config/layoutFrame';
-import { bgGuideType, RadioBox, CallBackSelectedNodesEdges } from './custom/panel';
+import { bgGuideType, RadioBox } from './custom/panel';
 import '@/app/node-editor/css/component/react-flow/reactflow.scss'
+import { showOffNodeOptBtnCallBack } from './custom/panel';
 
 const rfStyle = { fontSize: 2, color: 'white', backgroundColor: '#FFFFFF' };
 
@@ -33,9 +34,9 @@ const edgeTypes = { 'custom-edge': CustomEdge};
 
 export default function ReactFlowApp(
   {
-    callBackReactFlowSelectionChanges
+    setBottomsheetNodeId
   } : {
-    callBackReactFlowSelectionChanges : (nodes : string[], edges : string[]) => void
+    setBottomsheetNodeId : (nodeId : string) => void
   }
 ) {
   const [nodes, setNodes] = useState<any[]>(initialNodes);
@@ -43,6 +44,8 @@ export default function ReactFlowApp(
   const [edges, setEdges] = useState<any[]>([]);
   const [bgGuideTypeIdx, setBgGuideTypeIdx] = useState(0);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<any, any>>();
+  
+  useEffect(() => showOffNodeOptBtnCallBack.setBottomSheetStateCallback(setBottomsheetNodeId), [setBottomsheetNodeId]);
 
   const onNodesChange = useCallback(
     (changes : NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -57,6 +60,7 @@ export default function ReactFlowApp(
     event.dataTransfer.dropEffect = 'move';
   }, []);
 
+  // 새로운 노드를 생성한다.
   const onDrop = useCallback(
     (event : any) => {
       event.preventDefault();
@@ -131,6 +135,38 @@ export default function ReactFlowApp(
     [setEdges],
   );
 
+  //노드 선택에 따라 하단시트와 노드 조작 버튼 보이기/숨기기 한다.
+  const onSelectionChange = (elements: any) => {
+    console.log(`Selection changed : nodes - ${elements['nodes'].length}, edges - ${elements['edges'].length}`);
+    if(elements['nodes'].length !== 1) {
+      //버튼 조작 버튼을 숨긴다.
+      showOffNodeOptBtnCallBack.callStateCallback(showOffNodeOptBtnCallBack.prevSelectedNodeId, false);
+      showOffNodeOptBtnCallBack.prevSelectedNodeId = '';
+      //하단시트 숨긴다.
+      showOffNodeOptBtnCallBack.callBottomSheetStateCallback('');
+      return;
+    }
+    if(showOffNodeOptBtnCallBack.prevSelectedNodeId === elements['nodes'][0].id)
+      return;
+    //이전 선택된 노드 버튼 조작 버튼 숨긴다.
+    showOffNodeOptBtnCallBack.callStateCallback(showOffNodeOptBtnCallBack.prevSelectedNodeId, false);
+    //현재 선택된 버튼 조작 버튼을 보이기 한다.
+    showOffNodeOptBtnCallBack.callStateCallback(elements['nodes'][0].id, true);
+    //하단시트 보기이 한다.
+    showOffNodeOptBtnCallBack.callBottomSheetStateCallback(elements['nodes'][0].id);
+
+    showOffNodeOptBtnCallBack.prevSelectedNodeId = elements['nodes'][0].id;
+  };
+
+  const onNodesDelete = useCallback(
+    (deleted : any) => {
+      deleted.map((node : any) => {
+        console.log(`Delete node : ${node.id} -----`);
+        showOffNodeOptBtnCallBack.delete(node.id);
+      });
+    },[]
+  );
+
   return (
     <ReactFlowProvider>
       <ReactFlow
@@ -151,6 +187,8 @@ export default function ReactFlowApp(
         onConnectStart={onConnectStart}
         // onConnectEnd={onConnectEnd}
         snapToGrid={true}
+        onSelectionChange={onSelectionChange}
+        onNodesDelete={onNodesDelete}
       >
         <Panel position="top-left">
           <RadioBox selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
@@ -158,7 +196,6 @@ export default function ReactFlowApp(
         <Controls position='top-right'/>
         <MiniMap/>
         <Background variant={bgGuideType[bgGuideTypeIdx] as BackgroundVariant}/>
-        <CallBackSelectedNodesEdges callBackReactFlowSelectionChanges={callBackReactFlowSelectionChanges}/>
       </ReactFlow>
     </ReactFlowProvider>
   );
