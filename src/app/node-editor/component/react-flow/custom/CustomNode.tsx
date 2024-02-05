@@ -6,10 +6,9 @@ import {NoramlNodeData} from '@/app/node-editor/component/react-flow/custom/node
 import clsx from 'clsx';
 import '@/app/node-editor/css/component/react-flow/custom/CustomNode.scss';
 import { TrashIcon, PlayIcon } from '@heroicons/react/24/solid';
-import { getNodeSize } from '@/app/node-editor/component/react-flow/custom/nodeTypes';
 import { showOffNodeOptBtnCallBack } from './panel';
 
-function OptionButtons({
+function TopButtons({
   id
 } : {
   id : string
@@ -37,16 +36,15 @@ function OptionButtons({
   )
 }
 
-function OperationButtons({
+function BottomButtons({
   id,
   type
 } : {
   id : string,
   type : string
 }) {
-  const nodeSize = getNodeSize(type);
   return (
-    <div className={clsx(`w-full h-full absolute top-[${nodeSize.height-10}px] left-[0px]`)}>
+    <div className={clsx('h-[20px] w-[20px] absolute top-[45px] left-[0px]')}>
       <button className='node-option-button' onClick={()=>alert(`Play a node[${id}]`)}><PlayIcon/></button>
     </div>
   )
@@ -83,8 +81,8 @@ export function CustomNode(
         Icon={data?.icon}
         isDraggable={false}
       >
-        <OptionButtons id={id}/>
-        {(showOptButtons) && <OperationButtons id={id} type={type}/>}
+        <TopButtons id={id}/>
+        {(showOptButtons) && <BottomButtons id={id} type={type}/>}
       </NodeBoundary>
     </div>
   );
