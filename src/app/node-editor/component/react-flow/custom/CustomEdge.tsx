@@ -6,7 +6,7 @@ import {
   getSmoothStepPath,
   useReactFlow
 } from 'reactflow';
-import '@/app/node-editor/css/component/react-flow/custom/buttonedge.scss';
+import '@/app/node-editor/css/component/react-flow/custom/CustomEdge.scss';
 
 function DeleteButton(
     {x, y, onEdgeClick} :

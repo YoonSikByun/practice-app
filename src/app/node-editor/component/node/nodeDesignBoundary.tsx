@@ -20,6 +20,8 @@ export default function NodeDesignBoundary(    {
         nodeKind={nodeKind}
         className={className}
         Icon={Icon}
-        isDraggable={true}/>
+        isDraggable={true}>
+            <div></div>
+        </NodeBoundary>
     )
 }

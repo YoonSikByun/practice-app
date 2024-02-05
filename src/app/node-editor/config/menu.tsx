@@ -1,4 +1,4 @@
-import { blueprintNodes, chartNodes, NodeItem } from "@/app/node-editor/config/node";
+import { blueprintNodes, chartNodes, dataNodes } from "@/app/node-editor/config/node";
 import NodeContainer from "@/app/node-editor/component/node/nodeContainer";
 
 export type VerticalTabMenuItem = {
@@ -19,4 +19,5 @@ export const verticalTablMenuItems : VerticalTabMenuItem[] = [
 //아코디언 메뉴 구성 설정
 export const accordionPanelItems : AccordionPanelItem[] = [
     {title : '노드종류1', component : () => (<NodeContainer nodeItems={blueprintNodes}/>)},
-    {title : '노드종류2', component : () => (<NodeContainer nodeItems={chartNodes}/>)}]
+    {title : '노드종류2', component : () => (<NodeContainer nodeItems={chartNodes}/>)},
+    {title : '노드종류3', component : () => (<NodeContainer nodeItems={dataNodes}/>)}]

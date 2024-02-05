@@ -56,8 +56,6 @@ export default function Page() {
   const callBackReactFlowSelectionChanges = useCallback((nodes : string[], edges : string[]) => {
     setSelectedNodes(nodes);
     setSelectedEdges(edges);
-    console.log(`----- Selected nodes: ${nodes.join(', ')}`);
-    console.log(`----- Selected edges: ${edges.join(', ')}`);
     setBottomSheetVisible(nodes.length === 1);
   }, [setSelectedNodes, setSelectedEdges]);
 

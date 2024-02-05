@@ -8,14 +8,16 @@ const NodeBoundary = (
         nodeKind,
         className,
         Icon,
-        isDraggable = false
+        isDraggable = false,
+        children,
     } : {
         width : number,
         height : number,
         nodeKind : string,
         className : string,
         Icon : any,
-        isDraggable : boolean
+        isDraggable : boolean,
+        children : React.ReactNode
     }
 ) => {
     const onDragStart = (event : any, nodeType : string) => {
@@ -30,6 +32,7 @@ const NodeBoundary = (
         <div className='relative flex top-[11px] left-[3px] px-[4px]'>
             {Icon ? <Icon className={clsx("relative m-[3px] h-5 w-5 text-gray-700")} /> : null}
             <p>{nodeKind}</p>
+            <div>{children}</div>
         </div>
     </div>);
 }

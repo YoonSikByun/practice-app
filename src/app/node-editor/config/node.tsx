@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { DocumentTextIcon, Squares2X2Icon } from '@heroicons/react/24/solid'
+import { DocumentTextIcon, PencilSquareIcon, Squares2X2Icon } from '@heroicons/react/24/solid'
 
 export type NodeSize = {
     width: number;
@@ -17,8 +17,9 @@ export type NodeItem = {
 };
 
 const nodeIcon = {
-    Kind0: Squares2X2Icon,
-    Kind1: DocumentTextIcon
+    Kind0: PencilSquareIcon,
+    Kind1: DocumentTextIcon,
+    Kind2: Squares2X2Icon
 };
 
 //기본 노드 디자인
@@ -75,4 +76,20 @@ export const chartNodes : NodeItem[] = [
     {id: 'Kind35', nodeKind: 'Kind35', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind1']}
 ];
 
-export const allNode = [blueprintNodes, chartNodes];
+//좌측 아코디언 메뉴 패널에 표시될 항목들
+export const dataNodes : NodeItem[] = [
+    {id: 'Kind36', nodeKind: 'Kind36', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind37', nodeKind: 'Kind37', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind38', nodeKind: 'Kind38', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind39', nodeKind: 'Kind39', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind40', nodeKind: 'Kind40', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind41', nodeKind: 'Kind41', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind42', nodeKind: 'Kind42', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind43', nodeKind: 'Kind43', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind44', nodeKind: 'Kind44', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind45', nodeKind: 'Kind45', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind46', nodeKind: 'Kind46', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']},
+    {id: 'Kind47', nodeKind: 'Kind47', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind2']}
+];
+
+export const allNode = [blueprintNodes, chartNodes, dataNodes];
