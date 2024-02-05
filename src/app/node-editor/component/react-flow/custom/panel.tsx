@@ -46,7 +46,8 @@ function ItemBox(
     return (
         <button
          onClick={() => {setIndexState(thisIndex)}} 
-         className={clsx("font-sans text-sm rounded px-[5px]",
+         className={clsx("text-sm rounded px-[5px]",
+         "shadow-md",
          {"bg-slate-100" : selectIndex !== index},
          {"bg-slate-300" : selectIndex === index}) }>
             {children}

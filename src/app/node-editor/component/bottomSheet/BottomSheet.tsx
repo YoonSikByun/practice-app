@@ -1,16 +1,14 @@
 const BottomSheet = (
     {
         selectedNodes,
-        showBottomSheet
     } : {
         selectedNodes : string[],
-        showBottomSheet : (show : boolean) => void
     }
 ) => {
-    showBottomSheet(selectedNodes.length === 1);
+    const nodeId = (selectedNodes.length === 1) ? selectedNodes[0] : '';
     return (
         <div>
-            nodes : {selectedNodes.length}
+            Selected Node ID : {nodeId}
         </div>
     )
 }

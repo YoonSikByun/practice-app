@@ -21,8 +21,9 @@ import CustomEdge from '@/app/node-editor/component/react-flow/custom/CustomEdge
 import { v4 as uuid } from "uuid";
 import { Size } from '@/app/node-editor/config/layoutFrame';
 import { bgGuideType, RadioBox, CallBackSelectedNodesEdges } from './custom/panel';
+import '@/app/node-editor/css/component/react-flow/reactflow.scss'
 
-const rfStyle = { backgroundColor: '#FFFFFF' };
+const rfStyle = { fontSize: 2, color: 'white', backgroundColor: '#FFFFFF' };
 
 const initialNodes = [
   { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: getNodeData('Kind0') },
@@ -133,6 +134,7 @@ export default function ReactFlowApp(
   return (
     <ReactFlowProvider>
       <ReactFlow
+        className='textClear'
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}

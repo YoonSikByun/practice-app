@@ -4,11 +4,13 @@ export default function NodeDesignBoundary(    {
     width,
     height,
     nodeKind,
+    Icon,
     className
 } : {
     width : number,
     height : number,
     nodeKind : string,
+    Icon : any,
     className : string
 }) {
 
@@ -17,6 +19,7 @@ export default function NodeDesignBoundary(    {
         height={height}
         nodeKind={nodeKind}
         className={className}
+        Icon={Icon}
         isDraggable={true}/>
     )
 }

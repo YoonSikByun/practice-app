@@ -27,7 +27,9 @@ export function CustomNode(
         height={data?.height ?? 0}
         nodeKind={data?.nodeKind ?? ''}
         className={clsx(data?.className ?? '', 
-        {'shadow-lg shadow-lime-900 border-[3px]' : selected})}
+        {'shadow-md shadow-gray-500' : !selected},
+        {'shadow-lg shadow-emerald-950 border-[3px]' : selected})}
+        Icon={data?.icon}
         isDraggable={false}/>
     </>
   );

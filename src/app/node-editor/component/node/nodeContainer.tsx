@@ -19,6 +19,7 @@ export default function NodeContainer(
             nodeKind={nodeItem['nodeKind']}
             width={nodeItem['designNodeSize'].width}
             height={nodeItem['runNodeSize'].height}
+            Icon={nodeItem['icon']}
             className={nodeItem['designClassName']}/>))
     }
     </div>

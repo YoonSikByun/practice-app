@@ -20,6 +20,7 @@ export type NoramlNodeData = {
     width? : number;
     height? : number;
     nodeKind? : string;
+    icon? : any;
     className? : string;
 }
 
@@ -32,6 +33,7 @@ export const getNodeData = (id : string) => {
         width: i['runNodeSize'].width,
         height: i['runNodeSize'].height,
         nodeKind: i['nodeKind'],
+        icon: i['icon'],
         className: i['runClassName']
     }
 };

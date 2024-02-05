@@ -113,10 +113,13 @@ export default function Page() {
             setCurBottomSheetHeight(size);
           })}
         />
-        {/* <BottomSheet
-        selectedNodes={selectedNodes}
-        showBottomSheet={showBottomSheet} /> */}
-          <p>Bottom</p><button className={clsx('border-solid border-2 border-indigo-600')} onClick={() => setBottomSheetVisible(false)}>Close X</button>
+        <p>Bottom</p>
+        <button
+          className={clsx('border-solid border-2 border-indigo-600')}
+          onClick={() => setBottomSheetVisible(false)}>
+          Close X
+        </button>
+        <BottomSheet selectedNodes={selectedNodes} />
       </Boundary>
     </Boundary>
   </div>

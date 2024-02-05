@@ -7,12 +7,14 @@ const NodeBoundary = (
         height,
         nodeKind,
         className,
+        Icon,
         isDraggable = false
     } : {
         width : number,
         height : number,
         nodeKind : string,
         className : string,
+        Icon : any,
         isDraggable : boolean
     }
 ) => {
@@ -25,17 +27,10 @@ const NodeBoundary = (
     onDragStart={(event) => onDragStart(event, nodeKind)}
     draggable={isDraggable}
     >
-        {/* 노드 타이틀 */}
-        <div className={
-            clsx('relative w-fit h-fit', 'top-[4px] left-[5px] px-[4px]',
-            'bg-zinc-300 rounded')}>
-            {nodeKind}
+        <div className='relative flex top-[11px] left-[3px] px-[4px]'>
+            {Icon ? <Icon className={clsx("relative m-[3px] h-5 w-5 text-gray-700")} /> : null}
+            <p>{nodeKind}</p>
         </div>
-        {/* 노드 실행/정지버튼 표시 */}
-        <div className={
-            clsx('relative w-fit h-fit', 'top-[0px] left-[100px]',
-            'bg-transparent',
-            'shape-play')}/>
     </div>);
 }
 
