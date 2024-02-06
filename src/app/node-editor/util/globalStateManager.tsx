@@ -2,7 +2,11 @@ class NodeStateCallbackManager {
     prevSelectedNodeId: string = '';
     nodesCallbackFuncs: { [key: string]: (show : boolean) => void } = {};
     setBottomsheetNodeIdFunc: any = null;
+    reStructureEdgesFunc: any = null;
 
+    registerReStructureEdgesCallback(reStructureEdges : any) {
+        this.reStructureEdgesFunc = reStructureEdges;
+    }
     registerSetBottomSheetCallback(setBottomsheetNodeId : (v : string ) => void) {
         this.setBottomsheetNodeIdFunc = setBottomsheetNodeId;
     }
@@ -33,6 +37,10 @@ class NodeStateCallbackManager {
             return;
         this.prevSelectedNodeId = key;
         this.nodesCallbackFuncs[key](value);
+    }
+
+    reStructureEdges(nodes : any) {
+        if(this.reStructureEdgesFunc) this.reStructureEdgesFunc(nodes);
     }
 }
 

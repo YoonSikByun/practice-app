@@ -12,7 +12,9 @@ import ReactFlow,
   NodeChange,
   ReactFlowInstance,
   Panel,
+  getIncomers,
   getOutgoers,
+  getConnectedEdges,
   Background,
   BackgroundVariant,
   MarkerType,
@@ -28,6 +30,7 @@ import { RadioButton } from '@/app/node-editor/component/controls/RadioButton';
 const bgGuideType = ['none', BackgroundVariant.Cross, BackgroundVariant.Dots, BackgroundVariant.Lines];
 
 const rfStyle = { fontSize: 2, color: 'white', backgroundColor: '#FFFFFF' };
+const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 11, height: 11, color: "red" };
 
 const initialNodes = [
   { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: getNodeData('Kind0') },
@@ -124,12 +127,7 @@ export default function ReactFlowApp(
         ...connection,
         id: uuid(),
         type: 'custom-edge',
-        markerEnd: {
-        type: MarkerType.ArrowClosed,
-        width: 11,
-        height: 11,
-        color: "red",
-      }
+        markerEnd: edgeMarkerEnd
     };
       setEdges((eds) => addEdge(edge, eds));
     },
@@ -159,14 +157,36 @@ export default function ReactFlowApp(
     nodeChangeCallBackManager.setPrevNodeId(elements['nodes'][0].id);
   };
 
+  //노드가 삭제되면 라인 재구성 위한 처리 함수
+  const reStructureEdges = useCallback((deleted : any) => {
+      setEdges(
+        deleted.reduce((acc : any, node : any) => {
+          const incomers = getIncomers(node, nodes, edges);
+          const outgoers = getOutgoers(node, nodes, edges);
+          const connectedEdges = getConnectedEdges([node], edges);
+          const remainingEdges = acc.filter((edge : any) => !connectedEdges.includes(edge));
+          const createdEdges = incomers.flatMap(({ id: source }) =>
+            outgoers.map(({ id: target }) => ({id: uuid(), type: 'custom-edge', markerEnd: edgeMarkerEnd, source, target })));
+          return [...remainingEdges, ...createdEdges];
+        }, edges)
+      );
+    }, [setEdges, nodes, edges]
+  );
+
+  //노드가 삭제되면 선도 삭제하기 위해 콜백함수 등록
+  nodeChangeCallBackManager.registerReStructureEdgesCallback(reStructureEdges);
+
   // 노드가 삭제되면 호출되는 이벤트 콜백함수
   const onNodesDelete = useCallback(
     (deleted : any) => {
+      //등록된 노드 이벤트 콜백함수들 삭제한다.
       deleted.map((node : any) => {
         console.log(`Delete node : ${node.id} -----`);
         nodeChangeCallBackManager.deleteSetShowOptButtonsCallback(node.id);
       });
-    },[]
+      //노드가 삭제됨에 따라 라인 재구성
+      reStructureEdges(deleted);
+    }, [reStructureEdges]
   );
 
   return (
