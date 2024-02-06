@@ -67,9 +67,10 @@ export default function Page() {
             <Accordion accordItems={accordionPanelItems} show={tabVisible[0]}/>
       </Boundary>
       <Boundary className="reactFlow-Region" ref={rectFlowRef}
-        style={{left: calcStyle.leftMargin(),
+        style={{left: calcStyle.reactFlowCurLeftMargin(tabVisible),
          height: calcStyle.reactFlowHeight(),
-         width: calcStyle.reactFlowWidth()}}>
+         width: calcStyle.reactFlowCurWidth(tabVisible)}}
+      >
         <ReactFlowApp setBottomsheetNodeId={setBottomsheetNodeId}/>
       </Boundary>
       <Boundary
@@ -80,7 +81,10 @@ export default function Page() {
           height: calcStyle.sidePropertyHeight(),
           width: calcStyle.sidePropertyWidth()}}
       >
-        <p>Side property</p><button className={clsx('border-solid border-2 border-indigo-600')} onClick={()=>setSidePropertyVisible(false)}>Close X</button>
+        <p>Side property</p>
+        <button className={clsx('border-solid border-2 border-indigo-600')} onClick={()=>setSidePropertyVisible(false)}>
+          Close X
+        </button>
       </Boundary>
       <Boundary className={clsx('bottom-sheet',
         {'invisible' : bottomsheetNodeId === ''} )}
@@ -102,7 +106,8 @@ export default function Page() {
         <p>Bottom</p>
         <button
           className={clsx('border-solid border-2 border-indigo-600')}
-          onClick={() => setBottomsheetNodeId('')}>
+          onClick={() => setBottomsheetNodeId('')}
+        >
           Close X
         </button>
         <BottomSheet selectedNodes={bottomsheetNodeId} />

@@ -1,8 +1,8 @@
 class NodeStateCallbackManager {
-    prevSelectedNodeId: string = '';
-    nodesCallbackFuncs: { [key: string]: (show : boolean) => void } = {};
-    setBottomsheetNodeIdFunc: any = null;
-    reStructureEdgesFunc: any = null;
+    private prevSelectedNodeId: string = '';
+    private nodesCallbackFuncs: { [key: string]: (show : boolean) => void } = {};
+    private setBottomsheetNodeIdFunc: any = null;
+    private reStructureEdgesFunc: any = null;
 
     registerReStructureEdgesCallback(reStructureEdges : any) {
         this.reStructureEdgesFunc = reStructureEdges;
@@ -11,15 +11,15 @@ class NodeStateCallbackManager {
         this.setBottomsheetNodeIdFunc = setBottomsheetNodeId;
     }
     registerSetShowOptButtonsCallback(key : string, setShowOptButtons : any) {
-        console.log(`registerSetShowOptButtonsCallback key : ${key}`);
+        // console.log(`registerSetShowOptButtonsCallback key : ${key}`);
         this.nodesCallbackFuncs[key] = setShowOptButtons;
     }
     deleteSetShowOptButtonsCallback(key : string) {
-        console.log(`deleteSetShowOptButtonsCallback key : ${key}`);
+        // console.log(`deleteSetShowOptButtonsCallback key : ${key}`);
         if(this.nodesCallbackFuncs.hasOwnProperty(key))
         {
             delete this.nodesCallbackFuncs[key];
-            console.log(`deleteSetShowOptButtonsCallback key : ${key}`);
+            // console.log(`deleteSetShowOptButtonsCallback key : ${key}`);
         }
     }
 

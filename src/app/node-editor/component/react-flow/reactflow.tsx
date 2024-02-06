@@ -83,7 +83,7 @@ export default function ReactFlowApp(
       const newNode = { id: uuid(), type: 'Kind0', position: { x: p.x, y: p.y }, data: getNodeData('Kind0') };
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance],
+    [reactFlowInstance]
   );
 
   //노드에 새로운 선 연결 전 가능여부 체크
@@ -96,7 +96,7 @@ export default function ReactFlowApp(
       const edges = reactFlowInstance.getEdges();
       const target = nodes.find((node) => node.id === connection.target);
 
-      console.log(`[source] ${connection.source}, [target] ${connection.target}`);
+      // console.log(`[source] ${connection.source}, [target] ${connection.target}`);
 
       if(typeof target === 'undefined')
         return false;      
@@ -107,7 +107,7 @@ export default function ReactFlowApp(
         visited.add(node.id);
 
         for (const outgoer of getOutgoers(node, nodes, edges)) {
-          console.log(`outgoer.id : ${outgoer.id}`);
+          // console.log(`outgoer.id : ${outgoer.id}`);
           if (outgoer.id === connection.source) return true;
           if (hasCycle(outgoer, visited)) return true;
         }
@@ -136,19 +136,19 @@ export default function ReactFlowApp(
 
   //노드 선택에 따라 하단시트와 노드 조작 버튼 보이기/숨기기 한다.
   const onSelectionChange = (elements: any) => {
-    console.log(`Selection changed : nodes - ${elements['nodes'].length}, edges - ${elements['edges'].length}`);
+    // console.log(`Selection changed : nodes - ${elements['nodes'].length}, edges - ${elements['edges'].length}`);
     if(elements['nodes'].length !== 1) {
       //버튼 조작 버튼을 숨긴다.
-      nodeChangeCallBackManager.setShowOptButtons(nodeChangeCallBackManager.prevSelectedNodeId, false);
+      nodeChangeCallBackManager.setShowOptButtons(nodeChangeCallBackManager.getPrevNodeId(), false);
       nodeChangeCallBackManager.setPrevNodeId('');
       //하단시트 숨긴다.
       nodeChangeCallBackManager.setBottomsheetNodeId('');
       return;
     }
-    if(nodeChangeCallBackManager.prevSelectedNodeId === elements['nodes'][0].id)
+    if(nodeChangeCallBackManager.getPrevNodeId() === elements['nodes'][0].id)
       return;
     //이전 선택된 노드 버튼 조작 버튼 숨긴다.
-    nodeChangeCallBackManager.setShowOptButtons(nodeChangeCallBackManager.prevSelectedNodeId, false);
+    nodeChangeCallBackManager.setShowOptButtons(nodeChangeCallBackManager.getPrevNodeId(), false);
     //현재 선택된 버튼 조작 버튼을 보이기 한다.
     nodeChangeCallBackManager.setShowOptButtons(elements['nodes'][0].id, true);
     //하단시트 보기이 한다.
@@ -181,7 +181,7 @@ export default function ReactFlowApp(
     (deleted : any) => {
       //등록된 노드 이벤트 콜백함수들 삭제한다.
       deleted.map((node : any) => {
-        console.log(`Delete node : ${node.id} -----`);
+        // console.log(`Delete node : ${node.id} -----`);
         nodeChangeCallBackManager.deleteSetShowOptButtonsCallback(node.id);
       });
       //노드가 삭제됨에 따라 라인 재구성

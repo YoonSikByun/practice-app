@@ -9,6 +9,14 @@ class CalcStyleRegion {
     verticalMenuHeight() { return `calc(100vh - ${this.topMargin()})`; }
     verticalMenuWidth() { return `${layoutSize['verticalTabMenu'].width}px`; }
     
+    reactFlowCurLeftMargin(tabVisible : boolean[]) {
+        return `${layoutSize['verticalTabMenu'].width + this.getShowingMenuWidth(tabVisible)}px`;
+    }
+    reactFlowCurWidth(tabVisible : boolean[]) {
+        const s : number = layoutSize['verticalTabMenu'].width +
+                            this.getShowingMenuWidth(tabVisible);
+        return `calc(100vw - ${s}px)`;
+    }
     reactFlowHeight() { return this.verticalMenuHeight(); }
     reactFlowWidth() { return `calc(100vw - ${this.leftMargin()})`; }
     
