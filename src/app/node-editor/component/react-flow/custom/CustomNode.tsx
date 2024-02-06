@@ -6,7 +6,7 @@ import {NoramlNodeData} from '@/app/node-editor/component/react-flow/custom/node
 import clsx from 'clsx';
 import '@/app/node-editor/css/component/react-flow/custom/CustomNode.scss';
 import { TrashIcon, PlayIcon } from '@heroicons/react/24/solid';
-import { showOffNodeOptBtnCallBack } from './panel';
+import { nodeChangeCallBackManager } from '@/app/node-editor/util/globalStateManager';
 
 function TopButtons({
   id
@@ -20,7 +20,7 @@ function TopButtons({
       if(nodes.id !== id)
         return true;
 
-      showOffNodeOptBtnCallBack.delete(id);
+        nodeChangeCallBackManager.deleteSetShowOptButtonsCallback(id);
 
       return false;
     }));
@@ -38,10 +38,8 @@ function TopButtons({
 
 function BottomButtons({
   id,
-  type
 } : {
   id : string,
-  type : string
 }) {
   return (
     <div className={clsx('h-[20px] w-[20px] absolute top-[45px] left-[0px]')}>
@@ -64,7 +62,7 @@ export function CustomNode(
   }
 ) {
   const [showOptButtons, setShowOptButtons] = useState(false);
-  useEffect(() => showOffNodeOptBtnCallBack.push(id, setShowOptButtons), [id, setShowOptButtons]);
+  useEffect(() => nodeChangeCallBackManager.registerSetShowOptButtonsCallback(id, setShowOptButtons), [id, setShowOptButtons]);
 
   return (
     <div className='group'>
@@ -82,7 +80,7 @@ export function CustomNode(
         isDraggable={false}
       >
         <TopButtons id={id}/>
-        {(showOptButtons) && <BottomButtons id={id} type={type}/>}
+        {(showOptButtons) && <BottomButtons id={id}/>}
       </NodeBoundary>
     </div>
   );

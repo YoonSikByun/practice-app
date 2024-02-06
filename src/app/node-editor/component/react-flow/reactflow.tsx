@@ -1,3 +1,6 @@
+import 'reactflow/dist/style.css';
+import '@/app/node-editor/css/component/react-flow/reactflow.scss'
+
 import { useCallback, useEffect, useState } from 'react';
 import ReactFlow, 
 {
@@ -15,14 +18,14 @@ import ReactFlow,
   MarkerType,
   ReactFlowProvider
 } from 'reactflow';
-import 'reactflow/dist/style.css';
-import { customNodeTypes, getNodeSize, getNodeData, NodeDataType } from '@/app/node-editor/component/react-flow/custom/nodeTypes';
+import { customNodeTypes, getNodeSize, getNodeData } from '@/app/node-editor/component/react-flow/custom/nodeTypes';
 import CustomEdge from '@/app/node-editor/component/react-flow/custom/CustomEdge';
 import { v4 as uuid } from "uuid";
 import { Size } from '@/app/node-editor/config/layoutFrame';
-import { bgGuideType, RadioBox } from './custom/panel';
-import '@/app/node-editor/css/component/react-flow/reactflow.scss'
-import { showOffNodeOptBtnCallBack } from './custom/panel';
+import { nodeChangeCallBackManager } from '@/app/node-editor/util/globalStateManager';
+import { RadioButton } from '@/app/node-editor/component/controls/RadioButton';
+
+const bgGuideType = ['none', BackgroundVariant.Cross, BackgroundVariant.Dots, BackgroundVariant.Lines];
 
 const rfStyle = { fontSize: 2, color: 'white', backgroundColor: '#FFFFFF' };
 
@@ -44,8 +47,9 @@ export default function ReactFlowApp(
   const [edges, setEdges] = useState<any[]>([]);
   const [bgGuideTypeIdx, setBgGuideTypeIdx] = useState(0);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<any, any>>();
-  
-  useEffect(() => showOffNodeOptBtnCallBack.setBottomSheetStateCallback(setBottomsheetNodeId), [setBottomsheetNodeId]);
+
+  //하단시트 보이기/숨김 위한 설정함수는 최초 렌더링 시점에 한번만 저장하도록 useEffect 처리
+  useEffect(() => nodeChangeCallBackManager.registerSetBottomSheetCallback(setBottomsheetNodeId), [setBottomsheetNodeId]);
 
   const onNodesChange = useCallback(
     (changes : NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -64,10 +68,8 @@ export default function ReactFlowApp(
   const onDrop = useCallback(
     (event : any) => {
       event.preventDefault();
-
       const type = event.dataTransfer.getData('application/reactflow');
 
-      // check if the dropped element is valid
       if (typeof type === 'undefined' || !type || !reactFlowInstance) return;
 
       const s : Size = getNodeSize(type);
@@ -86,7 +88,6 @@ export default function ReactFlowApp(
     (connection : any) => {
       // we are using getNodes and getEdges helpers here
       // to make sure we create isValidConnection function only once
-      
       if(!reactFlowInstance) return false;
       const nodes = reactFlowInstance.getNodes();
       const edges = reactFlowInstance.getEdges();
@@ -140,29 +141,30 @@ export default function ReactFlowApp(
     console.log(`Selection changed : nodes - ${elements['nodes'].length}, edges - ${elements['edges'].length}`);
     if(elements['nodes'].length !== 1) {
       //버튼 조작 버튼을 숨긴다.
-      showOffNodeOptBtnCallBack.callStateCallback(showOffNodeOptBtnCallBack.prevSelectedNodeId, false);
-      showOffNodeOptBtnCallBack.prevSelectedNodeId = '';
+      nodeChangeCallBackManager.setShowOptButtons(nodeChangeCallBackManager.prevSelectedNodeId, false);
+      nodeChangeCallBackManager.setPrevNodeId('');
       //하단시트 숨긴다.
-      showOffNodeOptBtnCallBack.callBottomSheetStateCallback('');
+      nodeChangeCallBackManager.setBottomsheetNodeId('');
       return;
     }
-    if(showOffNodeOptBtnCallBack.prevSelectedNodeId === elements['nodes'][0].id)
+    if(nodeChangeCallBackManager.prevSelectedNodeId === elements['nodes'][0].id)
       return;
     //이전 선택된 노드 버튼 조작 버튼 숨긴다.
-    showOffNodeOptBtnCallBack.callStateCallback(showOffNodeOptBtnCallBack.prevSelectedNodeId, false);
+    nodeChangeCallBackManager.setShowOptButtons(nodeChangeCallBackManager.prevSelectedNodeId, false);
     //현재 선택된 버튼 조작 버튼을 보이기 한다.
-    showOffNodeOptBtnCallBack.callStateCallback(elements['nodes'][0].id, true);
+    nodeChangeCallBackManager.setShowOptButtons(elements['nodes'][0].id, true);
     //하단시트 보기이 한다.
-    showOffNodeOptBtnCallBack.callBottomSheetStateCallback(elements['nodes'][0].id);
-
-    showOffNodeOptBtnCallBack.prevSelectedNodeId = elements['nodes'][0].id;
+    nodeChangeCallBackManager.setBottomsheetNodeId(elements['nodes'][0].id);
+    //현 선택된 노드Id를 이전 노드id에 저장한다.
+    nodeChangeCallBackManager.setPrevNodeId(elements['nodes'][0].id);
   };
 
+  // 노드가 삭제되면 호출되는 이벤트 콜백함수
   const onNodesDelete = useCallback(
     (deleted : any) => {
       deleted.map((node : any) => {
         console.log(`Delete node : ${node.id} -----`);
-        showOffNodeOptBtnCallBack.delete(node.id);
+        nodeChangeCallBackManager.deleteSetShowOptButtonsCallback(node.id);
       });
     },[]
   );
@@ -191,7 +193,7 @@ export default function ReactFlowApp(
         onNodesDelete={onNodesDelete}
       >
         <Panel position="top-left">
-          <RadioBox selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
+          <RadioButton selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
         </Panel>
         <Controls position='top-right'/>
         <MiniMap/>
