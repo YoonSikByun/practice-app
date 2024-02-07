@@ -10,7 +10,7 @@ function ConnectionLine({ fromX, fromY, toX, toY }: ConnectionLineComponentProps
         className="animated"
         d={`M${fromX},${fromY} C ${fromX} ${toY} ${fromX} ${toY} ${toX},${toY}`}
       />
-      <circle cx={toX} cy={toY} fill="#fff" r={3} stroke="#222" strokeWidth={2} />
+      <circle cx={toX} cy={toY} fill="red" r={10} stroke="#222" strokeWidth={2} />
     </>
   );
 }
