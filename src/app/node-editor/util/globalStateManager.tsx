@@ -32,7 +32,7 @@ class NodeStateCallbackManager {
     }
 
     setShowOptButtons(key : string, value : any) {
-        console.log(`setShowOptButtons key : ${key}`);
+        // console.log(`setShowOptButtons key : ${key}`);
         if(!this.nodesCallbackFuncs.hasOwnProperty(key))
             return;
         this.prevSelectedNodeId = key;

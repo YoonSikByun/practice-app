@@ -125,7 +125,7 @@ export default function ReactFlowApp(
     [reactFlowInstance],
   );
 
-  const onConnectStart = (_ : any, { nodeId, handleType } : any) => console.log('on connect start', { nodeId, handleType });
+  // const onConnectStart = (_ : any, { nodeId, handleType } : any) => console.log('on connect start', { nodeId, handleType });
   // const onConnectEnd = (event) => console.log('on connect end', event);
   const onConnect = useCallback(
     (connection : any) => {
@@ -219,7 +219,7 @@ export default function ReactFlowApp(
         onDragOver={onDragOver}
         style={rfStyle}
         isValidConnection={isValidConnection}
-        onConnectStart={onConnectStart}
+        // onConnectStart={onConnectStart}
         // onConnectEnd={onConnectEnd}
         snapToGrid={true}
         onSelectionChange={onSelectionChange}
