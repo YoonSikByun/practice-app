@@ -152,18 +152,6 @@ export default function ReactFlowApp(
       return;
     }
 
-    if(reactFlowInstance) {
-      const v = reactFlowInstance.getViewport();
-      console.log(`v.x : ${v.x}, v.y : ${v.y}, v.zoom : ${v.zoom}`);
-      // reactFlowInstance.setViewport({x: 0, y: 0,zoom: v.zoom});
-      // setCenter: (
-      //   x: number,
-      //   y: number,
-      //   options?: { duration: number; zoom: number },
-      // ) => void;
-    }
-    // reactFlowInstance?.fitView(elements['nodes'][0].id);
-
     if(nodeChangeCallBackManager.getPrevNodeId() === elements['nodes'][0].id)
       return;
     //이전 선택된 노드 버튼 조작 버튼 숨긴다.
@@ -172,9 +160,13 @@ export default function ReactFlowApp(
     nodeChangeCallBackManager.setShowOptButtons(elements['nodes'][0].id, true);
     //하단시트 보기이 한다.
     nodeChangeCallBackManager.setBottomsheetNodeId(elements['nodes'][0].id);
-
     //현 선택된 노드Id를 이전 노드id에 저장한다.
     nodeChangeCallBackManager.setPrevNodeId(elements['nodes'][0].id);
+    // 다른 노드가 선택되면 해당 노드를 화면 중심에 보이도록 한다.
+    if(reactFlowInstance) {
+      const v = reactFlowInstance.getViewport();
+      reactFlowInstance.fitView({ nodes: [elements['nodes'][0]], includeHiddenNodes : false, minZoom : v.zoom, maxZoom: v.zoom, duration: 300 });
+    }
 
   };
 
