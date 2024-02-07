@@ -18,7 +18,8 @@ import ReactFlow,
   Background,
   BackgroundVariant,
   MarkerType,
-  ReactFlowProvider
+  ReactFlowProvider,
+  MiniMapNodeProps
 } from 'reactflow';
 import { customNodeTypes, getNodeSize, getNodeData } from '@/app/node-editor/component/react-flow/custom/nodeTypes';
 import CustomEdge from '@/app/node-editor/component/react-flow/custom/CustomEdge';
@@ -26,10 +27,11 @@ import { v4 as uuid } from "uuid";
 import { Size } from '@/app/node-editor/config/layoutFrame';
 import { nodeChangeCallBackManager } from '@/app/node-editor/util/globalStateManager';
 import { RadioButton } from '@/app/node-editor/component/controls/RadioButton';
+import ConnectionLine from '@/app/node-editor/component/react-flow/custom/ConnectionLine';
 
 const bgGuideType = ['none', BackgroundVariant.Cross, BackgroundVariant.Dots, BackgroundVariant.Lines];
 
-const rfStyle = { fontSize: 2, color: 'white', backgroundColor: '#FFFFFF' };
+const rfStyle = { backgroundColor: '#FFFFFF' };
 const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 11, height: 11, color: "red" };
 
 const initialNodes = [
@@ -37,6 +39,10 @@ const initialNodes = [
   { id: uuid(), type: 'Kind1', position: { x: 50, y: 100 }, data: getNodeData('Kind1')}];
 
 const edgeTypes = { 'custom-edge': CustomEdge};
+
+// const CustomMiniMapNode = ({ x, y, width, height, color }: MiniMapNodeProps) => (
+//   <circle cx={x} cy={y} r={Math.max(width, height) / 2} fill={color} />
+// );
 
 export default function ReactFlowApp(
   {
@@ -145,6 +151,19 @@ export default function ReactFlowApp(
       nodeChangeCallBackManager.setBottomsheetNodeId('');
       return;
     }
+
+    if(reactFlowInstance) {
+      const v = reactFlowInstance.getViewport();
+      console.log(`v.x : ${v.x}, v.y : ${v.y}, v.zoom : ${v.zoom}`);
+      // reactFlowInstance.setViewport({x: 0, y: 0,zoom: v.zoom});
+      // setCenter: (
+      //   x: number,
+      //   y: number,
+      //   options?: { duration: number; zoom: number },
+      // ) => void;
+    }
+    // reactFlowInstance?.fitView(elements['nodes'][0].id);
+
     if(nodeChangeCallBackManager.getPrevNodeId() === elements['nodes'][0].id)
       return;
     //이전 선택된 노드 버튼 조작 버튼 숨긴다.
@@ -153,8 +172,10 @@ export default function ReactFlowApp(
     nodeChangeCallBackManager.setShowOptButtons(elements['nodes'][0].id, true);
     //하단시트 보기이 한다.
     nodeChangeCallBackManager.setBottomsheetNodeId(elements['nodes'][0].id);
+
     //현 선택된 노드Id를 이전 노드id에 저장한다.
     nodeChangeCallBackManager.setPrevNodeId(elements['nodes'][0].id);
+
   };
 
   //노드가 삭제되면 라인 재구성 위한 처리 함수
@@ -211,11 +232,13 @@ export default function ReactFlowApp(
         snapToGrid={true}
         onSelectionChange={onSelectionChange}
         onNodesDelete={onNodesDelete}
+        connectionLineComponent={ConnectionLine}
       >
         <Panel position="top-left">
           <RadioButton selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
         </Panel>
         <Controls position='top-right'/>
+        {/* <MiniMap nodeComponent={CustomMiniMapNode}/> */}
         <MiniMap/>
         <Background variant={bgGuideType[bgGuideTypeIdx] as BackgroundVariant}/>
       </ReactFlow>

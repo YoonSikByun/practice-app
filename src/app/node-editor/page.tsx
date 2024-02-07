@@ -68,8 +68,8 @@ export default function Page() {
       </Boundary>
       <Boundary className="reactFlow-Region" ref={rectFlowRef}
         style={{left: calcStyle.reactFlowCurLeftMargin(tabVisible),
-         height: calcStyle.reactFlowHeight(),
-         width: calcStyle.reactFlowCurWidth(tabVisible)}}
+         height: calcStyle.reactFlowCurHeight(bottomsheetNodeId !== '' ? curBottomSheetHeight : 0),
+         width: calcStyle.reactFlowCurWidth(tabVisible, sidePropertyVisible)}}
       >
         <ReactFlowApp setBottomsheetNodeId={setBottomsheetNodeId}/>
       </Boundary>

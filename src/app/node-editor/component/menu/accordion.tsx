@@ -10,23 +10,23 @@ import {forwardRef} from 'react';
 export default forwardRef(
     function Accordion({accordItems, show} : {accordItems : AccordionPanelItem[], show : boolean}, ref:any) {
         
-    return (
-        <div  ref={ref} className={clsx('accordion-container',
-                'overflow-auto', {'invisible': (!show)})}
-            style={{left: calcStyle.leftMargin(),
-            height: calcStyle.accordionHeight(),
-            width: calcStyle.accordionWidth()}}>
-        {
-            accordItems.map((accordItem) => {
-                return (
-                    <div key={accordItem.title}>
-                        <AccordionNode accordItem={accordItem}/>
-                    </div>
-                );
-            })
-        }
-        </div>
-    );
+        return (
+            <div  ref={ref} className={clsx('accordion-container',
+                    'overflow-auto', {'invisible': (!show)})}
+                style={{left: calcStyle.leftMargin(),
+                height: calcStyle.accordionHeight(),
+                width: calcStyle.accordionWidth()}}>
+            {
+                accordItems.map((accordItem) => {
+                    return (
+                        <div key={accordItem.title}>
+                            <AccordionNode accordItem={accordItem}/>
+                        </div>
+                    );
+                })
+            }
+            </div>
+        );
 });
 
 function AccordionNode({
