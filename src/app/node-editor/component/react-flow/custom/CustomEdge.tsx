@@ -23,7 +23,7 @@ function DeleteButton(
           }}
           className="nodrag nopan"
         >
-          <button className="edgebutton" onClick={onEdgeClick}>
+          <button title='Delete' className="edgebutton" onClick={onEdgeClick}>
             ×
           </button>
         </div>

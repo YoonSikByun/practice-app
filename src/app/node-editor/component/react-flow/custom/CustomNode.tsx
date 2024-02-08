@@ -1,35 +1,107 @@
+import { useEffect, useState } from 'react';
 import { Position, useReactFlow } from 'reactflow';
 import CustomHandle from '@/app/node-editor/component/react-flow/custom/CustomHandle';
 import NodeBoundary from '@/app/node-editor/component/node/nodeBoundary';
 import {NoramlNodeData} from '@/app/node-editor/component/react-flow/custom/nodeTypes';
 import clsx from 'clsx';
 import '@/app/node-editor/css/component/react-flow/custom/CustomNode.scss';
+import { TrashIcon, PlayIcon, DocumentTextIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
+import { nodeChangeCallBackManager } from '@/app/node-editor/util/globalStateManager';
 
-import { TrashIcon, PlayIcon } from '@heroicons/react/24/solid';
-
-function OptionButtons({
+function TopButtons({
   id
 } : {
   id : string
 }) {
   const { setNodes } = useReactFlow();
 
+  //현 노드를 삭제한다.
   const onDelNodeClick = () => {
-    setNodes((nodes) => nodes.filter((nodes) => nodes.id !== id));
+    setNodes((nodes) => {
+        const deleted : any = [];
+        const changedNodes = nodes.filter((nodes) => {
+          if(nodes.id !== id)
+            return true;
+
+          nodeChangeCallBackManager.deleteSetShowOptButtonsCallback(id);
+          deleted.push(nodes);
+          return false;
+        });
+
+        //노드가 삭제됨에 따라 라인 재구성
+        nodeChangeCallBackManager.reStructureEdges(deleted);
+
+        return changedNodes;
+      }
+    );
+    
   };
 
   return (
-    <button className='node-option-button' onClick={onDelNodeClick}><TrashIcon/></button>
+    <div className={
+      clsx('invisible group-hover:visible',
+          'absolute top-[-55px] left-[0px]',
+          'w-full h-[45px]')
+    }>
+      <table className={clsx('w-[115px] border-2 border-dotted border-slate-800')}>
+        <tr  className='flex h-[30px]'>
+          <td className='h-inherit w-[30px]'>
+            <button
+              title='Delete'
+              className='absolute top-[3px] node-option-button'
+              onClick={onDelNodeClick}
+            >
+              <TrashIcon/>
+            </button>
+          </td>
+          <td className='h-inherit w-[30px]'>
+            <button
+              title='Control box'
+              className='absolute top-[3px] node-option-button'
+              onClick={()=>alert('Show a control-box')}
+            >
+              <AdjustmentsHorizontalIcon/>
+            </button>
+          </td>
+        </tr>
+      </table>
+    </div>
   )
 }
 
-function OperationButtons({
-  id
+function BottomButtons({
+  id,
 } : {
-  id : string
+  id : string,
 }) {
+
   return (
-    <button className='node-option-button' onClick={()=>alert(`Play a node[${id}]`)}><PlayIcon/></button>
+    <table className={
+      clsx('absolute top-[45px] left-[0px]',
+          'h-[30px] w-[115px]',
+          'border-2 border-dotted border-slate-800'
+    )}>
+      <tr className='flex h-[30px] bg-yellow-100'>
+        <td className='h-inherit w-[30px]'>
+          <button
+            title='Play'
+            className='absolute top-[2px] node-option-button'
+            onClick={()=>alert(`Play a node!! [${id}]`)}
+          >
+            <PlayIcon/>
+          </button>
+        </td>
+        <td className='h-inherit w-[30px]'>
+          <button
+            title='Log viwer'
+            className='absolute top-[2px] node-option-button'
+            onClick={()=>alert(`Play a Log viewer!! [${id}]`)}
+          >
+            <DocumentTextIcon/>
+          </button>
+        </td>
+      </tr>
+    </table>
   )
 }
 
@@ -46,7 +118,12 @@ export function CustomNode(
     selected : boolean
   }
 ) {
-  console.log(` selected Node : ${type} - ${id}`);
+
+  const [showOptButtons, setShowOptButtons] = useState(false);
+  useEffect(() => (
+    nodeChangeCallBackManager.registerSetShowOptButtonsCallback(id, setShowOptButtons)),
+  [id, setShowOptButtons]);
+
   return (
     <div className='group'>
       <CustomHandle type='target' position={Position.Left} id='left' isConnectable={2}/>
@@ -57,25 +134,13 @@ export function CustomNode(
         nodeKind={data?.nodeKind ?? ''}
         className={clsx(data?.className ?? '', 
           {'shadow-md shadow-gray-500' : !selected},
-          {'shadow-lg shadow-emerald-950 border-[3px]' : selected}
-        )}
+          {'shadow-lg shadow-emerald-950 border-[3px]' : selected})}
         Icon={data?.icon}
         isDraggable={false}
       >
-          <div className={clsx('invisible group-hover:visible',
-                'w-full h-[40px] absolute top-[-42px] left-[0px]'
-              )}
-          >
-            <OptionButtons id={id}/>
-          </div>
-
-          {selected &&
-            <div className={clsx('w-full h-[40px] absolute top-[45px] left-[0px]')}
-            >
-              <OperationButtons id={id}/>
-            </div>
-          }
-        </NodeBoundary>
+        <TopButtons id={id}/>
+        {(showOptButtons) && <BottomButtons id={id}/>}
+      </NodeBoundary>
     </div>
   );
 }

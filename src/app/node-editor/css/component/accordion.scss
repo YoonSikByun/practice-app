@@ -1,22 +1,17 @@
 .accordion-container {
     position: absolute;
-    z-index: 20;
     top: 0px;
     background-color: white;
 }
 
 .accordion {
-    // font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    // font-weight: 400;
     background-color: #eee;
-    // color: #444;
     cursor: pointer;
     padding: 2px;
     width: 100%;
     border: none;
     text-align: left;
     outline: none;
-    // font-size: 14px;
 }
 
 .active, .accordion:hover {

@@ -1,33 +1,4 @@
-import { BackgroundVariant } from "reactflow";
 import clsx from "clsx";
-
-import { useState } from 'react';
-import { useOnSelectionChange } from 'reactflow';
-
-export function CallBackSelectedNodesEdges(
-  {
-    callBackReactFlowSelectionChanges
-  } : {
-    callBackReactFlowSelectionChanges : (nodes : string[], edges : string[]) => void
-  }
-) {
-  const [selectedNodes, setSelectedNodes] = useState<string[]>([]);
-  const [selectedEdges, setSelectedEdges] = useState<string[]>([]);
- 
-  useOnSelectionChange({
-    onChange: ({ nodes, edges }) => {
-      setSelectedNodes(nodes.map((node) => node.id));
-      setSelectedEdges(edges.map((edge) => edge.id));
-    },
-  });
-  
-  callBackReactFlowSelectionChanges(selectedNodes, selectedEdges);
-
-
- return <div className="invisible"/>;
-}
-
-export const bgGuideType = ['none', BackgroundVariant.Cross, BackgroundVariant.Dots, BackgroundVariant.Lines];
 
 function ItemBox(
     {
@@ -52,10 +23,10 @@ function ItemBox(
          {"bg-slate-300" : selectIndex === index}) }>
             {children}
         </button>
-    )
+    );
 }
 
-export function RadioBox(
+export function RadioButton(
     {
         selectIndex,
         items,

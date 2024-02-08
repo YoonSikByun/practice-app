@@ -6,17 +6,31 @@ class CalcStyleRegion {
 
     topHeadHeight() { return `${layoutSize['topHead'].height}px`; }
 
-    verticalMenuHeight() { return `calc(100vh - ${this.topMargin()})`; }
+    verticalMenuHeight() { return `calc(100vh - ${layoutSize['topHead'].height}px)`; }
     verticalMenuWidth() { return `${layoutSize['verticalTabMenu'].width}px`; }
     
+    reactFlowCurLeftMargin(tabVisible : boolean[]) {
+        return `${layoutSize['verticalTabMenu'].width + this.getShowingMenuWidth(tabVisible)}px`;
+    }
+    reactFlowCurWidth(tabVisible : boolean[], sideProperty : boolean) {
+        const s : number = layoutSize['verticalTabMenu'].width +
+                            this.getShowingMenuWidth(tabVisible) +
+                            (sideProperty ? layoutSize['sidebarProperty'].width : 0);
+
+        return `calc(100vw - ${s}px)`;
+    }
+    reactFlowCurHeight(curBottomSheetHeight : number) {
+        return `calc(100vh - ${layoutSize['topHead'].height + curBottomSheetHeight}px)`;
+    }
+
     reactFlowHeight() { return this.verticalMenuHeight(); }
-    reactFlowWidth() { return `calc(100vw - ${this.leftMargin()})`; }
+    reactFlowWidth() { return `calc(100vw - ${layoutSize['verticalTabMenu'].width}px)`; }
     
     sidePropertyLeftMargin() { return `calc(100vw - ${layoutSize['sidebarProperty'].width}px)`; }
-    sidePropertyHeight() { return `calc(100vh - ${this.topMargin()})`; }
+    sidePropertyHeight() { return `calc(100vh - ${layoutSize['topHead'].height}px)`; }
     sidePropertyWidth() { return `${layoutSize['sidebarProperty'].width}px`; }
 
-    accordionHeight() { return `calc(100vh - ${this.topMargin()})`; }
+    accordionHeight() { return `calc(100vh - ${layoutSize['topHead'].height}px)`; }
     accordionWidth() { return `${layoutSize['accordionContainer'].width}px`; }
 
     getShowingMenuWidth(tabVisible : boolean[]) {
