@@ -34,7 +34,7 @@ class CalcStyleRegion {
     accordionWidth() { return `${layoutSize['accordionContainer'].width}px`; }
 
     getShowingMenuWidth(tabVisible : boolean[]) {
-        if(tabVisible[0])
+        if(tabVisible[0] || tabVisible[1])
             return layoutSize['accordionContainer'].width;
         return 0;
     }

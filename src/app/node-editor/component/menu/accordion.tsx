@@ -13,7 +13,8 @@ export default forwardRef(
         return (
             <div  ref={ref} className={clsx('accordion-container',
                     'overflow-auto', {'invisible': (!show)})}
-                style={{left: calcStyle.leftMargin(),
+                style={{
+                left: calcStyle.leftMargin(),
                 height: calcStyle.accordionHeight(),
                 width: calcStyle.accordionWidth()}}>
             {
