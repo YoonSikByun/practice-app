@@ -14,7 +14,7 @@ import {layoutSize, Rect} from '@/app/node-editor/config/layoutFrame'
 import {calcStyle} from '@/app/node-editor/util/calcStyleRegion';
 import clsx from 'clsx';
 import BottomSheet from "@/app/node-editor/component/bottomSheet/BottomSheet";
-
+import Variables from './component/menu/variables';
 
 export default function Page() {
 
@@ -77,6 +77,7 @@ export default function Page() {
           setVTabIndexClicked={setVTabIndexClicked}
           setVTabVisible={setVTabVisible}/>
             <Accordion accordItems={accordionPanelItems} show={tabVisible[0]}/>
+            <Variables show={tabVisible[1]}></Variables>
       </Boundary>
       <Boundary className="reactFlow-Region" ref={rectFlowRef}
         style={{left: calcStyle.leftMargin(),
