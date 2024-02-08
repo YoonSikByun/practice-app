@@ -11,6 +11,11 @@ export type AccordionPanelItem = {
     component: () => React.ReactNode;
 };
 
+export type VariableDeckOption = {
+    value: string,
+    name:string
+}
+
 //세로탭 메뉴 구성 설정
 export const verticalTablMenuItems : VerticalTabMenuItem[] = [
     {title : '작업노드', link : ''},
