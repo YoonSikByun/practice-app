@@ -44,6 +44,7 @@ function TopButtons({
           'w-full h-[45px]')
     }>
       <table className={clsx('w-[115px] border-2 border-dotted border-slate-800')}>
+        <tbody>
         <tr  className='flex h-[30px]'>
           <td className='h-inherit w-[30px]'>
             <button
@@ -64,6 +65,7 @@ function TopButtons({
             </button>
           </td>
         </tr>
+        </tbody>
       </table>
     </div>
   )
@@ -81,6 +83,7 @@ function BottomButtons({
           'h-[30px] w-[115px]',
           'border-2 border-dotted border-slate-800'
     )}>
+      <tbody>
       <tr className='flex h-[30px] bg-yellow-100'>
         <td className='h-inherit w-[30px]'>
           <button
@@ -101,6 +104,7 @@ function BottomButtons({
           </button>
         </td>
       </tr>
+      </tbody>
     </table>
   )
 }

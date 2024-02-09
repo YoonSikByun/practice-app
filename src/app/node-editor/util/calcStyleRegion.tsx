@@ -1,12 +1,14 @@
-import {layoutSize} from '@/app/node-editor/config/layoutFrame'
+import {layoutSize, outSidePadding} from '@/app/node-editor/config/layoutFrame'
 
 class CalcStyleRegion {
-    topMargin() { return `${layoutSize['topHead'].height}px`; }
+    getFixedTop() {return layoutSize['topToolbar'].height + outSidePadding.top; }
+    topOutsideMargin() { return `${outSidePadding.top}px`; }
+    topMargin() { return `${this.getFixedTop()}px`; }
     leftMargin() { return `${layoutSize['verticalTabMenu'].width}px`; }
 
-    topHeadHeight() { return `${layoutSize['topHead'].height}px`; }
+    topToolbarHeight() { return `${layoutSize['topToolbar'].height}px`; }
 
-    verticalMenuHeight() { return `calc(100vh - ${layoutSize['topHead'].height}px)`; }
+    verticalMenuHeight() { return `calc(100vh - ${this.getFixedTop()}px)`; }
     verticalMenuWidth() { return `${layoutSize['verticalTabMenu'].width}px`; }
     
     reactFlowCurLeftMargin(tabVisible : boolean[]) {
@@ -20,17 +22,17 @@ class CalcStyleRegion {
         return `calc(100vw - ${s}px)`;
     }
     reactFlowCurHeight(curBottomSheetHeight : number) {
-        return `calc(100vh - ${layoutSize['topHead'].height + curBottomSheetHeight}px)`;
+        return `calc(100vh - ${this.getFixedTop() + curBottomSheetHeight}px)`;
     }
 
     reactFlowHeight() { return this.verticalMenuHeight(); }
     reactFlowWidth() { return `calc(100vw - ${layoutSize['verticalTabMenu'].width}px)`; }
     
     sidePropertyLeftMargin() { return `calc(100vw - ${layoutSize['sidebarProperty'].width}px)`; }
-    sidePropertyHeight() { return `calc(100vh - ${layoutSize['topHead'].height}px)`; }
+    sidePropertyHeight() { return this.verticalMenuHeight(); }
     sidePropertyWidth() { return `${layoutSize['sidebarProperty'].width}px`; }
 
-    accordionHeight() { return `calc(100vh - ${layoutSize['topHead'].height}px)`; }
+    accordionHeight() { return this.verticalMenuHeight(); }
     accordionWidth() { return `${layoutSize['accordionContainer'].width}px`; }
 
     getShowingMenuWidth(tabVisible : boolean[]) {
