@@ -1,12 +1,9 @@
-import Link from 'next/link'
-
+import { mainStateCallBackManager, PageName } from "@/app/main/util/mainGlobalStateManager";
 //Global Navigation Bar
 export default function Left() {
     return (
         <>
-            <Link href='/home'>
-                <p className='font-bold'>Node Designer</p>
-            </Link>
+            <button className='font-bold' onClick={() => mainStateCallBackManager.setCurrentPageName(PageName.HOME)}>Node Designer</button>
         </>
     );
 }

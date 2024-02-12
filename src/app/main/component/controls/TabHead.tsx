@@ -1,5 +1,7 @@
 import clsx from "clsx";
 import { mainLayoutSize } from "@/app/main/config/layoutFrame";
+import { mainStateCallBackManager, PageName } from '@/app/main/util/mainGlobalStateManager';
+
 
 export type TabHeadItem = {
     title: string;
@@ -20,10 +22,15 @@ function ItemBox(
     }
 ) {
     const thisTabHeadId = id;
+    const handlerOnClick = () => {
+        setCurrentTabHeadId(thisTabHeadId);
+        mainStateCallBackManager.setCurrentNodeDesignerID(thisTabHeadId); 
+        mainStateCallBackManager.setCurrentPageName(PageName.NODE_DESIGNER);
+    };
     return (
         <li>
             <button
-            onClick={() => {setCurrentTabHeadId(thisTabHeadId)}} 
+            onClick={handlerOnClick} 
             className={clsx("text-sm px-[5px]",
             `h-[${mainLayoutSize['topGNB'].height}px] w-[150px]`,
             {"bg-slate-100" : thisTabHeadId !== currentTabHeadId},
@@ -47,7 +54,7 @@ export function TabHead(
 ) {
     return (
         <ul className="flex space-x-[2px]">
-            {
+        {
             items.map((item, index) => {
                 return (
                     <ItemBox

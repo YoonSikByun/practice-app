@@ -1,14 +1,14 @@
 import { mainLayoutSize } from "@/app/main/config/layoutFrame"
-import Link from "next/link"
 import clsx from "clsx"
+// import { mainStateCallBackManager, PageName } from "@/app/main/util/mainGlobalStateManager";
 
 export default function Home() {
     return (
         <div className="absolute flex flex-col h-full w-full"
             style={{top: mainLayoutSize['topGNB'].height, height: `calc(100vh - ${mainLayoutSize['topGNB'].height}px)`}}
         >
-            <div className={clsx("absolute h-full", `w-[${mainLayoutSize['project'].width}px]`, "bg-orange-600")}
-                style={{top: 0}}
+            <div className={clsx("absolute h-full", "bg-orange-600")}
+                style={{top: 0, width: mainLayoutSize['project'].width}}
             >
                 Project
             </div>
@@ -16,7 +16,7 @@ export default function Home() {
                 style={{top: 0, left: 300}}
             >
                 Pipeline<br/>
-                <Link href='/node-designer'>Node designer</Link>
+                {/* <p onClick={() => mainStateCallBackManager.setCurrentPageName(PageName.HOME)}>Node designer</p> */}
             </div>
         </div>
     )
