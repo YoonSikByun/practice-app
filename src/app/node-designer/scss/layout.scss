@@ -1,0 +1,44 @@
+
+.node-designer .toolbar {
+    display: block;left: 0px;
+    position: absolute;
+    width: 100vw;
+    padding: 5px;
+    background-color: brown;
+}
+
+.node-designer .vertical-menu {
+    display: block;
+    position: absolute;
+    padding: 10px;
+    background-color: white;
+}
+
+.node-designer .main-container .reactFlow-Region {
+    display: block;
+    position: absolute;
+}
+
+.node-designer .main-container .sidebar-property {
+    display: block;
+    position: absolute;
+    padding: 10px;
+    background-color: burlywood;
+}
+
+.node-designer .main-container .bottom-sheet {
+    display: block;
+    position: absolute;
+    background-color: aqua;
+}
+
+.node-designer .main-container .bottom-sheet .resize-bar {
+    display: block;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 10px;
+    background-color: blue;
+    cursor: row-resize;
+}
