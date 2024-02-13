@@ -29,7 +29,7 @@ export default function TopHead() {
             style={{height:mainLayoutSize['topGNB'].height}}
         >
             {/* Logo */}
-            <div className={clsx(`w-[${mainLayoutSize['project'].width}px]`)}>
+            <div style={{width:mainLayoutSize['project'].width}}>
                 <Left/>
             </div>
             {/* 열려있는 Node designer */}

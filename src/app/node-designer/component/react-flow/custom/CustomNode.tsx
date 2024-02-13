@@ -6,12 +6,14 @@ import {NoramlNodeData} from '@/app/node-designer/component/react-flow/custom/no
 import clsx from 'clsx';
 import '@/app/node-designer/scss/component/react-flow/custom/CustomNode.scss';
 import { TrashIcon, PlayIcon, DocumentTextIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
-import { nodeChangeCallBackManager } from '@/app/node-designer/util/globalStateManager';
+import { multiNodeStateCallback } from '@/app/node-designer/util/nodeDesignerStateManager';
 
 function TopButtons({
-  id
+  id,
+  parentId
 } : {
-  id : string
+  id : string,
+  parentId : string
 }) {
   const { setNodes } = useReactFlow();
 
@@ -23,13 +25,13 @@ function TopButtons({
           if(nodes.id !== id)
             return true;
 
-          nodeChangeCallBackManager.deleteSetShowOptButtonsCallback(id);
+          multiNodeStateCallback.call(parentId).deleteSetShowOptButtonsCallback(id);
           deleted.push(nodes);
           return false;
         });
 
         //노드가 삭제됨에 따라 라인 재구성
-        nodeChangeCallBackManager.reStructureEdges(deleted);
+        multiNodeStateCallback.call(parentId).reStructureEdges(deleted);
 
         return changedNodes;
       }
@@ -124,9 +126,12 @@ export function CustomNode(
 ) {
 
   const [showOptButtons, setShowOptButtons] = useState(false);
-  useEffect(() => (
-    nodeChangeCallBackManager.registerSetShowOptButtonsCallback(id, setShowOptButtons)),
-  [id, setShowOptButtons]);
+  const parentId : string = data.parentId ?? '';
+  useEffect(() => {
+    
+    multiNodeStateCallback.call(parentId).registerSetShowOptButtonsCallback(id, setShowOptButtons);
+    },
+  [id, setShowOptButtons, parentId]);
 
   return (
     <div className='group'>
@@ -142,7 +147,7 @@ export function CustomNode(
         Icon={data?.icon}
         isDraggable={false}
       >
-        <TopButtons id={id}/>
+        <TopButtons id={id} parentId={parentId}/>
         {(showOptButtons) && <BottomButtons id={id}/>}
       </NodeBoundary>
     </div>

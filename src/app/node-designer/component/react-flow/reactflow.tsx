@@ -19,13 +19,13 @@ import ReactFlow,
   BackgroundVariant,
   MarkerType,
   ReactFlowProvider,
-  MiniMapNodeProps
+  // MiniMapNodeProps
 } from 'reactflow';
 import { customNodeTypes, getNodeSize, getNodeData } from '@/app/node-designer/component/react-flow/custom/nodeTypes';
 import CustomEdge from '@/app/node-designer/component/react-flow/custom/CustomEdge';
 import { v4 as uuid } from "uuid";
 import { Size } from '@/app/node-designer/config/layoutFrame';
-import { nodeChangeCallBackManager } from '@/app/node-designer/util/globalStateManager';
+import { multiNodeStateCallback } from '@/app/node-designer/util/nodeDesignerStateManager';
 import { RadioButton } from '@/app/node-designer/component/controls/RadioButton';
 import ConnectionLine from '@/app/node-designer/component/react-flow/custom/ConnectionLine';
 
@@ -34,9 +34,10 @@ const bgGuideType = ['none', BackgroundVariant.Cross, BackgroundVariant.Dots, Ba
 const rfStyle = { backgroundColor: '#FFFFFF' };
 const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 11, height: 11, color: "red" };
 
-const initialNodes = [
-  { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: getNodeData('Kind0') },
-  { id: uuid(), type: 'Kind1', position: { x: 50, y: 100 }, data: getNodeData('Kind1')}];
+// const initialNodes = [
+//   { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: getNodeData('Kind0') },
+//   { id: uuid(), type: 'Kind1', position: { x: 50, y: 100 }, data: getNodeData('Kind1')}];
+const initialNodes = [{}];
 
 const edgeTypes = { 'custom-edge': CustomEdge};
 
@@ -44,21 +45,34 @@ const edgeTypes = { 'custom-edge': CustomEdge};
 //   <circle cx={x} cy={y} r={Math.max(width, height) / 2} fill={color} />
 // );
 
+const hide = (hidden : boolean) => (nodeOrEdge : any) => {
+  nodeOrEdge.hidden = hidden;
+  return nodeOrEdge;
+};
+
 export default function ReactFlowApp(
   {
-    setBottomsheetNodeId
+    id,
+    setBottomsheetNodeId,
+    nodesOredgesVisible = true
   } : {
-    setBottomsheetNodeId : (nodeId : string) => void
+    id : string,
+    setBottomsheetNodeId : (nodeId : string) => void,
+    nodesOredgesVisible? : boolean
   }
 ) {
-  const [nodes, setNodes] = useState<any[]>(initialNodes);
-  // const [edges, setEdges] = useState(initialEdges);
+  const [nodes, setNodes] = useState<any[]>([]);
   const [edges, setEdges] = useState<any[]>([]);
-  const [bgGuideTypeIdx, setBgGuideTypeIdx] = useState(0);
+  const [bgGuideTypeIdx, setBgGuideTypeIdx] = useState(3);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<any, any>>();
 
+  useEffect(() => {
+    setNodes((nds) => nds.map(hide(!nodesOredgesVisible)));
+    setEdges((eds) => eds.map(hide(!nodesOredgesVisible)));
+  }, [nodesOredgesVisible]);
+
   //하단시트 보이기/숨김 위한 설정함수는 최초 렌더링 시점에 한번만 저장하도록 useEffect 처리
-  useEffect(() => nodeChangeCallBackManager.registerSetBottomSheetCallback(setBottomsheetNodeId), [setBottomsheetNodeId]);
+  useEffect(() => multiNodeStateCallback.call(id).registerSetBottomSheetCallback(setBottomsheetNodeId), [setBottomsheetNodeId, id]);
 
   const onNodesChange = useCallback(
     (changes : NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -86,10 +100,10 @@ export default function ReactFlowApp(
         x: event.clientX - (s.width / 2),
         y: event.clientY - (s.height / 2),
       });
-      const newNode = { id: uuid(), type: 'Kind0', position: { x: p.x, y: p.y }, data: getNodeData('Kind0') };
+      const newNode = { id: uuid(), type: 'Kind0', position: { x: p.x, y: p.y }, data: getNodeData('Kind0', id) };
       setNodes((nds) => nds.concat(newNode));
     },
-    [reactFlowInstance]
+    [reactFlowInstance, id]
   );
 
   //노드에 새로운 선 연결 전 가능여부 체크
@@ -139,28 +153,29 @@ export default function ReactFlowApp(
   const onSelectionChange = (elements: any) => {
     if(elements['nodes'].length !== 1) {
       //버튼 조작 버튼을 숨긴다.
-      nodeChangeCallBackManager.setShowOptButtons(nodeChangeCallBackManager.getPrevNodeId(), false);
-      nodeChangeCallBackManager.setPrevNodeId('');
+      multiNodeStateCallback.call(id).setShowOptButtons(multiNodeStateCallback.call(id).getPrevNodeId(), false);
+      multiNodeStateCallback.call(id).setPrevNodeId('');
       //하단시트 숨긴다.
-      nodeChangeCallBackManager.setBottomsheetNodeId('');
+      multiNodeStateCallback.call(id).setBottomsheetNodeId('');
       return;
     }
 
-    if(nodeChangeCallBackManager.getPrevNodeId() === elements['nodes'][0].id)
+    if(multiNodeStateCallback.call(id).getPrevNodeId() === elements['nodes'][0].id)
       return;
     //이전 선택된 노드 버튼 조작 버튼 숨긴다.
-    nodeChangeCallBackManager.setShowOptButtons(nodeChangeCallBackManager.getPrevNodeId(), false);
+    multiNodeStateCallback.call(id).setShowOptButtons(multiNodeStateCallback.call(id).getPrevNodeId(), false);
     //현재 선택된 버튼 조작 버튼을 보이기 한다.
-    nodeChangeCallBackManager.setShowOptButtons(elements['nodes'][0].id, true);
+    multiNodeStateCallback.call(id).setShowOptButtons(elements['nodes'][0].id, true);
     //하단시트 보기이 한다.
-    nodeChangeCallBackManager.setBottomsheetNodeId(elements['nodes'][0].id);
+    multiNodeStateCallback.call(id).setBottomsheetNodeId(elements['nodes'][0].id);
     //현 선택된 노드Id를 이전 노드id에 저장한다.
-    nodeChangeCallBackManager.setPrevNodeId(elements['nodes'][0].id);
-    // 다른 노드가 선택되면 해당 노드를 화면 중심에 보이도록 한다.
-    if(reactFlowInstance) {
-      const v = reactFlowInstance.getViewport();
-      reactFlowInstance.fitView({ nodes: [elements['nodes'][0]], includeHiddenNodes : false, minZoom : v.zoom, maxZoom: v.zoom, duration: 300 });
-    }
+    multiNodeStateCallback.call(id).setPrevNodeId(elements['nodes'][0].id);
+    
+    // // 다른 노드가 선택되면 해당 노드를 화면 중심에 보이도록 한다.
+    // if(reactFlowInstance) {
+    //   const v = reactFlowInstance.getViewport();
+    //   reactFlowInstance.fitView({ nodes: [elements['nodes'][0]], includeHiddenNodes : false, minZoom : v.zoom, maxZoom: v.zoom, duration: 300 });
+    // }
 
   };
 
@@ -181,24 +196,24 @@ export default function ReactFlowApp(
   );
 
   //노드가 삭제되면 선도 삭제하기 위해 콜백함수 등록
-  nodeChangeCallBackManager.registerReStructureEdgesCallback(reStructureEdges);
+  multiNodeStateCallback.call(id).registerReStructureEdgesCallback(reStructureEdges);
 
   // 노드가 삭제되면 호출되는 이벤트 콜백함수
   const onNodesDelete = useCallback(
     (deleted : any) => {
       //등록된 노드 이벤트 콜백함수들 삭제한다.
       deleted.map((node : any) => {
-        nodeChangeCallBackManager.deleteSetShowOptButtonsCallback(node.id);
+        multiNodeStateCallback.call(id).deleteSetShowOptButtonsCallback(node.id);
       });
-      //노드가 삭제됨에 따라 라인 재구성
+      //노드가 삭제되면 노드에 연결된 라인 재구성
       reStructureEdges(deleted);
-    }, [reStructureEdges]
+    }, [reStructureEdges, id]
   );
 
   return (
     <ReactFlowProvider>
       <ReactFlow
-        className='textClear'
+        id={id}
         nodes={nodes}
         edges={edges}
         onNodesChange={onNodesChange}

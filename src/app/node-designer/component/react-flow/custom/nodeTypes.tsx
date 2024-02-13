@@ -22,19 +22,21 @@ export type NoramlNodeData = {
     nodeKind? : string;
     icon? : any;
     className? : string;
+    parentId? : string;
 }
 
 export type NodeDataType = { id: string; type: string; position: { x: number; y: number; }; data: NoramlNodeData; }
 
 
-export const getNodeData = (id : string) => {
+export const getNodeData = (id : string, parentId: string) => {
     const i = findNodeItem(id);
     return {
         width: i['runNodeSize'].width,
         height: i['runNodeSize'].height,
         nodeKind: i['nodeKind'],
         icon: i['icon'],
-        className: i['runClassName']
+        className: i['runClassName'],
+        parentId: parentId
     }
 };
 

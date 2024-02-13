@@ -2,7 +2,7 @@
 
 import '@/app/node-designer/scss/layout.scss';
 
-import { useState, useRef, useEffect, memo } from "react";
+import { useState, useRef, useEffect } from "react";
 import {registMouseEvent, inRange} from "@/app/node-designer/util/moudeMove";
 
 import ReactFlowApp from "@/app/node-designer/component/react-flow/reactflow"
@@ -16,44 +16,17 @@ import clsx from 'clsx';
 import BottomSheet from "@/app/node-designer/component/bottomSheet/BottomSheet";
 import Variables from './component/menu/variables';
 
-class MultiCallbackManager {
-  private setShowNodeDesignerCallBackFunc : any = null;
-  registerSetShowNodeDesigner(callbackFunc : any) {
-    this.setShowNodeDesignerCallBackFunc = callbackFunc
-    console.log('call registerSetShowNodeDesigner');
-  }
-
-  setShowNodeDesigner(show : boolean) {
-    if(this.setShowNodeDesignerCallBackFunc === null) return;
-    this.setShowNodeDesignerCallBackFunc(show);
-  }
-}
-
-const NodeDesigner  = memo(function NodeDesigner(
+export default function NodeDesigner(
   {
-    id = '',
+    id,
     padding = {top: 0, left: 0, right: 0, bottom: 0},
-    multiCallbackManager = null,
-    initShow = true
+
   } : {
-    id? : string,
+    id : string,
     padding? : {top: number; left: number; right: number; bottom: number},
-    multiCallbackManager? : any,
-    initShow? : boolean
   }) {
-    console.log(`3----------------- : ${id}`);
+  // 외부에서 NodeDesginer 컨퍼넌트를 사용을 고려해 외부에 사용중인 상하좌우 여백 크기를 설정해준다.
   outSidePadding.set(padding);
-
-  // Node designer 보기이/숨기기
-  const [showNodeDesigner, setShowNodeDesigner] = useState(initShow);
-
-  useEffect(() => {
-    if(multiCallbackManager) {
-      multiCallbackManager.registerSetShowNodeDesigner(setShowNodeDesigner);
-      console.log(`multiCallbackManager.registerSetShowNodeDesigner`);
-    }
-
-  }, [multiCallbackManager]);
 
   // div dom 현재 크기를 구하기 위한 ref를 생성한다.
   const rectFlowRef = useRef<HTMLDivElement>(null);
@@ -86,7 +59,7 @@ const NodeDesigner  = memo(function NodeDesigner(
   }, []);
 
   return (
-  <div className={clsx("node-designer", {'invisible' : showNodeDesigner === false})} id={id}>
+  <div className={clsx("node-designer")} id={id}>
     {/* 최 상단 툴바 */}
     <Boundary className='toolbar'
       style={{top: calcStyle.topOutsideMargin(), height: calcStyle.topToolbarHeight()}}
@@ -119,7 +92,7 @@ const NodeDesigner  = memo(function NodeDesigner(
           height: calcStyle.reactFlowCurHeight(bottomsheetNodeId !== '' ? curBottomSheetHeight : 0),
           width: calcStyle.reactFlowCurWidth(tabVisible, sidePropertyVisible)}}
       >
-        <ReactFlowApp setBottomsheetNodeId={setBottomsheetNodeId}/>
+        <ReactFlowApp id={id} setBottomsheetNodeId={setBottomsheetNodeId}/>
       </Boundary>
       {/* 우측 세로 속성창 영역 */}
       <Boundary
@@ -166,45 +139,4 @@ const NodeDesigner  = memo(function NodeDesigner(
     </Boundary>
   </div>
   );
-});
-
-export default NodeDesigner;
-
-const mapDesignNode : { [key: string]: {component : any, multiCallbackManager : MultiCallbackManager} } = {};
-// const mapDesignNode : { [key: string]: any } = {};
-
-export function MultiNodeDesigner(
-  {
-    currentShowNodeDesignerId,
-    // registerCallback,
-    padding = {top: 0, left: 0, right: 0, bottom: 0},
-  } : {
-    currentShowNodeDesignerId : string,
-    // registerCallback : (callbackFunc : (v: string) => void) => void
-    padding? : {top: number; left: number; right: number; bottom: number},
-  }) {
-
-  // const [currentShowNodeDesignerId, setCurrentShowNodeDesignerId] = useState<string>(id);
-  // useEffect(() => registerCallback(setCurrentShowNodeDesignerId), [registerCallback, setCurrentShowNodeDesignerId]);
-
-  console.log(`currentShowNodeDesignerId : ${currentShowNodeDesignerId}`);
-  if(currentShowNodeDesignerId !== '' && !mapDesignNode.hasOwnProperty(currentShowNodeDesignerId)) {
-    let m = new MultiCallbackManager;
-    console.log('1----------------- create');
-    mapDesignNode[currentShowNodeDesignerId] = {
-      component: <NodeDesigner key={currentShowNodeDesignerId} id={currentShowNodeDesignerId} padding={padding} multiCallbackManager={m} initShow={true}/>,
-      multiCallbackManager : m
-    }
-  }
-
-  for( const k in mapDesignNode) {
-    if(currentShowNodeDesignerId !== k)
-      mapDesignNode[k]['multiCallbackManager'].setShowNodeDesigner(false);
-  }
-
-  return (
-  <>
-    {(currentShowNodeDesignerId !== '') && mapDesignNode[currentShowNodeDesignerId]['component'] }
-    {(currentShowNodeDesignerId === '') && 'No Node-designers have been created.'}
-  </>);
 }
