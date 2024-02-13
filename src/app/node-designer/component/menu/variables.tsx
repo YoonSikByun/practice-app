@@ -6,7 +6,6 @@ import { calcStyle } from '@/app/node-designer/util/calcStyleRegion';
 import {VariablesInput, VariableAddBtn} from '@/app/node-designer/component/variables/variableInput';
 import VariableDeckList from '@/app/node-designer/component/variables/variableDeckList'
 import VariableDeck from '@/app/node-designer/component/variables/variableDeck';
->>>>>>> 4c53077d7a5dea0320f05967f342fd13f71b762e:src/app/node-designer/component/menu/variables.tsx
 const Variables = ({show} : {show : boolean}) => {
 
     const handlingDeleteDeck = (deckId : string) => {
