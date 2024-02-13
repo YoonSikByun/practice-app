@@ -53,7 +53,6 @@ export function TabHead( { items } : { items : TabHeadItem[]} ) {
     const [tabItems, setTabItems] = useState<any[]>(items);
 
     const addItem = () => {
-        console.log(`call addItem`);
         const id : string = multiNodeDesignerCallbackManager.addNodeDesigner();
         if(id === ''){
             alert('Node id is empty');

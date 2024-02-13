@@ -37,7 +37,6 @@ const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 11, height: 11, col
 // const initialNodes = [
 //   { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: getNodeData('Kind0') },
 //   { id: uuid(), type: 'Kind1', position: { x: 50, y: 100 }, data: getNodeData('Kind1')}];
-const initialNodes = [{}];
 
 const edgeTypes = { 'custom-edge': CustomEdge};
 

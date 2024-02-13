@@ -43,18 +43,13 @@ class NodeStateCallbackManager {
 class MultiNodeStateCallback {
     private callbackManager: { [key: string]: NodeStateCallbackManager} = {};
     add(id : string) {
-        // console.log(`before - call add : ${id}`);
         if(this.callbackManager.hasOwnProperty(id)) return;
-        // console.log(`after - call add : ${id}`);
         this.callbackManager[id] = new NodeStateCallbackManager;
     }
     call(id : string) {
-        // console.log(`before - call call : ${id}`);
         if(!this.callbackManager.hasOwnProperty(id)) this.add(id);
-        // console.log(`after - call call : ${id}`);        
         return this.callbackManager[id];
     }
 }
 
-// export const multiNodeStateCallback = new NodeStateCallbackManager();
 export const multiNodeStateCallback = new MultiNodeStateCallback;

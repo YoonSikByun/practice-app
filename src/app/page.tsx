@@ -44,13 +44,9 @@ export default function Page() {
     mainStateCallbackManager.registerSetCurrentPageName(setShowPageName);
   }, [setShowPageName]);
 
-  console.log(`showPageName : ${showPageName}`);
-
   const addChildNodeDesigner = () => {
     const nodeDesginerId = uuid();
-    console.log(`showPageName : ${showPageName}`);
     const compoenet = <WrapperNodeDesigner key={nodeDesginerId} id={nodeDesginerId} callbackManager={multiNodeDesignerCallbackManager}/>;
-    console.log(`addChildNodeDesigner : ${nodeDesginerId}`);
 
     setChildNodeDesignerList([...childNodeDesignerList, compoenet]);
     setChildNodeDesignerIdList([...childNodeDesignerIdList, nodeDesginerId]);
