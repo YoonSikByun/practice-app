@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import { useState } from "react";
-import { mainLayoutSize } from "@/app/main/config/layoutFrame";
+import { mainLayoutSize } from "@/app/config/layoutFrame";
 import {
     mainStateCallbackManager,
     PageName,

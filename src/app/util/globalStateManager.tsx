@@ -3,6 +3,7 @@ export enum PageName {
     NODE_DESIGNER = 'nodeDesigner'
 }
 
+//다른 모듈에서 main 페이지 컨퍼넌트 렌더링 변경을 위한 매니저
 class MainStateCallbackManager {
     private callbackFuncSetCurrentPageName: any = null;
 
@@ -18,6 +19,7 @@ class MainStateCallbackManager {
 
 export const mainStateCallbackManager = new MainStateCallbackManager();
 
+//여러개의 노드디자이너(Reactflow)를 동시에 여러개 열어서 렌더링 및 사용할 수 있도록 지원하는 매니저
 export class MultiNodeDesignerCallbackManager {
     private callbackShowHideFuncs: { [key: string]: (visible : boolean) => void } = {};
     private callbackAddNodeDesignerFuncs: any = null;

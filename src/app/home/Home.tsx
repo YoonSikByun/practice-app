@@ -1,4 +1,4 @@
-import { mainLayoutSize } from "@/app/main/config/layoutFrame"
+import { mainLayoutSize } from "@/app/config/layoutFrame"
 import clsx from "clsx"
 // import { mainStateCallbackManager, PageName } from "@/app/main/util/mainGlobalStateManager";
 

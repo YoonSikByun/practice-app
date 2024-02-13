@@ -62,7 +62,7 @@ function TabHead({
     onButtonClick : (title : string) => void
 }) {
     return (
-        <div
+        <button
             className={clsx(
                 'tab-head', 'select-none',
                 {'bg-orange-400 font-bold' : clicked === true},
@@ -73,6 +73,6 @@ function TabHead({
             <p className={clsx('text-black text-center')}>
                 {menuItem.title}
             </p>
-        </div>
+        </button>
     );
 }

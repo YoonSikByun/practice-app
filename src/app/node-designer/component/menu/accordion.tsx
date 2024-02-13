@@ -1,6 +1,5 @@
 import '@/app/globals.css';
 import '@/app/node-designer/scss/component/accordion.scss';
-import '@/common/definition';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { AccordionPanelItem } from '@/app/node-designer/config/menu';

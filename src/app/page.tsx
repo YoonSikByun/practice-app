@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import NodeDesigner from "@/app/node-designer/NodeDesigner";
 import HomeMain from "@/app/home/Home";
-import { mainLayoutSize } from "@/app/main/config/layoutFrame";
+import { mainLayoutSize } from "@/app/config/layoutFrame";
 import {
   mainStateCallbackManager,
   PageName,
@@ -12,6 +12,7 @@ import {
 } from "@/app/util/globalStateManager";
 import { v4 as uuid } from "uuid";
 
+//노드 디자이너(Reactflow) 감싸고 있는 컨퍼넌트
 function WrapperNodeDesigner(
   {
     id,
@@ -35,7 +36,7 @@ function WrapperNodeDesigner(
 }
 
 export default function Page() {
-  const [showPageName, setShowPageName] = useState('home');
+  const [showPageName, setShowPageName] = useState<PageName>(PageName.HOME);
   const [childNodeDesignerIdList, setChildNodeDesignerIdList] = useState<string[]>([]);
   const [childNodeDesignerList, setChildNodeDesignerList] = useState<any[]>([]);
 

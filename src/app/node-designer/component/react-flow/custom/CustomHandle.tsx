@@ -31,7 +31,7 @@ const CustomHandle = (
     return (
     <Handle
         style={{cursor: "all-scroll"}}
-        className='h-[10px] w-[10px] bg-slate-400'
+        className='h-[15px] w-[15px] bg-slate-400'
         type={type}
         position={position}
         id={id}
