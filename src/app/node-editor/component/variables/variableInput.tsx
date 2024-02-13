@@ -1,6 +1,6 @@
 export function VariablesInput () {
     return (
-      <input className="sidebar-add-btn"type="search" placeholder="변수 검색" role="textbox" style={{textAlign:"left" , paddingLeft:"10px"}}></input>
+      <input className="sidebar-search-input"type="search" placeholder="변수 검색" role="textbox" style={{textAlign:"left" , paddingLeft:"10px"}}></input>
     )
 }
 
