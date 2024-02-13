@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import {useState, useEffect} from 'react'
-import '@/app/node-editor/css/component/react-flow/custom/Sidebar.scss'
+import '@/app/node-editor/css/component/Sidebar.scss'
 import { calcStyle } from '@/app/node-editor/util/calcStyleRegion';
 import {VariablesInput, VariableAddBtn} from '@/app/node-editor/component/variables/variableInput';
 import VariableDeckList from '@/app/node-editor/component/variables/variableDeckList'
