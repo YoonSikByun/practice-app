@@ -2,14 +2,14 @@
 
 import { useState, useEffect } from "react";
 import NodeDesigner from "@/app/node-designer/NodeDesigner";
-import HomeMain from "@/app/home/Home";
-import { mainLayoutSize } from "@/app/config/layoutFrame";
+import HomeMain from "@/app/main/component/home/Home";
+import { mainLayoutSize } from "@/app/main/config/layoutFrame";
 import {
   mainStateCallbackManager,
   PageName,
   MultiNodeDesignerCallbackManager,
   multiNodeDesignerCallbackManager
-} from "@/app/util/globalStateManager";
+} from "@/app/main/util/globalStateManager";
 import { v4 as uuid } from "uuid";
 
 //노드 디자이너(Reactflow) 감싸고 있는 컨퍼넌트

@@ -1,4 +1,4 @@
-import { TabHead, TabHeadItem } from '@/app/main/component/controls/TabHead'
+import { Tab, TabHeadItem } from '@/app/main/component/top/Tab'
 // import { v4 as uuid } from "uuid";
 import { useState } from 'react';
 
@@ -13,7 +13,7 @@ export default function Center() {
 
     return (
         <>
-            <TabHead items={tabHeadItems}/>
+            <Tab items={tabHeadItems}/>
         </>
     );
 }

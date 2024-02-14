@@ -1,6 +1,5 @@
-import { mainLayoutSize } from "@/app/config/layoutFrame"
+import { mainLayoutSize } from "@/app/main/config/layoutFrame"
 import clsx from "clsx"
-// import { mainStateCallbackManager, PageName } from "@/app/main/util/mainGlobalStateManager";
 
 export default function Home() {
     return (
@@ -16,7 +15,6 @@ export default function Home() {
                 style={{top: 0, left: 300}}
             >
                 Pipeline<br/>
-                {/* <p onClick={() => mainStateCallbackManager.setCurrentPageName(PageName.HOME)}>Node designer</p> */}
             </div>
         </div>
     )
