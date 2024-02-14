@@ -8,21 +8,31 @@ import VariableDeckList from '@/app/node-designer/component/variables/variableDe
 import VariableDeck from '@/app/node-designer/component/variables/variableDeck';
 const Variables = ({show} : {show : boolean}) => {
 
-    const handlingDeleteDeck = (deckId : string) => {
-        const newDeckList = deckList.filter((deck)=> deck.props.deckId != deckId);
+    
+    const [counter, setCounter] = useState(0)
+    const [searchName , setSearchName] = useState('');
+
+    const handlingDeleteDeck = (varName : string) => {
+        const newDeckList = deckList.filter((deck)=> deck.props.varName != varName);
         setDeckList(newDeckList);
     }
+    
+    const [deckList, setDeckList] = useState([<VariableDeck key={0} varName={"deck_0"} handlingDeleteDeck= {handlingDeleteDeck}/>])
 
     const handlingAddBtn = () => {
-        let deckId = "deck_" + (counter+1);
-        let newDeckList = [...deckList , <VariableDeck key={counter+1} deckId={deckId} handlingDeleteDeck= {handlingDeleteDeck}/>]
+        let varName = "deck_" + (counter+1);
+        let newDeckList = [...deckList , <VariableDeck key={counter+1} varName={varName} handlingDeleteDeck= {handlingDeleteDeck} />]
         setCounter(prev => prev + 1);
         setDeckList(newDeckList)
     }
 
-    const [deckList, setDeckList] = useState([<VariableDeck key={0} deckId={"dec k_0"} handlingDeleteDeck= {handlingDeleteDeck}/>])
-    const [counter, setCounter] = useState(0)
+    const handlingSearch = (e : any) => {
+        setSearchName(e.target.value);
+    }
 
+    useEffect(() => {
+        handlingSearch
+      }, []);
 
     return (
         <div  className={clsx('accordion-container',
@@ -33,11 +43,12 @@ const Variables = ({show} : {show : boolean}) => {
             backgroundColor:"white"
             }
             }>
+
             <div className='sidebar-conatainer' style={{width: '332px'}}> 
                 <SidebarHeader/>
                 <VariableAddBtn onClick = {() => handlingAddBtn()}></VariableAddBtn>
-                <VariablesInput/>
-                <VariableDeckList deckList={deckList} handlingDeleteDeck= {handlingDeleteDeck}/>
+                <VariablesInput onChange = {handlingSearch}/>
+                <VariableDeckList deckList={deckList} searchName={searchName} handlingDeleteDeck={handlingDeleteDeck} />
             </div>
         </div>
     )

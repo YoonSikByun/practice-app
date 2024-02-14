@@ -1,13 +1,27 @@
 import VariableDeck from '@/app/node-designer/component/variables/variableDeck' 
 import { useState } from 'react';
-const VariableDeckList = ({deckList , handlingDeleteDeck} : {deckList : JSX.Element[] , handlingDeleteDeck : (deckId : string) => void}) => {
+
+const VariableDeckList = ({deckList,
+                            searchName,
+                            handlingDeleteDeck,
+                          } : 
+                          {deckList : JSX.Element[],
+                           searchName : string,
+                           handlingDeleteDeck : (deckId : string) => void,
+                          }) => {
+  if(searchName != ''){
+    deckList = deckList.filter(deck => deck.props.varName.includes(searchName));
+  }
+ 
   return (
+
     <>
-      {deckList.map((item) => (
-        <div key={item.props.deckId}>
+      {deckList.map((deck) => (
+
+        <div key={deck.props.varName}>
           <VariableDeck
-            deckId={item.props.deckId}
-            handlingDeleteDeck={(() => handlingDeleteDeck(item.props.deckId))}
+            varName={deck.props.varName}
+            handlingDeleteDeck={(() => handlingDeleteDeck(deck.props.varName))}
           />
         </div>
       ))}
