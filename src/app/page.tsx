@@ -64,11 +64,8 @@ export default function Page() {
     let idList = [];
     let componentList = [];
     for(const index in childNodeDesignerIdList) {
-      if(childNodeDesignerIdList[index] == id) {
-        console.log(`delete item : ${id}`);
-        continue;
-      }
-      console.log(`push item : ${id}`);
+      if(childNodeDesignerIdList[index] == id) continue;
+
       idList.push(childNodeDesignerIdList[index]);
       componentList.push(childNodeDesignerList[index]);
     }
