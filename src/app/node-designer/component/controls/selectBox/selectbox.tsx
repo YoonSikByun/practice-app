@@ -1,4 +1,4 @@
-import {OPTIONS} from "@/app/node-designer/component/selectBox/options"
+import {OPTIONS} from "@/app/node-designer/component/controls/selectBox/options"
 
 const SelectBox = () => {
 	return (
