@@ -1,11 +1,11 @@
 import clsx from "clsx";
 import { useState } from "react";
-import { mainLayoutSize } from "@/app/config/layoutFrame";
+import { mainLayoutSize } from "@/app/main/config/layoutFrame";
 import {
     mainStateCallbackManager,
     PageName,
     multiNodeDesignerCallbackManager
- } from '@/app/util/globalStateManager';
+ } from '@/app/main/util/globalStateManager';
 
 export type TabHeadItem = {
     title: string;
@@ -48,7 +48,7 @@ function ItemBox(
     );
 }
 
-export function TabHead( { items } : { items : TabHeadItem[]} ) {
+export function Tab( { items } : { items : TabHeadItem[]} ) {
     const [currentTabHeadId, setCurrentTabHeadId] = useState<string>('');
     const [tabItems, setTabItems] = useState<any[]>(items);
 

@@ -170,11 +170,11 @@ export default function ReactFlowApp(
     //현 선택된 노드Id를 이전 노드id에 저장한다.
     multiNodeStateCallback.call(id).setPrevNodeId(elements['nodes'][0].id);
     
-    // // 다른 노드가 선택되면 해당 노드를 화면 중심에 보이도록 한다.
-    // if(reactFlowInstance) {
-    //   const v = reactFlowInstance.getViewport();
-    //   reactFlowInstance.fitView({ nodes: [elements['nodes'][0]], includeHiddenNodes : false, minZoom : v.zoom, maxZoom: v.zoom, duration: 300 });
-    // }
+    // 다른 노드가 선택되면 해당 노드를 화면 중심에 보이도록 한다.
+    if(reactFlowInstance) {
+      const v = reactFlowInstance.getViewport();
+      reactFlowInstance.fitView({ nodes: [elements['nodes'][0]], includeHiddenNodes : false, minZoom : v.zoom, maxZoom: v.zoom, duration: 300 });
+    }
 
   };
 

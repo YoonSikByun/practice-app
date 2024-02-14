@@ -1,14 +1,13 @@
 'use client'
 
-import '@/app/scss/layout.scss'
-import { mainLayoutSize } from '@/app/config/layoutFrame'
+import '@/app/main/scss/layout.scss'
+import { mainLayoutSize } from '@/app/main/config/layoutFrame'
 import { useEffect } from 'react'
-import Left from '@/app/main/component/TopHead/Left'
-import Center from '@/app/main/component/TopHead/Center'
-import clsx from 'clsx'
+import Left from '@/app/main/component/top/Left'
+import Center from '@/app/main/component/top/Center'
 
 //Global Navigation Bar
-export default function TopHead() {
+export default function Top() {
 
     //페이지가 새로고침 되거나 다른 사이트로 이동할 때 경고 메시지를 보여준다.
     useEffect(() => {
