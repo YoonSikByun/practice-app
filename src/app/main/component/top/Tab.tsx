@@ -116,7 +116,8 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
     }
 
     return (
-        <ul className={clsx(`mt-[${topMargin}px] flex space-x-[2px]`)}>
+        <ul className={clsx(`flex space-x-[2px]`)}
+        style={{lineHeight: `${mainLayoutSize['topGNB'].height}px`, marginTop: `${topMargin}px`}}>
             {
                 tabItems.map((item, index) => {
                     return (

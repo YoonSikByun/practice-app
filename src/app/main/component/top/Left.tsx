@@ -3,7 +3,7 @@ import { mainStateCallbackManager, PageName } from "@/app/main/util/globalStateM
 export default function Left() {
     return (
         <>
-            <button className='font-bold' onClick={() => mainStateCallbackManager.setCurrentPageName(PageName.HOME)}>Node Designer</button>
+            <button title='Home으로 이동' className='font-bold' onClick={() => mainStateCallbackManager.setCurrentPageName(PageName.HOME)}>Node Designer</button>
         </>
     );
 }
