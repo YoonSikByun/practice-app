@@ -1,5 +1,5 @@
 import { useState } from "react";
-import SelectBox from "@/app/node-designer/component/selectBox/selectbox"
+import SelectBox from "@/app/node-designer/component/controls/selectBox/selectbox"
 const VariableDeck = ({
                         varName,
                         handlingDeleteDeck,

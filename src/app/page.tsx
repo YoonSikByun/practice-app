@@ -40,21 +40,41 @@ export default function Page() {
   const [childNodeDesignerIdList, setChildNodeDesignerIdList] = useState<string[]>([]);
   const [childNodeDesignerList, setChildNodeDesignerList] = useState<any[]>([]);
 
+  //다른 모듈에서도 페이지 이동에 사용할 수 있도록 페이지 useState 함수를 콜백함수로 등록한다.
   useEffect(() => {
     mainStateCallbackManager.registerSetCurrentPageName(setShowPageName);
   }, [setShowPageName]);
 
+  //노드디자이너 신규 생성
   const addChildNodeDesigner = () => {
     const nodeDesginerId = uuid();
-    const compoenet = <WrapperNodeDesigner key={nodeDesginerId} id={nodeDesginerId} callbackManager={multiNodeDesignerCallbackManager}/>;
+    const component = <WrapperNodeDesigner key={nodeDesginerId} id={nodeDesginerId} callbackManager={multiNodeDesignerCallbackManager}/>;
 
-    setChildNodeDesignerList([...childNodeDesignerList, compoenet]);
+    setChildNodeDesignerList([...childNodeDesignerList, component]);
     setChildNodeDesignerIdList([...childNodeDesignerIdList, nodeDesginerId]);
 
     return nodeDesginerId;
   }
 
+  //다른 모듈에서 노드디자이너 신규 생성 할 수 있도록 콜백함수로 등록한다.
   multiNodeDesignerCallbackManager.registerAddNodeDesignerCallback(addChildNodeDesigner);
+
+  //생성된 노드디자이너를 삭제한다.
+  const deleteChildNodeDesigner = (id : string) => {
+    let idList = [];
+    let componentList = [];
+    for(const index in childNodeDesignerIdList) {
+      if(childNodeDesignerIdList[index] == id) continue;
+
+      idList.push(childNodeDesignerIdList[index]);
+      componentList.push(childNodeDesignerList[index]);
+    }
+    setChildNodeDesignerIdList(idList);
+    setChildNodeDesignerList(componentList);
+  }
+
+  //다른 모듈에서 생성된 노드디자이너를 삭제할 수 있도록 콜백함수 등록한다.
+  multiNodeDesignerCallbackManager.registerDeleteNodeDesignerCallback(deleteChildNodeDesigner);
 
   return (
     <>

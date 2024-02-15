@@ -23,6 +23,7 @@ export const mainStateCallbackManager = new MainStateCallbackManager();
 export class MultiNodeDesignerCallbackManager {
     private callbackShowHideFuncs: { [key: string]: (visible : boolean) => void } = {};
     private callbackAddNodeDesignerFuncs: any = null;
+    private callbackDeleteNodeDesignerFuncs: any = null;
 
     registerShowHideCallback(id : string, f : any) {
       this.callbackShowHideFuncs[id] = f;
@@ -30,6 +31,10 @@ export class MultiNodeDesignerCallbackManager {
 
     registerAddNodeDesignerCallback(f : any) {
       this.callbackAddNodeDesignerFuncs = f;
+    }
+
+    registerDeleteNodeDesignerCallback(f : any) {
+      this.callbackDeleteNodeDesignerFuncs = f;
     }
   
     showNodeDesigner(id : string) {
@@ -48,6 +53,11 @@ export class MultiNodeDesignerCallbackManager {
       if(!this.callbackAddNodeDesignerFuncs) return '';
       const id = this.callbackAddNodeDesignerFuncs();
       return id;
+    }
+
+    deleteNodeDesigner(id : string) {
+      if(!this.callbackDeleteNodeDesignerFuncs) return '';
+      this.callbackDeleteNodeDesignerFuncs(id);
     }
   }
 
