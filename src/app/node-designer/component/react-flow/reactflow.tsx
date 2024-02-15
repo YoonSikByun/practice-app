@@ -32,7 +32,7 @@ import ConnectionLine from '@/app/node-designer/component/react-flow/custom/Conn
 const bgGuideType = ['none', BackgroundVariant.Cross, BackgroundVariant.Dots, BackgroundVariant.Lines];
 
 const rfStyle = { backgroundColor: '#FFFFFF' };
-const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 11, height: 11, color: "red" };
+const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 11, height: 11, color: "blue" };
 
 // const initialNodes = [
 //   { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: getNodeData('Kind0') },
@@ -171,10 +171,10 @@ export default function ReactFlowApp(
     multiNodeStateCallback.call(id).setPrevNodeId(elements['nodes'][0].id);
     
     // 다른 노드가 선택되면 해당 노드를 화면 중심에 보이도록 한다.
-    if(reactFlowInstance) {
-      const v = reactFlowInstance.getViewport();
-      reactFlowInstance.fitView({ nodes: [elements['nodes'][0]], includeHiddenNodes : false, minZoom : v.zoom, maxZoom: v.zoom, duration: 300 });
-    }
+    // if(reactFlowInstance) {
+    //   const v = reactFlowInstance.getViewport();
+    //   reactFlowInstance.fitView({ nodes: [elements['nodes'][0]], includeHiddenNodes : false, minZoom : v.zoom, maxZoom: v.zoom, duration: 300 });
+    // }
 
   };
 
