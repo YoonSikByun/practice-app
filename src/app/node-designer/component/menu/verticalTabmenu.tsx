@@ -40,7 +40,7 @@ export default function VerticalTabMenu({
         {
             menuItems.map((menuItem, i) => {
                 return (
-                <div key={i}>
+                <div key={i} className='h-[110px]'>
                     <TabHead
                      menuItem={menuItem}
                      clicked={(indexClicked === i)}
@@ -67,7 +67,7 @@ function TabHead({
                 'tab-head', 'select-none',
                 {'bg-orange-400 font-bold' : clicked === true},
                 {'bg-red-100' : clicked === false},
-                'h-[110px] w-full'
+                'h-full w-full'
             )}
             onClick={(e)=>{onButtonClick(menuItem.title)}}>
             <p className={clsx('text-black text-center')}>
