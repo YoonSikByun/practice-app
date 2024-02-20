@@ -7,7 +7,7 @@ export default function ProjectContainer({ showProject, setPjtCount}: { showProj
     const [checkedIndex, setcheckedIndex] = useState(0);
     useEffect(() => {
         setPjtCount(ProjectItems.length);
-    }, [ProjectItems.length]);
+    }, [setPjtCount]);
 
     return (
         <div className = {clsx("home-sidebar-project-list-container" )}>
@@ -34,7 +34,7 @@ function Project({
     setCheckedIndex : any
 }) {
     const handleOnClick = () => {
-        setCheckedIndex(idx)
+        setCheckedIndex(idx);
     }
     return (
         <>
