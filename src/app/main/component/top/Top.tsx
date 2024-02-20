@@ -5,6 +5,8 @@ import { mainLayoutSize } from '@/app/main/config/layoutFrame'
 import { useEffect } from 'react'
 import Left from '@/app/main/component/top/Left'
 import Center from '@/app/main/component/top/Center'
+import Right from '@/app/main/component/top/Right'
+import { calcStyle } from "@/app/main/util/calcStyleRegion"
 
 //Global Navigation Bar
 export default function Top() {
@@ -25,15 +27,42 @@ export default function Top() {
 
     return (
         <div className="top-head flex"
-            style={{height:mainLayoutSize['topGNB'].height}}
+            style={{
+                position: 'absolute',
+                height:calcStyle.getTopHeight()
+            }}
         >
             {/* Logo */}
-            <div style={{width:mainLayoutSize['project'].width}}>
+            <div style={{
+                position: 'absolute',
+                height: calcStyle.getTopHeight(),
+                lineHeight: calcStyle.getTopHeight(),
+                width: calcStyle.getTopLeftWidth(),
+                textAlign: 'center'
+                }}
+            >
                 <Left/>
             </div>
             {/* 열려있는 Node designer */}
-            <div>
+            <div style={{
+                position: 'absolute',
+                left: calcStyle.getTopLeftLeft(),
+                height: calcStyle.getTopHeight(),
+                lineHeight: calcStyle.getTopHeight(),
+                width: calcStyle.getTopCenterWidth()
+                }}
+            >
                 <Center/>
+            </div>
+            <div style={{
+                position: 'absolute',
+                left: calcStyle.getTopRightLeft(),
+                height: calcStyle.getTopHeight(),
+                lineHeight: calcStyle.getTopHeight(),
+                width: calcStyle.getTopRightWidth()
+                }}
+            >
+                <Right />
             </div>
         </div>
     )
