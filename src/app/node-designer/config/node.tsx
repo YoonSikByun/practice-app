@@ -28,7 +28,7 @@ const defaultClass : string = clsx(
     'node-inner bg-orange-200 m-1 shadow-md',
     'border-[1px] border-rose-600 border-solid rounded-[8px]');
 
-const desginNodeSize : NodeSize = {width: 130, height: 50};
+const desginNodeSize : NodeSize = {width: 125, height: 50};
 
 export const nullNode = {id: 'NotDefined', nodeKind: 'NotDefined', designClassName: defaultClass, designNodeSize: desginNodeSize, runClassName: defaultClass, runNodeSize: desginNodeSize, icon: nodeIcon['Kind0']};
 
