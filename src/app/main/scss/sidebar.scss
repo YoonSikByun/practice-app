@@ -103,19 +103,21 @@
     border-color: rgb(143, 168, 252);
 }
 
-.home-sidebar-project-brtc-project-new{
-    content: "+";
+.home-sidebar-project-brtc-project-new {
+    // content: "+";
     position: absolute;
-    left: 198px;
-    top: 70px;
-    font-size: 27px;
-    color: #000000
+    margin-top: 6px;
+    left: 193px;
+    // top: 70px;
+    // font-size: 27px;
+    // color: #000000
 }
 
-.home-sidebar-project-brtp-add-new{
+.home-sidebar-project-brtp-add-new {
     position: absolute;
+    margin-top: 6px;
     left: 221px;
-    top: 77px;
-    font-size: 27px;
-    color: #ff0000
+    // top: 77px;
+    // font-size: 27px;
+    // color: #ff0000
 }

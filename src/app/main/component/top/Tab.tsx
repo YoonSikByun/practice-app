@@ -12,7 +12,7 @@ export type TabHeadItem = {
     id: string;
 }
 
-const topMargin : number =10;
+const topMargin : number = 10;
 
 function ItemBox(
     {

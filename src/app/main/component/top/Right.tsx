@@ -1,20 +1,30 @@
 import { mainLayoutSize } from "@/app/main/config/layoutFrame"
-import ShowPopup from "../popup/popup"
+import GlobalSettingPopup from "@/app/main/component/popup/GlobalSettingPopup"
+import { Cog6ToothIcon } from '@heroicons/react/24/outline';
 import { useState } from "react"
 
 export default function Right() {
-    const [showGlobalSettingPopup, setShowGlobalSettingPopup] = useState(false);
+    const [globalSettingPopupVisible, setGlobalSettingPopupVisible] = useState(false);
     return (
-        <div
-            style={{lineHeight: `${mainLayoutSize['topGNB'].height}px`, width: '30px' }}
+        <div style={{
+            height: '100%',
+            width: '100%',
+            textAlign: 'right',
+            alignItems: 'right'}}
         >
-            <button onClick={() => setShowGlobalSettingPopup(!showGlobalSettingPopup)}>
-                Show
+            {/* <button
+                onClick={() => setGlobalSettingPopupVisible(!globalSettingPopupVisible)}
+                style={{lineHeight: `${mainLayoutSize['topGNB'].height}px`, verticalAlign: 'middle', marginRight: '5px'}}
+            >
+                <Cog6ToothIcon className="h-7 w-7 text-gray-700"/>
+            </button> */}
+            <button
+                onClick={() => setGlobalSettingPopupVisible(!globalSettingPopupVisible)}
+                style={{lineHeight: `${mainLayoutSize['topGNB'].height}px`, verticalAlign: 'middle', marginRight: '10px'}}
+            >
+                <Cog6ToothIcon className="h-7 w-7 text-gray-700"/>
             </button>
-            <ShowPopup
-                title='테스트 팝업!!!!!'
-                visible={showGlobalSettingPopup}
-                setVisible={setShowGlobalSettingPopup}/>
+            <GlobalSettingPopup visible={globalSettingPopupVisible} setVisible={setGlobalSettingPopupVisible} />
         </div>
     )
 }
