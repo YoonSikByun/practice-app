@@ -1,7 +1,7 @@
 import { InformationCircleIcon, Bars3Icon } from "@heroicons/react/24/outline"
 export default function WorkspaceList() {
     return (
-        <div className='w-full h-full'>
+        <div className='w-full h-full m-[9px] bg-red-300'>
             {/* 프로젝트 제목 부분 */}
             <div className='w-full h-[50px] flex flex-row items-center'>
                 <div className="w-[90%]">
@@ -12,11 +12,11 @@ export default function WorkspaceList() {
                 </div>
             </div>
             {/* 프로젝트 생성 정보 */}
-            <div className='w-full h-[30px] flex flex-row leading-[30px] border-block border-b-2'>
+            <div className='w-full h-[30px] flex flex-row leading-[30px] border-gray-200 border-b-2'>
                 <div><InformationCircleIcon className='h-7 w-7 mr-1' /></div>
                 <div>Create on 2023/02/21 23:35 by hanaTI@mail.com</div>
             </div>
-            <div className='h-full w-full bg-red-100'>
+            <div className='h-full w-full'>
 
             </div>
         </div>
