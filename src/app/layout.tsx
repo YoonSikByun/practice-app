@@ -15,7 +15,7 @@ export default function RootLayout({
   return (
     <html lang="kor">
       {/* Body 부분이 스크롤 되는 것 방지 위한 style */}
-      <body id='body' style={{
+      <body id='main-body' style={{
         margin: 0,
         height: '100%',
         overflow: 'hidden'}}

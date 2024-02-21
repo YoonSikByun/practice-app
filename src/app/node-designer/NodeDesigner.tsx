@@ -3,14 +3,15 @@
 import '@/app/node-designer/scss/layout.scss';
 
 import { useState, useRef, useEffect } from "react";
-import {registMouseEvent, inRange} from "@/app/node-designer/util/moudeMove";
+import {registMouseEvent, inRange} from "@/app/common/util/moudeMove";
 
 import ReactFlowApp from "@/app/node-designer/component/react-flow/reactflow"
-import Boundary from '@/app/node-designer/component/boundary';
+import Boundary from '@/app/common/util/Boundary';
 import VerticalTabMenu from "@/app/node-designer/component/menu/verticalTabmenu";
 import Accordion from '@/app/node-designer/component/menu/accordion';
 import {verticalTablMenuItems, accordionPanelItems} from '@/app/node-designer/config/menu'
-import {layoutSize, outSidePadding, Rect} from '@/app/node-designer/config/layoutFrame'
+import {layoutSize, outSidePadding} from '@/app/node-designer/config/layoutFrame'
+import { Rect } from "@/app/common/util/definition";
 import {calcStyle} from '@/app/node-designer/util/calcStyleRegion';
 import clsx from 'clsx';
 import BottomSheet from "@/app/node-designer/component/bottomSheet/BottomSheet";

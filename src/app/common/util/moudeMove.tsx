@@ -1,6 +1,9 @@
+import { Position } from "@/app/common/util/definition";
+
 export function registMouseEvent(
-    onDragChange: (deltaX: number, deltaY: number) => void,
-    stopPropagation?: boolean,
+    onDragChange: (deltaX: number, deltaY: number, initPosition?: Position) => void,
+    onMouseUp?: any,
+    stopPropagation? : boolean,
 ) {
     return {
         // React Node에 적용할 이벤트 정의
@@ -21,6 +24,7 @@ export function registMouseEvent(
             const mouseUpHandler = () => {
                 document.removeEventListener('mousemove', mouseMoveHandler);
                 document.body.style.removeProperty('user-select');
+                if(onMouseUp) onMouseUp();
             };
 
             // 이벤트 핸들러 함수 등록
