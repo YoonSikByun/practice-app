@@ -67,6 +67,7 @@ function ItemBox(
                 <button
                  style={{lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`, width: '30px' }}
                  onClick={handlerOnClickX}
+                 title='작업공간 닫기'
                 >
                     <XCircleIcon className='h-6 w-6 hover:bg-red-100' />
                 </button>
@@ -148,6 +149,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                     onClick={addItem}
                     style={{height: (mainLayoutSize['topGNB'].height - (topMargin + 6 ))}}
                     className='rounded bg-slate-100 mt-1 hover:bg-yellow-100'
+                    title='새로운 작업공간 생성'
                 >
                     <PlusIcon className='h-6 w-6' />
                 </button>

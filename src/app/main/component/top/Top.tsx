@@ -25,10 +25,10 @@ export default function Top() {
     };
 
     return (
-        <div className="top-head flex"
+        <div className="top-head flex flex-row items-center"
             style={{
                 position: 'absolute',
-                height:calcStyle.getTopHeight()
+                height:calcStyle.getTopHeight(),
             }}
         >
             {/* Logo */}

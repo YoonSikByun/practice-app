@@ -4,7 +4,7 @@ import logo_png from '@/app/main/image/logo.png';
 //Global Navigation Bar
 export default function Left() {
     return (
-        <>
+        <div className='flex h-full mt-1 ml-3'>
             <button
                 title='Home으로 이동'
                 onClick={() => mainStateCallbackManager.setCurrentPageName(PageName.HOME)}
@@ -17,6 +17,6 @@ export default function Left() {
                     alt="NodeApp Dsigner producted by AI Solution Cell, HanaTI"
                 />
             </button>
-        </>
+        </div>
     );
 }

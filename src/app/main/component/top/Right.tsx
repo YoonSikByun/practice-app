@@ -20,9 +20,13 @@ export default function Right() {
             </button> */}
             <button
                 onClick={() => setGlobalSettingPopupVisible(!globalSettingPopupVisible)}
-                style={{lineHeight: `${mainLayoutSize['topGNB'].height}px`, verticalAlign: 'middle', marginRight: '10px'}}
+                style={{
+                    lineHeight: `${mainLayoutSize['topGNB'].height}px`,
+                    verticalAlign: 'middle',
+                    marginRight: '10px'}}
+                title='환경설정'
             >
-                <Cog6ToothIcon className="h-7 w-7 text-gray-700"/>
+                <Cog6ToothIcon className="h-7 w-7"/>
             </button>
             <GlobalSettingPopup visible={globalSettingPopupVisible} setVisible={setGlobalSettingPopupVisible} />
         </div>
