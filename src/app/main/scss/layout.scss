@@ -23,10 +23,7 @@
     position: absolute;
     color: black;
     display: block;
-    width:400px;
-    height:200px;
-    left: 150%;
-    top: 30%;
+    width:360px;
     border-radius: 5px;
     padding: 1em;
     background: rgb(255, 255, 255);
@@ -45,18 +42,6 @@
     padding: 1em;
     background: rgb(255, 255, 255);
     z-index: 100;
-}
-
-.dialog-header {
-    // float: left;
-    cursor: move;
-    margin-left: 10px;
-    white-space: nowrap;
-    width: 90%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: black;
-    border-bottom: solid 1px rgb(143, 168, 252);
 }
 
 .dialog-load-project-header {
@@ -156,7 +141,10 @@
 }
 
 .dialog-content input {
-    margin-left: 66px;
+    margin-left: 52px;
+    width: 231px;
+    font-size: 12px;
+    font-weight: lighter;
     border: 1px solid #888;
     height: 18px;   
 }
