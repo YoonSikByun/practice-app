@@ -1,7 +1,6 @@
 'use client'
 
 import '@/app/main/scss/layout.scss'
-import { mainLayoutSize } from '@/app/main/config/layoutFrame'
 import { useEffect } from 'react'
 import Left from '@/app/main/component/top/Left'
 import Center from '@/app/main/component/top/Center'
