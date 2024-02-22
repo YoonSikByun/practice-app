@@ -1,9 +1,22 @@
 import { mainStateCallbackManager, PageName } from "@/app/main/util/globalStateManager";
+import Image from 'next/image'
+import logo_png from '@/app/main/image/logo.png';
 //Global Navigation Bar
 export default function Left() {
     return (
         <>
-            <button title='Home으로 이동' className='font-bold' onClick={() => mainStateCallbackManager.setCurrentPageName(PageName.HOME)}>Node Designer</button>
+            <button
+                title='Home으로 이동'
+                onClick={() => mainStateCallbackManager.setCurrentPageName(PageName.HOME)}
+            >
+                <Image
+                    src={logo_png}
+                    width={174}
+                    height={33}
+                    className="hidden md:block"
+                    alt="NodeApp Dsigner producted by AI Solution Cell, HanaTI"
+                />
+            </button>
         </>
     );
 }

@@ -38,7 +38,8 @@ export default function Top() {
                 height: calcStyle.getTopHeight(),
                 lineHeight: calcStyle.getTopHeight(),
                 width: calcStyle.getTopLeftWidth(),
-                textAlign: 'center'
+                textAlign: 'center',
+                alignItems: 'center'
                 }}
             >
                 <Left/>
