@@ -3,7 +3,7 @@ import "@/app/main/scss/sidebar.scss"
 import "@/app/main/scss/layout.scss"
 import ProjectListLabel from "@/app/main/component/projects/projectListLabel"
 import { calcStyle } from "@/app/main/util/calcStyleRegion"
-import WorkspaceList from "@/app/main/component/workspace/WorkspaceList"
+import WorkspaceContainer from "@/app/main/component/workspace/WorkspaceContainer"
 
 export default function Home() {
     return (
@@ -32,7 +32,7 @@ export default function Home() {
                     width: calcStyle.getWorkspaceWidth()
                 }}
             >
-                <WorkspaceList/>
+                <WorkspaceContainer/>
             </div>
         </div>
     )

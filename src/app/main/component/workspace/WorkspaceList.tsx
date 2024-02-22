@@ -1,29 +1,60 @@
-import '@/app/main/scss/WorkspaceList.scss';
+import '@/app/main/scss/Workspace.scss';
 
-import { InformationCircleIcon, Bars3Icon } from "@heroicons/react/24/outline"
+import { Bars3Icon } from "@heroicons/react/24/outline"
+import { calcStyle } from '@/app/main/util/calcStyleRegion';
+import TaskCard, {TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
+
+const testData : TaskCardInfo = {
+    task_name : 'Task Name',
+    create_date : '2023/02/22 - 14:10:53',
+    update_date : '2023/02/22 - 14:10:53',
+    create_user : 'admin',
+    update_user : 'admin',
+    description : '■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n'
+}
+
+const testDataList : TaskCardInfo[] = [
+    testData, testData, testData, testData, testData, testData, testData,
+    testData, testData, testData, testData, testData, testData, testData,
+    testData, testData, testData, testData, testData, testData, testData
+]
 
 export default function WorkspaceList() {
     return (
-        <div className='workspace-container bg-red-300'>
-            {/* 프로젝트 제목 부분 */}
-            <div className='project-title'>
-                <div className="title">
-                    <p className='text-2xl'>Title</p>
-                </div>
-                <div className="edit">
-                    <button><Bars3Icon className='h-7 w-7' /></button>
-                </div>
+    <div className='task-list'>
+        <div className='head'
+            style={{
+                height: calcStyle.workspace.getTaskListHeadHeight(),
+            }}
+        >
+            <div className="title">
+                <p className='text-xl'>작업목록</p>
             </div>
-            {/* 프로젝트 생성 정보 */}
-            <div className='project-information'>
-                <div className='project-information-inner'>
-                    <div><InformationCircleIcon className='h-5 w-5 mr-1' /></div>
-                    <div>Create on 2023/02/21 23:35 by hanaTI@mail.com</div>
-                </div>
-            </div>
-            <div className='list'>
-                Workspace list
+            <div className="edit">
+                <button><Bars3Icon className='h-7 w-7' /></button>
+                <input type='checkbox' className='h-5 w-5' />
             </div>
         </div>
+        <div className='body'
+            style={{
+                height: calcStyle.workspace.getTaskListBodyOuterHeight(),
+                padding: calcStyle.workspace.getTaskListBodyPadding()
+            }}
+        >
+            <div className='task-container'
+                style={{
+                    height: calcStyle.workspace.getTaskListBodyInnerHeight()
+                }}
+            >
+            {
+                testDataList.map((data, index) => {
+                    return (
+                        <TaskCard key={index} data={data}/>
+                    );
+                })
+            }
+            </div>
+        </div>
+    </div>
     )
 }
