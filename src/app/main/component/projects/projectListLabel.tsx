@@ -7,14 +7,14 @@ import ImportProjectPopup from "@/app/main/component/popup/ImportProjectPopup";
 import { InboxArrowDownIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 export default function ProjectListLabel () {
-    const [pjtCount , setPjtCount] = useState(0)
+    const [pjtCount , setPjtCount] = useState(0);
     const [showProject, setShowProject] = useState<boolean>(false);
 
     const [newProjectPopupVisible, setNewProjectPopupVisible] = useState(false);
     const [importProjectPopupVisible, setImportProjectPopupVisible] = useState(false);
 
     const handleToggle = (showProject : boolean) => {
-        setShowProject(showProject)
+        setShowProject(showProject);
     }
 
     return (

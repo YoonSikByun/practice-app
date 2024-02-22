@@ -5,3 +5,184 @@
     width: 100vw;
     background-color: aqua;
 }
+
+
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: rgb(0, 0, 0);
+    opacity: .2;
+    
+}
+
+.dialog {
+    position: absolute;
+    color: black;
+    display: block;
+    width:400px;
+    height:200px;
+    left: 150%;
+    top: 30%;
+    border-radius: 5px;
+    padding: 1em;
+    background: rgb(255, 255, 255);
+    z-index: 100;
+}
+
+.dialog-load-project{
+    position: absolute;
+    color: black;
+    display: block;
+    width: 845px;
+    height: 579px;
+    left: 150%;
+    top: 10%;
+    border-radius: 5px;
+    padding: 1em;
+    background: rgb(255, 255, 255);
+    z-index: 100;
+}
+
+.dialog-header {
+    // float: left;
+    cursor: move;
+    margin-left: 10px;
+    white-space: nowrap;
+    width: 90%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: black;
+    border-bottom: solid 1px rgb(143, 168, 252);
+}
+
+.dialog-load-project-header {
+    cursor: move;
+    display: block;
+    margin-left: 10px;
+    white-space: nowrap;
+    width: 96%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: black;
+    border-bottom: solid 1px rgb(143, 168, 252);
+}
+
+.dialog-load-project-body {
+    display: flex;
+    flex-wrap: wrap;
+    align-content: flex-start;
+    padding: 1% 4% 1% 4%;
+    margin-left: 10px;
+    width: 96%;
+    height: 80%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: black;
+    border-bottom: solid 1px rgb(143, 168, 252);
+}
+
+.dialog-title{
+    margin-right: 66%;
+}
+
+
+.dialog-load-project-title{
+    margin-right: 80%;
+}
+
+.dialog-load-project-label{
+    margin: 0 20px 0 0 ;
+    display: flex;
+    width: 118px;
+    font-size: 12px;
+    text-align: left;
+}
+
+
+.dialog-load-project-filename {
+    width: 72%;
+    height: 20px;
+    display: flex;
+    cursor: default;
+    margin: 6px 0px 0px 0px;
+    padding-left: 4px;
+    border: solid 1px rgb(212, 212, 212);
+    color: #888;
+    align-items : center;
+    font-size: 12px;
+}
+
+.dialog-load-project-btn{
+    font-size: 12px;
+    margin: 0 0 0 12px;
+    padding: 0 12px 0 12px;
+    height: 20px;
+    display: flex;
+    align-items : center;
+    font-weight: lighter;
+    margin: 6px 0px 0px 12px;
+    border : solid 1px rgb(212, 212, 212);
+}
+
+.dialog-load-project-btn:hover{
+    cursor: pointer;
+    background-color: rgb(143, 168, 252);
+    color: white;
+}
+
+.dialog-load-project-btn:active{
+    cursor: pointer;
+    background-color: rgb(192, 207, 255);
+    color: white;
+}
+
+.dialog-title-close-btn {
+    // margin-left: 20px
+}
+
+.dialog-content {
+    margin: 9px 1px 1px 20px;
+    padding: 10px 0 20px 0;
+    width: 86%;
+    display: block;
+}
+
+.dialog-input-container{
+    padding: 0 0 20px 0;
+}
+
+.dialog-content input {
+    margin-left: 66px;
+    border: 1px solid #888;
+    height: 18px;   
+}
+
+.dialog-content span {
+    font-size: 12px;
+    margin: 0px 0px 8px 2px;
+}
+
+.dialog-button-container{
+    height: 32px;
+    float: right
+}
+
+.dialog-button{
+    padding: 1px 20px 1px 20px;
+    border-radius: 5px;
+    border-color: 1px solid rgb(143, 168, 252);
+}
+
+.btn-ok{
+    background-color: rgb(143, 168, 252);
+    color: white;
+}
+
+.btn-cancle{
+    color: black;
+    background-color: white;
+}
