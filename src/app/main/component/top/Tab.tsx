@@ -6,7 +6,7 @@ import {
     PageName,
     multiNodeDesignerCallbackManager
 } from '@/app/main/util/globalStateManager';
-import { XCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { XCircleIcon, PlusIcon, Square2StackIcon } from "@heroicons/react/24/outline";
 
 export type TabHeadItem = {
     title: string;
@@ -49,10 +49,10 @@ function ItemBox(
     return (
         <li
             style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}
-             className={clsx("text-sm px-[5px] border-solid border-1",
-                `border-sky-500 hover:bg-yellow-100 w-[150px]`,
-             {"bg-slate-100" : (id !== currentTabHeadId)},
-             {"bg-white border-t-4" : (id === currentTabHeadId)})}
+             className={clsx("text-sm px-[5px] border-solid border-[1px]",
+                `border-hanablue-700 hover:bg-hanablue-200 w-[150px]`,
+             {"bg-hanablue-100" : (id !== currentTabHeadId)},
+             {"bg-hanablue-100 border-t-4" : (id === currentTabHeadId)})}
         >
             <div className="flex">
                 <button
@@ -65,11 +65,14 @@ function ItemBox(
                     {children}
                 </button>
                 <button
-                 style={{lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`, width: '30px' }}
+                 style={{
+                    lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`,
+                    width: '30px'
+                 }}
                  onClick={handlerOnClickX}
                  title='작업공간 닫기'
                 >
-                    <XCircleIcon className='h-6 w-6 hover:bg-red-100' />
+                    <XCircleIcon className='h-6 w-6 hover:bg-hanared-300' />
                 </button>
             </div>
             <div>
@@ -135,23 +138,25 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                          setCurrentTabHeadId={setCurrentTabHeadId}
                          deleteTabItem={deleteTabItem}
                         >
-                            {item.title}
+                            <div className="flex flex-row items-center">
+                                <Square2StackIcon className="h-5 w-5 mr-2"/>{item.title}
+                            </div>
                         </ItemBox>
                     );
                 })
             }
             <li
                 style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}
-                className={clsx("text-sm border-solid border-1 border-sky-500",
-                'w-[30px]')}
+                className={clsx('w-[30px]')}
             >
                 <button
                     onClick={addItem}
                     style={{height: (mainLayoutSize['topGNB'].height - (topMargin + 6 ))}}
-                    className='rounded bg-slate-100 mt-1 hover:bg-yellow-100'
+                    className={clsx('rounded mt-[2px] hover:bg-hanared-300',
+                    'border-solid border-[1px] border-hanablue-700')}
                     title='새로운 작업공간 생성'
                 >
-                    <PlusIcon className='h-6 w-6' />
+                    <PlusIcon className='h-5 w-5' />
                 </button>
             </li>
         </ul>
