@@ -3,7 +3,7 @@ import './globals.css'
 import Top from '@/app/main/component/top/Top'
 
 export const metadata: Metadata = {
-  title: 'Node Designer',
+  title: 'MLapp Studio',
   description: 'Produced by PYS',
 }
 

@@ -15,7 +15,7 @@ function HoverComponent() {
     return (
         <div className={clsx('invisible group-hover:visible', 'absolute top-1/2 left-1/3')}>
             <button
-                className='bg-blue-200 h-[30px] w-[100px] rounded-lg shadow-lg font-bold '
+                className='bg-blue-400 h-[30px] w-[100px] rounded-lg shadow-lg font-bold '
                 onClick={() => alert('노드디자이너 열기')}
             >
                 열기
