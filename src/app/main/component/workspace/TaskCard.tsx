@@ -11,12 +11,15 @@ export type TaskCardInfo = {
     description : string;
 }
 
-const outerStyle : string = 'task-item rounded flex flex-col p-2 bg-cardclr-back shadow-lg';
-
 function HoverComponent() {
     return (
-        <div className={clsx(outerStyle)}>
-            <button className='bg-blue-200 h-300 w-500'>Click</button>
+        <div className={clsx('invisible group-hover:visible', 'absolute top-1/2 left-1/3')}>
+            <button
+                className='bg-blue-200 h-[30px] w-[100px] rounded-lg shadow-lg font-bold '
+                onClick={() => alert('노드디자이너 열기')}
+            >
+                열기
+            </button>
         </div>
     )
 }
@@ -30,7 +33,8 @@ export default function TaskCard(
 ) {
 
     return (
-        <div className={outerStyle}>
+        <div className={clsx('task-item group relative rounded flex flex-col p-2 bg-cardclr-back shadow-lg shadow-black-500',
+        'border-solid border-borderclr-bold hover:border-2')}>
             <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>
                 <div className='w-[80%] flex flex-row items-center'>
                     <ArchiveBoxIcon className='h-5 w-5 mr-1' />
@@ -49,9 +53,11 @@ export default function TaskCard(
                     <p className='text-sm w-[50%]'>*수정자 : {data.update_user}</p>
                 </div>
             </div>
-            <div className='overflow-auto whitespace-pre-line mt-2'>
+            <div className='overflow-y-scroll whitespace-pre-line mt-2'>
                 {data.description}
             </div>
+            <HoverComponent/>
         </div>
+        
     );
 }

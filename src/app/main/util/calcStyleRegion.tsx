@@ -18,6 +18,7 @@ class Workspace {
         return `calc(100vh - ${extrMargin}px)`;
     }
     getTaskListBodyInnerHeight() {
+        const bottomPadding = 10; //이유를 알 수 없게, 내용이 많아지면 하단이 잘려서 추가 공간을 임의로 더한다.
         const extrMargin : number = mainLayoutSize['topGNB'].height +
                             (workspaceLayoutSize['outerMargin'].width * 2) +
                             workspaceLayoutSize['projectTitle'].height +
@@ -25,7 +26,7 @@ class Workspace {
                             workspaceLayoutSize['taskListHead'].height +
                             (workspaceLayoutSize['taskListBodyPadding'].width * 2) + 
                             workspaceLayoutSize['taskPagingList'].height;;
-        return `calc(100vh - ${extrMargin}px)`;
+        return `calc(100vh - ${extrMargin+bottomPadding}px)`;
     }
     getPagingListHeight() { return `${workspaceLayoutSize['taskPagingList'].height}px`; }
 }

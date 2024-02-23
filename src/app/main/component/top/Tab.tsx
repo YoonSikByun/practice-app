@@ -152,9 +152,9 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                 <button
                     onClick={addItem}
                     style={{height: (mainLayoutSize['topGNB'].height - (topMargin + 6 ))}}
-                    className={clsx('rounded mt-[2px] hover:bg-mouseoverclr',
+                    className={clsx('rounded mt-[3px] bg-hanablue-200 hover:bg-mouseoverclr',
                     'border-solid border-[1px] border-borderclr-bold')}
-                    title='새로운 작업공간 생성'
+                    title='작업공간 생성'
                 >
                     <PlusIcon className='h-5 w-5' />
                 </button>
