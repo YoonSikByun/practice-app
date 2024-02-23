@@ -34,7 +34,10 @@ const config: Config = {
         },
 
         mouseoverclr : 'rgb(253, 241, 244)',
-        topclr : { 'back' : 'rgb(235, 245, 245)'},
+        titlebg : {
+          1 : 'rgb(235, 245, 245)',
+          2 : 'rgb(140, 201, 202)',
+        },
         tabheadclr : 'rgb(235, 245, 245)',
         borderclr : {
           'light' : 'rgb(81, 181, 181)',
@@ -46,9 +49,6 @@ const config: Config = {
         },
 
         nodedg : {
-          'toolbar' : {
-            'back' : 'rgb(140, 201, 202)',
-          },
           'node' : {
             'back' : 'rgb(235, 245, 245)',
           },

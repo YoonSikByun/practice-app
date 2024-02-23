@@ -22,13 +22,13 @@ const testDataList : TaskCardInfo[] = [
 export default function WorkspaceList() {
     return (
     <div className='task-list'>
-        <div className='head'
+        <div className='head rounded bg-titlebg-2'
             style={{
                 height: calcStyle.workspace.getTaskListHeadHeight(),
             }}
         >
             <div className="title">
-                <p className='text-xl'>작업목록</p>
+                <p className='ml-3 text-xl font-bold'>작업목록</p>
             </div>
             <div className="edit">
                 <button><Bars3Icon className='h-7 w-7' /></button>
@@ -54,6 +54,16 @@ export default function WorkspaceList() {
                 })
             }
             </div>
+        </div>
+        <div className='paging-list bg-red-200 text-center'
+            style={{
+                height: calcStyle.workspace.getPagingListHeight(),
+                lineHeight: calcStyle.workspace.getPagingListHeight()
+            }}
+        >
+            <span className='text-xl font-bold'>
+                {'<  0  1  2  3  4  5  10  11  12  13  14  15  >'}
+            </span>
         </div>
     </div>
     )

@@ -50,9 +50,6 @@
     .head {
         display: flex;
         flex-direction: row;
-        border: 3px;
-        border-style: none none solid none;
-        border-color: grey;
         width: 100%;
 
         .title {
@@ -95,5 +92,10 @@
                 height: 250px;
             }
         }
+    }
+
+    .paging-list {
+        display: inline-block;
+        width: 100%;
     }
 }

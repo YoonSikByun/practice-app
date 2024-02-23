@@ -20,7 +20,7 @@ export default function WorkspaceContainer() {
                 }}
             >
                 <div className="title">
-                    <p className='text-2xl'>Project name</p>
+                    <p className='text-2xl font-bold'>Project name</p>
                 </div>
                 <div className="edit">
                     <button><Bars3Icon className='h-7 w-7' /></button>

@@ -13,7 +13,8 @@ class Workspace {
                             (workspaceLayoutSize['outerMargin'].width * 2) +
                             workspaceLayoutSize['projectTitle'].height +
                             workspaceLayoutSize['projectInformation'].height +
-                            workspaceLayoutSize['taskListHead'].height;
+                            workspaceLayoutSize['taskListHead'].height + 
+                            workspaceLayoutSize['taskPagingList'].height;
         return `calc(100vh - ${extrMargin}px)`;
     }
     getTaskListBodyInnerHeight() {
@@ -22,9 +23,11 @@ class Workspace {
                             workspaceLayoutSize['projectTitle'].height +
                             workspaceLayoutSize['projectInformation'].height +
                             workspaceLayoutSize['taskListHead'].height +
-                            (workspaceLayoutSize['taskListBodyPadding'].width * 2);
+                            (workspaceLayoutSize['taskListBodyPadding'].width * 2) + 
+                            workspaceLayoutSize['taskPagingList'].height;;
         return `calc(100vh - ${extrMargin}px)`;
     }
+    getPagingListHeight() { return `${workspaceLayoutSize['taskPagingList'].height}px`; }
 }
 
 class CalcStyleRegion {

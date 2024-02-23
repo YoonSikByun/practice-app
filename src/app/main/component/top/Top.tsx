@@ -26,7 +26,7 @@ export default function Top() {
     };
 
     return (
-        <div className={clsx("top-head bg-topclr-back",
+        <div className={clsx("top-head bg-titlebg-1",
                 "border-borderclr-bold border-b-2 flex flex-row items-center")}
             style={{
                 position: 'absolute',
