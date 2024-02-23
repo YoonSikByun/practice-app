@@ -8,8 +8,8 @@ import {registMouseEvent, inRange} from "@/app/common/util/moudeMove";
 import ReactFlowApp from "@/app/node-designer/component/react-flow/reactflow"
 import Boundary from '@/app/common/util/Boundary';
 import VerticalTabMenu from "@/app/node-designer/component/menu/verticalTabmenu";
-import Accordion from '@/app/node-designer/component/menu/accordion';
-import {verticalTablMenuItems, accordionPanelItems} from '@/app/node-designer/config/menu'
+import NodesAccordion from '@/app/node-designer/component/menu/nodesMenu';
+import {verticalTablMenuItems, nodesAccordionPanelItems} from '@/app/node-designer/config/menu'
 import {layoutSize, outSidePadding} from '@/app/node-designer/config/layoutFrame'
 import { Rect } from "@/app/common/util/definition";
 import {calcStyle} from '@/app/node-designer/util/calcStyleRegion';
@@ -81,7 +81,7 @@ export default function NodeDesigner(
           setVTabIndexClicked={setVTabIndexClicked}
           setVTabVisible={setVTabVisible}/>
             {/* 노드 선택 메뉴 */}
-            <Accordion accordItems={accordionPanelItems} show={tabVisible[0]}/>
+            <NodesAccordion accordItems={nodesAccordionPanelItems} show={tabVisible[0]}/>
             {/* 변수 설정 메뉴 */}
             <Variables show={tabVisible[1]}/>
       </Boundary>

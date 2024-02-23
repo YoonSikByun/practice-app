@@ -1,13 +1,22 @@
 import '@/app/globals.css';
-import '@/app/node-designer/scss/component/accordion.scss';
+import '@/app/node-designer/scss/component/nodesMenu.scss';
 import clsx from 'clsx';
 import { useState } from 'react';
-import { AccordionPanelItem } from '@/app/node-designer/config/menu';
+import { NodesAccordionPanelItem } from '@/app/node-designer/config/menu';
 import { calcStyle } from '@/app/node-designer/util/calcStyleRegion';
 import {forwardRef} from 'react';
 
 export default forwardRef(
-    function Accordion({accordItems, show} : {accordItems : AccordionPanelItem[], show : boolean}, ref:any) {
+    function NodesAccordion(
+        {
+            accordItems,
+            show
+        } : {
+            accordItems : NodesAccordionPanelItem[],
+            show : boolean
+        },
+        ref:any
+    ) {
         
         return (
             <div  ref={ref} className={clsx('accordion-container',
@@ -32,7 +41,7 @@ export default forwardRef(
 function AccordionNode({
     accordItem
 } : {
-    accordItem : AccordionPanelItem
+    accordItem : NodesAccordionPanelItem
 }) {
     const [clicked, setClicked] = useState<boolean>(false);
     return (
@@ -55,7 +64,7 @@ function Panel({
     accordItem,
     height
 } : {
-    accordItem : AccordionPanelItem,
+    accordItem : NodesAccordionPanelItem,
     height : number
 }) {
     return (
