@@ -58,6 +58,7 @@ export class MultiNodeDesignerCallbackManager {
     deleteNodeDesigner(id : string) {
       if(!this.callbackDeleteNodeDesignerFuncs) return '';
       this.callbackDeleteNodeDesignerFuncs(id);
+      delete this.callbackDeleteNodeDesignerFuncs[id];
     }
   }
 

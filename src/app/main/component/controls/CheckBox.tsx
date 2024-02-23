@@ -23,5 +23,10 @@ export default function CheckBox(
         if(checkBoxManager) checkBoxManager.registerMultiCallback(id, setCheck);
     }, [id, checkBoxManager]);
 
-    return <input type="checkbox" disabled={disabled} checked={check} onChange={(e) => setCheck(e.target.checked)} className={className} value={value}/>
+    const updateCheck = (e : any) => {
+        setCheck(e.target.checked);
+        checkBoxManager.updateCheck(id, e.target.checked);
+    }
+
+    return <input type="checkbox" disabled={disabled} checked={check} onChange={(e) => updateCheck(e)} className={className} value={value}/>
 }
