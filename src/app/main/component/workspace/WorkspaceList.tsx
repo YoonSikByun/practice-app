@@ -31,7 +31,7 @@ export default function WorkspaceList() {
                 <p className='ml-3 text-xl font-bold'>작업목록</p>
             </div>
             <div className="edit">
-                <button><Bars3Icon className='h-7 w-7' /></button>
+                <button><Bars3Icon className='h-7 w-7 mr-2' /></button>
                 <input type='checkbox' className='h-5 w-5' />
             </div>
         </div>
@@ -55,14 +55,14 @@ export default function WorkspaceList() {
             }
             </div>
         </div>
-        <div className='paging-list bg-red-200 text-center'
+        <div className='paging-list text-center'
             style={{
                 height: calcStyle.workspace.getPagingListHeight(),
                 lineHeight: calcStyle.workspace.getPagingListHeight()
             }}
         >
             <span className='text-xl font-bold'>
-                {'<  0  1  2  3  4  5  10  11  12  13  14  15  >'}
+                {'<  0  1  2  3  4  5  10  11  12  13  14  15 ... >'}
             </span>
         </div>
     </div>

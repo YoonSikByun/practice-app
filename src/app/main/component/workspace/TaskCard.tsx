@@ -1,5 +1,6 @@
 import '@/app/main/scss/Workspace.scss';
 import { Bars3Icon, ArchiveBoxIcon } from '@heroicons/react/24/outline';
+import clsx from 'clsx';
 
 export type TaskCardInfo = {
     task_name : string;
@@ -8,6 +9,16 @@ export type TaskCardInfo = {
     create_user : string;
     update_user : string;
     description : string;
+}
+
+const outerStyle : string = 'task-item rounded flex flex-col p-2 bg-cardclr-back shadow-lg';
+
+function HoverComponent() {
+    return (
+        <div className={clsx(outerStyle)}>
+            <button className='bg-blue-200 h-300 w-500'>Click</button>
+        </div>
+    )
 }
 
 export default function TaskCard(
@@ -19,14 +30,14 @@ export default function TaskCard(
 ) {
 
     return (
-        <div className='task-item rounded flex flex-col p-2 bg-cardclr-back shadow-lg'>
+        <div className={outerStyle}>
             <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>
                 <div className='w-[80%] flex flex-row items-center'>
                     <ArchiveBoxIcon className='h-5 w-5 mr-1' />
                     <p className='text-xl'>{data.task_name}</p>
                 </div>
                 <div className='w-[20%] flex flex-row-reverse items-center'>
-                    <button><Bars3Icon className='h-6 w-6' /></button>
+                    <button><Bars3Icon className='h-6 w-6 mr-1' /></button>
                     <input type='checkbox' className='h-4 w-4 mr-2' />
                 </div>
             </div>

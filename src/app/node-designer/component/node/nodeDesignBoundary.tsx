@@ -21,6 +21,5 @@ export default function NodeDesignBoundary(    {
         className={className}
         Icon={Icon}
         isDraggable={true} />
-
     )
 }
