@@ -6,6 +6,7 @@ import Left from '@/app/main/component/top/Left'
 import Center from '@/app/main/component/top/Center'
 import Right from '@/app/main/component/top/Right'
 import { calcStyle } from "@/app/main/util/calcStyleRegion"
+import clsx from 'clsx'
 
 //Global Navigation Bar
 export default function Top() {
@@ -25,7 +26,8 @@ export default function Top() {
     };
 
     return (
-        <div className="top-head bg-hanablue-100 border-hanablue-700 border-b-2 flex flex-row items-center"
+        <div className={clsx("top-head bg-topclr-back",
+                "border-borderclr-bold border-b-2 flex flex-row items-center")}
             style={{
                 position: 'absolute',
                 height:calcStyle.getTopHeight(),

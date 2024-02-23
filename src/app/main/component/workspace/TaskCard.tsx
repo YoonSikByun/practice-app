@@ -19,8 +19,8 @@ export default function TaskCard(
 ) {
 
     return (
-        <div className='task-item rounded flex flex-col p-2 bg-hanablue-100 shadow-lg'>
-            <div className='flex flex-row items-center rounded px-1 bg-hanablue-200'>
+        <div className='task-item rounded flex flex-col p-2 bg-cardclr-back shadow-lg'>
+            <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>
                 <div className='w-[80%] flex flex-row items-center'>
                     <ArchiveBoxIcon className='h-5 w-5 mr-1' />
                     <p className='text-xl'>{data.task_name}</p>

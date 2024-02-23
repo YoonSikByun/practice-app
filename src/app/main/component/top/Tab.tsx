@@ -50,9 +50,9 @@ function ItemBox(
         <li
             style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}
              className={clsx("text-sm px-[5px] border-solid border-[1px]",
-                `border-hanablue-700 hover:bg-hanablue-200 w-[150px]`,
-             {"bg-hanablue-100" : (id !== currentTabHeadId)},
-             {"bg-hanablue-100 border-t-4" : (id === currentTabHeadId)})}
+                `border-borderclr-bold hover:bg-mouseoverclr w-[150px]`,
+                {"bg-tabhead" : (id !== currentTabHeadId)},
+                {"bg-tabhead border-t-4" : (id === currentTabHeadId)})}
         >
             <div className="flex">
                 <button
@@ -72,7 +72,7 @@ function ItemBox(
                  onClick={handlerOnClickX}
                  title='작업공간 닫기'
                 >
-                    <XCircleIcon className='h-6 w-6 hover:bg-hanared-300' />
+                    <XCircleIcon className='h-6 w-6 hover:bg-mouseoverclr' />
                 </button>
             </div>
             <div>
@@ -152,8 +152,8 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                 <button
                     onClick={addItem}
                     style={{height: (mainLayoutSize['topGNB'].height - (topMargin + 6 ))}}
-                    className={clsx('rounded mt-[2px] hover:bg-hanared-300',
-                    'border-solid border-[1px] border-hanablue-700')}
+                    className={clsx('rounded mt-[2px] hover:bg-mouseoverclr',
+                    'border-solid border-[1px] border-borderclr-bold')}
                     title='새로운 작업공간 생성'
                 >
                     <PlusIcon className='h-5 w-5' />

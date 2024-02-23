@@ -62,7 +62,7 @@ export default function NodeDesigner(
   return (
   <div className={clsx("node-designer")} id={id}>
     {/* 최 상단 툴바 */}
-    <Boundary className='toolbar bg-hanablue-300 border-hanablue-500 border-b-[2px]'
+    <Boundary className='toolbar bg-nodedg-toolbar-back border-borderclr-bold border-b-[2px]'
       style={{top: calcStyle.topOutsideMargin(), height: calcStyle.topToolbarHeight()}}
     >
       Toolbar

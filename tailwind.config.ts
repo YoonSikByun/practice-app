@@ -32,6 +32,30 @@ const config: Config = {
           200 : 'rgb(127, 127, 127)',
           100 : 'rgb(191, 191, 191)'
         },
+
+        mouseoverclr : 'rgb(253, 241, 244)',
+        topclr : { 'back' : 'rgb(235, 245, 245)'},
+        tabheadclr : 'rgb(235, 245, 245)',
+        borderclr : {
+          'light' : 'rgb(81, 181, 181)',
+          'bold' : 'rgb(0, 112, 109)',
+        },
+        cardclr : {
+          'back' :'rgb(235, 245, 245)',
+          'title' :'rgb(195, 226, 225)',
+        },
+
+        nodedg : {
+          'toolbar' : {
+            'back' : 'rgb(140, 201, 202)',
+          },
+          'node' : {
+            'back' : 'rgb(235, 245, 245)',
+          },
+          'tabhead' : 'rgb(235, 245, 245)',
+          'tabhead-clicked' : 'rgb(195, 226, 225)',
+        }
+        
       }
     },
   },

@@ -1,4 +1,4 @@
-import NodeBoundary from "./nodeBoundary";
+import NodeBoundary from "@/app/node-designer/component/node/nodeBoundary";
 
 export default function NodeDesignBoundary(    {
     width,
@@ -20,8 +20,7 @@ export default function NodeDesignBoundary(    {
         nodeKind={nodeKind}
         className={className}
         Icon={Icon}
-        isDraggable={true}>
-            <div></div>
-        </NodeBoundary>
+        isDraggable={true} />
+
     )
 }
