@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
-import ReactQuill from "react-quill";
 import 'react-quill/dist/quill.snow.css'
-
+import dynamic from 'next/dynamic' // next.js로 Quill 실행 시 렌더링 순서 잡아주기 
+const ReactQuill = dynamic(() => import("react-quill"), {ssr: false}) 
 export default function TextEditor() {
     const formats = [
         'font',
