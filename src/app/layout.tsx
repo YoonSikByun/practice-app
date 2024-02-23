@@ -18,7 +18,9 @@ export default function RootLayout({
       <body id='main-body' style={{
         margin: 0,
         height: '100%',
-        overflow: 'hidden'}}
+        overflow: 'hidden',
+        backgroundColor: 'white'
+      }}
       >
         <div>
           <Top/>

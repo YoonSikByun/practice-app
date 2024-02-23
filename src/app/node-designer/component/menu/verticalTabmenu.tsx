@@ -65,10 +65,11 @@ function TabHead({
         <button
             className={clsx(
                 'tab-head', 'select-none',
-                {'bg-orange-400 font-bold' : clicked === true},
-                {'bg-red-100' : clicked === false},
+                {'bg-hanablue-200 font-bold' : clicked === true},
+                {'bg-hanablue-100' : clicked === false},
                 'h-full w-full',
-                'border-solid border-slate-300 border-r-[1px] border-b-[1px]'
+                'border-solid border-hanablue-600 border-r-[1px] border-b-[1px]',
+                'hover:bg-hanared-300'
             )}
             onClick={(e)=>{onButtonClick(menuItem.title)}}>
             <p className={clsx('text-black text-center')}>

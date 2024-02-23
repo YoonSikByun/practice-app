@@ -25,7 +25,7 @@ export default function Top() {
     };
 
     return (
-        <div className="top-head flex flex-row items-center"
+        <div className="top-head bg-hanablue-100 border-hanablue-700 border-b-2 flex flex-row items-center"
             style={{
                 position: 'absolute',
                 height:calcStyle.getTopHeight(),
