@@ -1,7 +1,6 @@
 'use client'
 
 import '@/app/main/scss/layout.scss'
-import { mainLayoutSize } from '@/app/main/config/layoutFrame'
 import { useEffect } from 'react'
 import Left from '@/app/main/component/top/Left'
 import Center from '@/app/main/component/top/Center'
@@ -26,10 +25,10 @@ export default function Top() {
     };
 
     return (
-        <div className="top-head flex"
+        <div className="top-head flex flex-row items-center"
             style={{
                 position: 'absolute',
-                height:calcStyle.getTopHeight()
+                height:calcStyle.getTopHeight(),
             }}
         >
             {/* Logo */}
@@ -38,7 +37,8 @@ export default function Top() {
                 height: calcStyle.getTopHeight(),
                 lineHeight: calcStyle.getTopHeight(),
                 width: calcStyle.getTopLeftWidth(),
-                textAlign: 'center'
+                textAlign: 'center',
+                alignItems: 'center'
                 }}
             >
                 <Left/>

@@ -9,8 +9,8 @@ export type MainLayoutSize = {
 
 //NodeDesigner Layout 크기 정의
 export const mainLayoutSize : MainLayoutSize = {
-    topGNB : {width: 0, height: 40},
-    topGNB_Left : {width: 150, height: 0},
+    topGNB : {width: 0, height: 50},
+    topGNB_Left : {width: 200, height: 0},
     topGNB_Center : {width: 0, height: 0},
     topGNB_Right : {width: 150, height: 0},
     project : {width: 300, height: 0}
@@ -27,9 +27,9 @@ export type WorkspaceLayoutSize = {
 
 export const workspaceLayoutSize : WorkspaceLayoutSize = {
     outerMargin: {width: 10, height: 10},
-    projectTitle: {width: 0, height: 50},
-    projectInformation: {width: 0, height: 50},
-    taskListHead: {width: 0, height: 50},
+    projectTitle: {width: 0, height: 30},
+    projectInformation: {width: 0, height: 30},
+    taskListHead: {width: 0, height: 30},
     taskListBody: {width: 0, height: 0},
     taskListBodyPadding: {width: 0, height: 0}
 }

@@ -5,14 +5,15 @@ import {
     mainStateCallbackManager,
     PageName,
     multiNodeDesignerCallbackManager
- } from '@/app/main/util/globalStateManager';
+} from '@/app/main/util/globalStateManager';
+import { XCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
 
 export type TabHeadItem = {
     title: string;
     id: string;
 }
 
-const topMargin : number = 10;
+const topMargin : number = 20;
 
 function ItemBox(
     {
@@ -48,24 +49,27 @@ function ItemBox(
     return (
         <li
             style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}
-             className={clsx("text-sm px-[5px] border-solid border-1 border-sky-500 hover:bg-yellow-100",
-             `w-[150px]`,
+             className={clsx("text-sm px-[5px] border-solid border-1",
+                `border-sky-500 hover:bg-yellow-100 w-[150px]`,
              {"bg-slate-100" : (id !== currentTabHeadId)},
              {"bg-white border-t-4" : (id === currentTabHeadId)})}
         >
             <div className="flex">
                 <button
-                 style={{lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`, width: 'calc(100% - 30px)' }}
+                 style={{
+                    lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`,
+                     width: 'calc(100% - 10px)'
+                }}
                  onClick={handlerOnClick}
                 >
                     {children}
                 </button>
                 <button
                  style={{lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`, width: '30px' }}
-                 className="hover:bg-red-100"
                  onClick={handlerOnClickX}
+                 title='작업공간 닫기'
                 >
-                    X
+                    <XCircleIcon className='h-6 w-6 hover:bg-red-100' />
                 </button>
             </div>
             <div>
@@ -117,7 +121,10 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
 
     return (
         <ul className={clsx(`flex space-x-[2px]`)}
-        style={{lineHeight: `${mainLayoutSize['topGNB'].height}px`, marginTop: `${topMargin}px`}}>
+        style={{
+            height: (mainLayoutSize['topGNB'].height - topMargin),
+            lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`,
+            marginTop: `${topMargin}px`}}>
             {
                 tabItems.map((item, index) => {
                     return (
@@ -133,13 +140,18 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                     );
                 })
             }
-            <li>
+            <li
+                style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}
+                className={clsx("text-sm border-solid border-1 border-sky-500",
+                'w-[30px]')}
+            >
                 <button
                     onClick={addItem}
-                    className={clsx('text-sm px-[5px] w-[150px]')}
-                    style={{height: mainLayoutSize['topGNB'].height}}
+                    style={{height: (mainLayoutSize['topGNB'].height - (topMargin + 6 ))}}
+                    className='rounded bg-slate-100 mt-1 hover:bg-yellow-100'
+                    title='새로운 작업공간 생성'
                 >
-                Add
+                    <PlusIcon className='h-6 w-6' />
                 </button>
             </li>
         </ul>
