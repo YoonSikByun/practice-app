@@ -63,11 +63,10 @@
     padding: 1% 4% 1% 4%;
     margin-left: 10px;
     width: 96%;
-    height: 80%;
+    height: calc(100% - 50px);
     overflow: hidden;
     text-overflow: ellipsis;
     color: black;
-    border-bottom: solid 1px rgb(143, 168, 252);
 }
 
 .dialog-title{
@@ -80,7 +79,7 @@
 }
 
 .dialog-load-project-label{
-    margin: 0 20px 0 0 ;
+    margin: 4px 16px 0 0 ;
     display: flex;
     width: 118px;
     font-size: 12px;
@@ -93,7 +92,7 @@
     height: 20px;
     display: flex;
     cursor: default;
-    margin: 6px 0px 0px 0px;
+    margin: 4px 0px 0px 0px;
     padding-left: 4px;
     border: solid 1px rgb(212, 212, 212);
     color: #888;
