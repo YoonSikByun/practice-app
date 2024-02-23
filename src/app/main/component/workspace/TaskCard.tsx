@@ -1,6 +1,8 @@
 import '@/app/main/scss/Workspace.scss';
 import { Bars3Icon, ArchiveBoxIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
+import { MultiCheckboxManager } from '@/app/main/util/multiControlManager';
+import CheckBox from '@/app/main/component/controls/CheckBox';
 
 export type TaskCardInfo = {
     task_name : string;
@@ -26,9 +28,13 @@ function HoverComponent() {
 
 export default function TaskCard(
     {
-        data
+        data,
+        id,
+        checkBoxManager
     } : {
-        data : TaskCardInfo
+        data : TaskCardInfo,
+        id : string,
+        checkBoxManager : MultiCheckboxManager
     }
 ) {
 
@@ -42,7 +48,10 @@ export default function TaskCard(
                 </div>
                 <div className='w-[20%] flex flex-row-reverse items-center'>
                     <button><Bars3Icon className='h-6 w-6 mr-1' /></button>
-                    <input type='checkbox' className='h-4 w-4 mr-2' />
+                    {/* <input type='checkbox' className='h-4 w-4 mr-2' /> */}
+                    <CheckBox className='h-4 w-4 mr-2' id={id}
+                     checkBoxManager={checkBoxManager}
+                    />
                 </div>
             </div>
             <div className='mt-1'>

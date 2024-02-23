@@ -1,8 +1,11 @@
 import '@/app/main/scss/Workspace.scss';
 
+import { useMemo } from 'react';
 import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/util/calcStyleRegion';
 import TaskCard, {TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
+import { MultiCheckboxManager } from '@/app/main/util/multiControlManager';
+// import CheckBox from '@/app/main/component/controls/CheckBox';
 
 const testData : TaskCardInfo = {
     task_name : 'Task Name',
@@ -20,6 +23,9 @@ const testDataList : TaskCardInfo[] = [
 ]
 
 export default function WorkspaceList() {
+    const multiCheckboxManager = useMemo(() => new MultiCheckboxManager(), []);
+    const allChek = (e : any) => multiCheckboxManager.allChek(e.target.checked);
+
     return (
     <div className='task-list'>
         <div className='head rounded bg-titlebg-2'
@@ -32,7 +38,7 @@ export default function WorkspaceList() {
             </div>
             <div className="edit">
                 <button><Bars3Icon className='h-7 w-7 mr-2' /></button>
-                <input type='checkbox' className='h-5 w-5' />
+                <input type='checkbox' className='h-5 w-5' onChange={allChek}/>
             </div>
         </div>
         <div className='body'
@@ -49,7 +55,7 @@ export default function WorkspaceList() {
             {
                 testDataList.map((data, index) => {
                     return (
-                        <TaskCard key={index} data={data}/>
+                        <TaskCard key={index} id={`${index}`} checkBoxManager={multiCheckboxManager} data={data}/>
                     );
                 })
             }
