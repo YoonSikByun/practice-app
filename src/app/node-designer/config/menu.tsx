@@ -6,7 +6,7 @@ export type VerticalTabMenuItem = {
     link : string
 }
 
-export type AccordionPanelItem = {
+export type NodesAccordionPanelItem = {
     title: string;
     component: () => React.ReactNode;
 };
@@ -22,7 +22,7 @@ export const verticalTablMenuItems : VerticalTabMenuItem[] = [
     {title : '변수 설정', link : ''}];
 
 //아코디언 메뉴 구성 설정
-export const accordionPanelItems : AccordionPanelItem[] = [
+export const nodesAccordionPanelItems : NodesAccordionPanelItem[] = [
     {title : '노드종류1', component : () => (<NodeContainer nodeItems={blueprintNodes}/>)},
     {title : '노드종류2', component : () => (<NodeContainer nodeItems={chartNodes}/>)},
     {title : '노드종류3', component : () => (<NodeContainer nodeItems={dataNodes}/>)}]
