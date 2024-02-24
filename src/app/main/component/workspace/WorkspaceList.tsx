@@ -3,7 +3,7 @@ import '@/app/main/scss/Workspace.scss';
 import { useMemo } from 'react';
 import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/util/calcStyleRegion';
-import TaskCard, {TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
+import TaskCard, {TaskCreateCard, TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
 import { MultiCheckboxManager } from '@/app/main/util/multiControlManager';
 // import CheckBox from '@/app/main/component/controls/CheckBox';
 
@@ -41,7 +41,7 @@ export default function WorkspaceList() {
                 <input type='checkbox' className='h-5 w-5' onChange={allChek}/>
             </div>
         </div>
-        <div className='body'
+        <div className='body border-b-[1px] border-borderclr-bold'
             style={{
                 height: calcStyle.workspace.getTaskListBodyOuterHeight(),
                 padding: calcStyle.workspace.getTaskListBodyPadding()
@@ -52,6 +52,7 @@ export default function WorkspaceList() {
                     height: calcStyle.workspace.getTaskListBodyInnerHeight()
                 }}
             >
+                <TaskCreateCard/>
             {
                 testDataList.map((data, index) => {
                     return (

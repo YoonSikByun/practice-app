@@ -1,5 +1,6 @@
 import '@/app/main/scss/Workspace.scss';
 import { Bars3Icon, ArchiveBoxIcon } from '@heroicons/react/24/outline';
+import { DocumentPlusIcon, FolderArrowDownIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { MultiCheckboxManager } from '@/app/main/util/multiControlManager';
 import CheckBox from '@/app/main/component/controls/CheckBox';
@@ -26,6 +27,34 @@ function HoverComponent() {
     )
 }
 
+function TaskBorder({children} : {children? : React.ReactNode}) {
+    return (
+        <div className={clsx('task-item ml-2 my-3 group relative rounded',
+            'border-[1px] border-borderclr-bold',
+            'flex flex-col p-2 bg-cardclr-back shadow-lg shadow-black-500',
+            'border-solid border-borderclr-light hover:border-[3px]')}
+        >
+            {children}
+        </div>
+    );
+}
+
+export function TaskCreateCard() {
+    return (
+        <TaskBorder>
+            <div className='w-full text-center text-2xl'>작업공간 만들기</div>
+            <div className='flex flex-row h-full w-full'>
+                <span className='relative h-full w-[50%] bg-orange-200'>
+                    <button title='새로 만들기' className='absolute top-[calc(50%-25px)] left-[calc(100%-50px)]'><DocumentPlusIcon className='h-[50px] w-[50px] bg-red-200'/></button>
+                </span>
+                <span className='relative h-full w-[50%] bg-blue-200'>
+                    <button title='가져오기' className='absolute rounded-full top-[calc(50%-25px)]'><FolderArrowDownIcon className='h-[50px] w-[50px]'/></button>
+                </span>
+            </div>
+        </TaskBorder>
+    )
+}
+
 export default function TaskCard(
     {
         data,
@@ -37,38 +66,32 @@ export default function TaskCard(
         checkBoxManager : MultiCheckboxManager
     }
 ) {
-
     return (
-        <div className={clsx('task-item ml-2 my-3 group relative rounded',
-            'border-[1px] border-borderclr-bold',
-            'flex flex-col p-2 bg-cardclr-back shadow-lg shadow-black-500',
-            'border-solid border-borderclr-light hover:border-[3px]')}>
+        <TaskBorder>
             <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>
-                <div className='w-[80%] flex flex-row items-center'>
-                    <ArchiveBoxIcon className='h-5 w-5 mr-1' />
+                <div className='w-[80%] h-[35px] flex flex-row items-center'>
+                    <ArchiveBoxIcon className='h-5 w-5 ml-2 mr-2' />
                     <p className='text-xl'>{data.task_name}</p>
                 </div>
                 <div className='w-[20%] flex flex-row-reverse items-center'>
-                    <button><Bars3Icon className='h-6 w-6 mr-1' /></button>
-                    {/* <input type='checkbox' className='h-4 w-4 mr-2' /> */}
-                    <CheckBox className='h-4 w-4 mr-2' id={id}
+                    <button><Bars3Icon className='h-7 w-7 mr-1' /></button>
+                    <CheckBox className='h-7 w-7 mr-1' id={id}
                      checkBoxManager={checkBoxManager}
                     />
                 </div>
             </div>
             <div className='mt-1'>
-                <p className='text-sm'>*생성 일자 : {data.create_date}</p>
-                <p className='text-sm'>*변경 일자 : {data.update_date}</p>
+                <p className='text-sm'>* 생성 일자 : {data.create_date}</p>
+                <p className='text-sm'>* 변경 일자 : {data.update_date}</p>
                 <div className='flex flex-row items-center w-full'>
-                    <p className='text-sm w-[50%]'>*생성자 : {data.create_user}</p>
-                    <p className='text-sm w-[50%]'>*수정자 : {data.update_user}</p>
+                    <p className='text-sm w-[50%]'>* 생성자 : {data.create_user}</p>
+                    <p className='text-sm w-[50%]'>* 수정자 : {data.update_user}</p>
                 </div>
             </div>
             <div className='overflow-y-scroll whitespace-pre-line mt-2'>
                 {data.description}
             </div>
             <HoverComponent/>
-        </div>
-        
+        </TaskBorder>
     );
 }

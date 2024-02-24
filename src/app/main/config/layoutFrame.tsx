@@ -28,10 +28,10 @@ export type WorkspaceLayoutSize = {
 
 export const workspaceLayoutSize : WorkspaceLayoutSize = {
     outerMargin: {width: 10, height: 10},
-    projectTitle: {width: 0, height: 30},
-    projectInformation: {width: 0, height: 30},
-    taskListHead: {width: 0, height: 35},
+    projectTitle: {width: 0, height: 35},
+    projectInformation: {width: 0, height: 40},
+    taskListHead: {width: 0, height: 40},
     taskListBody: {width: 0, height: 0},
-    taskPagingList: {width: 0, height: 35},
+    taskPagingList: {width: 0, height: 40},
     taskListBodyPadding: {width: 0, height: 0}
 }

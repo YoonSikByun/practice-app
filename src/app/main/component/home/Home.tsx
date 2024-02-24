@@ -24,7 +24,7 @@ export default function Home() {
                 <ProjectSearchMenu/>
                 <ProjectListLabel/>
             </div>
-            <div className="bg-white"
+            <div className="bg-slate-100"
                 style={{
                     position: 'absolute',
                     left: calcStyle.getWorkspaceLeft(),
