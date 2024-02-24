@@ -1,4 +1,3 @@
-import '@/app/node-designer/scss/component/verticalMenu.scss';
 import clsx from 'clsx';
 import { VerticalTabMenuItem } from '@/app/node-designer/config/menu';
 import { calcStyle } from '@/app/node-designer/util/calcStyleRegion';
@@ -36,7 +35,7 @@ export default function VerticalTabMenu({
         setVTabVisible(mnu);
     }
     return (
-        <div className="tab" style={{width: calcStyle.verticalMenuWidth()}}>
+        <div className="absolute top-0 left-0 bg-white" style={{width: calcStyle.verticalMenuWidth()}}>
         {
             menuItems.map((menuItem, i) => {
                 return (
@@ -64,7 +63,7 @@ function TabHead({
     return (
         <button
             className={clsx(
-                'tab-head', 'select-none',
+                'select-none relative',
                 {'bg-nodedg-tabhead-clicked font-bold' : clicked === true},
                 {'bg-nodedg-tabhead' : clicked === false},
                 'h-full w-full',
@@ -72,7 +71,7 @@ function TabHead({
                 'hover:bg-mouseoverclr'
             )}
             onClick={(e)=>{onButtonClick(menuItem.title)}}>
-            <p className={clsx('text-black text-center')}>
+            <p className={clsx('absolute top-[44px] left-[-40px] rotate-90 h-[20px] w-[107px] text-nowrap overflow-hidden text-black')}>
                 {menuItem.title}
             </p>
         </button>

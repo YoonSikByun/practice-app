@@ -15,9 +15,9 @@ export type TaskCardInfo = {
 
 function HoverComponent() {
     return (
-        <div className={clsx('invisible group-hover:visible', 'absolute top-1/2 left-1/3')}>
+        <div className={clsx('invisible group-hover:visible', 'absolute top-1/2 left-[calc(50%-50px)]')}>
             <button
-                className='bg-blue-400 h-[30px] w-[100px] rounded-lg shadow-lg font-bold '
+                className='bg-blue-400 h-[40px] w-[100px] rounded shadow-lg text-xl font-bold hover:bg-mouseoverclr'
                 onClick={() => alert('노드디자이너 열기')}
             >
                 열기
@@ -39,8 +39,10 @@ export default function TaskCard(
 ) {
 
     return (
-        <div className={clsx('task-item group relative rounded flex flex-col p-2 bg-cardclr-back shadow-lg shadow-black-500',
-        'border-solid border-borderclr-bold hover:border-2')}>
+        <div className={clsx('task-item ml-2 my-3 group relative rounded',
+            'border-[1px] border-borderclr-bold',
+            'flex flex-col p-2 bg-cardclr-back shadow-lg shadow-black-500',
+            'border-solid border-borderclr-light hover:border-[3px]')}>
             <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>
                 <div className='w-[80%] flex flex-row items-center'>
                     <ArchiveBoxIcon className='h-5 w-5 mr-1' />

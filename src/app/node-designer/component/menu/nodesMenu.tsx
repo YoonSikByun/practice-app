@@ -20,7 +20,8 @@ export default forwardRef(
         
         return (
             <div  ref={ref} className={clsx('accordion-container',
-                    'overflow-auto', {'invisible': (!show)})}
+                    'overflow-auto', {'invisible': (!show)},
+                    'border-borderclr-bold border-r-[1px]')}
                 style={{
                 left: calcStyle.leftMargin(),
                 height: calcStyle.accordionHeight(),
@@ -49,7 +50,8 @@ function AccordionNode({
             <button
                 className={clsx(
                         "accordion",
-                        {"active" : clicked == true}
+                        {"active" : clicked == true},
+                        'border-borderclr-bold border-b-[1px]'
                     )}
                 onClick={(e) => {setClicked(!clicked)}}
             >

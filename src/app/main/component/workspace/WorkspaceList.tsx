@@ -28,7 +28,7 @@ export default function WorkspaceList() {
 
     return (
     <div className='task-list'>
-        <div className='head rounded bg-titlebg-2'
+        <div className='head rounded bg-titlebg-2 border-[1px] border-borderclr-bold'
             style={{
                 height: calcStyle.workspace.getTaskListHeadHeight(),
             }}
