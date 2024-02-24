@@ -42,14 +42,24 @@ function TaskBorder({children} : {children? : React.ReactNode}) {
 export function TaskCreateCard() {
     return (
         <TaskBorder>
-            <div className='w-full text-center text-2xl'>작업공간 만들기</div>
+            <div className='w-full text-center'><p className='text-2xl mt-3'>작업공간 만들기</p></div>
             <div className='flex flex-row h-full w-full'>
-                <span className='relative h-full w-[50%] bg-orange-200'>
-                    <button title='새로 만들기' className='absolute top-[calc(50%-25px)] left-[calc(100%-50px)]'><DocumentPlusIcon className='h-[50px] w-[50px] bg-red-200'/></button>
-                </span>
-                <span className='relative h-full w-[50%] bg-blue-200'>
-                    <button title='가져오기' className='absolute rounded-full top-[calc(50%-25px)]'><FolderArrowDownIcon className='h-[50px] w-[50px]'/></button>
-                </span>
+                <div className='relative h-full w-[50%]'>
+                    <div className='absolute top-[calc(50%-25px)] left-[calc(100%-85px)] flex flex-col items-center'>
+                        <button title='새로 만들기' >
+                            <DocumentPlusIcon className='h-[50px] w-[50px] fill-hanablue-700 hover:fill-mouseoverclr'/>
+                        </button>
+                        <p>새로 만들기</p>
+                    </div>
+                </div>
+                <div className='relative h-full w-[50%]'>
+                    <div className='absolute rounded-full top-[calc(50%-25px)] left-[35px] flex flex-col items-center'>
+                    <button title='가져오기'>
+                        <FolderArrowDownIcon className='h-[50px] w-[50px] fill-hanablue-700 hover:fill-mouseoverclr'/>
+                    </button>
+                    <p>가져오기</p>
+                    </div>
+                </div>
             </div>
         </TaskBorder>
     )

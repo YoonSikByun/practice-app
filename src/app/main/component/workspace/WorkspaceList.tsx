@@ -38,7 +38,7 @@ export default function WorkspaceList() {
             </div>
             <div className="edit">
                 <button><Bars3Icon className='h-7 w-7 mr-2' /></button>
-                <input type='checkbox' className='h-5 w-5' onChange={allChek}/>
+                <input type='checkbox' className='h-7 w-7' onChange={allChek}/>
             </div>
         </div>
         <div className='body border-b-[1px] border-borderclr-bold'
