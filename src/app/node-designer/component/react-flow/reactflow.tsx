@@ -24,7 +24,7 @@ import ReactFlow,
 import { customNodeTypes, getNodeSize, getNodeData } from '@/app/node-designer/component/react-flow/custom/nodeTypes';
 import CustomEdge from '@/app/node-designer/component/react-flow/custom/CustomEdge';
 import { v4 as uuid } from "uuid";
-import { Size } from '@/app/node-designer/config/layoutFrame';
+import { Size } from '@/app/common/util/definition';
 import { multiNodeStateCallback } from '@/app/node-designer/util/nodeDesignerStateManager';
 import { RadioButton } from '@/app/node-designer/component/controls/RadioButton';
 import ConnectionLine from '@/app/node-designer/component/react-flow/custom/ConnectionLine';
@@ -32,7 +32,7 @@ import ConnectionLine from '@/app/node-designer/component/react-flow/custom/Conn
 const bgGuideType = ['none', BackgroundVariant.Cross, BackgroundVariant.Dots, BackgroundVariant.Lines];
 
 const rfStyle = { backgroundColor: '#FFFFFF' };
-const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 11, height: 11, color: "blue" };
+const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 11, height: 11, color: 'rgb(0, 149, 145)' };
 
 // const initialNodes = [
 //   { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: getNodeData('Kind0') },
@@ -169,12 +169,6 @@ export default function ReactFlowApp(
     multiNodeStateCallback.call(id).setBottomsheetNodeId(elements['nodes'][0].id);
     //현 선택된 노드Id를 이전 노드id에 저장한다.
     multiNodeStateCallback.call(id).setPrevNodeId(elements['nodes'][0].id);
-    
-    // 다른 노드가 선택되면 해당 노드를 화면 중심에 보이도록 한다.
-    // if(reactFlowInstance) {
-    //   const v = reactFlowInstance.getViewport();
-    //   reactFlowInstance.fitView({ nodes: [elements['nodes'][0]], includeHiddenNodes : false, minZoom : v.zoom, maxZoom: v.zoom, duration: 300 });
-    // }
 
   };
 
@@ -234,7 +228,7 @@ export default function ReactFlowApp(
         connectionLineComponent={ConnectionLine}
       >
         <Panel position="top-left">
-          <RadioButton selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
+          <RadioButton className='text-lg' selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
         </Panel>
         <Controls position='top-right'/>
         {/* <MiniMap nodeComponent={CustomMiniMapNode}/> */}

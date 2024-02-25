@@ -32,8 +32,8 @@ const CustomHandle = (
     return (
     <Handle
         style={{cursor: "all-scroll"}}
-        className={clsx({"h-[15px] w-[15px] bg-red-700" : (type === 'source')},
-                        {"h-[15px] w-[15px] bg-blue-700" : (type === 'target')})}
+        className={clsx({"h-[15px] w-[15px] bg-nodedg-node-handle-left" : (type === 'source')},
+                        {"h-[15px] w-[15px] bg-nodedg-node-handle-right" : (type === 'target')})}
         type={type}
         position={position}
         id={id}

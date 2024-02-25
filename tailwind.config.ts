@@ -51,6 +51,11 @@ const config: Config = {
         nodedg : {
           'node' : {
             'back' : 'rgb(235, 245, 245)',
+            'mouseover' : 'rgb(253, 241, 244)',
+            'handle' :{
+              'left' : 'rgb(248, 206, 218)',
+              'right' : 'rgb(0, 149, 145)',
+            }
           },
           'tabhead' : 'rgb(235, 245, 245)',
           'tabhead-clicked' : 'rgb(195, 226, 225)',

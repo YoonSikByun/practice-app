@@ -14,6 +14,18 @@ export type TaskCardInfo = {
     description : string;
 }
 
+function TaskBorder({children} : {children? : React.ReactNode}) {
+    return (
+        <div className={clsx('task-item ml-2 my-3 group relative rounded',
+            'border-[1px] border-borderclr-bold',
+            'flex flex-col p-2 bg-cardclr-back shadow-lg shadow-black-500',
+            'border-solid border-borderclr-light hover:border-[3px]')}
+        >
+            {children}
+        </div>
+    );
+}
+
 function HoverComponent() {
     return (
         <div className={clsx('invisible group-hover:visible', 'absolute top-1/2 left-[calc(50%-50px)]')}>
@@ -27,34 +39,22 @@ function HoverComponent() {
     )
 }
 
-function TaskBorder({children} : {children? : React.ReactNode}) {
-    return (
-        <div className={clsx('task-item ml-2 my-3 group relative rounded',
-            'border-[1px] border-borderclr-bold',
-            'flex flex-col p-2 bg-cardclr-back shadow-lg shadow-black-500',
-            'border-solid border-borderclr-light hover:border-[3px]')}
-        >
-            {children}
-        </div>
-    );
-}
-
 export function TaskCreateCard() {
     return (
         <TaskBorder>
             <div className='w-full text-center'><p className='text-2xl mt-3'>작업공간 만들기</p></div>
             <div className='flex flex-row h-full w-full'>
                 <div className='relative h-full w-[50%]'>
-                    <div className='absolute top-[calc(50%-25px)] left-[calc(100%-85px)] flex flex-col items-center'>
-                        <button title='새로 만들기' >
+                    <div className='absolute top-[calc(50%-50px)] left-[calc(100%-90px)] flex flex-col items-center'>
+                        <button>
                             <DocumentPlusIcon className='h-[50px] w-[50px] fill-hanablue-700 hover:fill-mouseoverclr'/>
                         </button>
                         <p>새로 만들기</p>
                     </div>
                 </div>
                 <div className='relative h-full w-[50%]'>
-                    <div className='absolute rounded-full top-[calc(50%-25px)] left-[35px] flex flex-col items-center'>
-                    <button title='가져오기'>
+                    <div className='absolute rounded-full top-[calc(50%-50px)] left-[40px] flex flex-col items-center'>
+                    <button>
                         <FolderArrowDownIcon className='h-[50px] w-[50px] fill-hanablue-700 hover:fill-mouseoverclr'/>
                     </button>
                     <p>가져오기</p>
