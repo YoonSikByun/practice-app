@@ -5,7 +5,6 @@ import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/util/calcStyleRegion';
 import TaskCard, {TaskCreateCard, TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
 import { MultiCheckboxManager } from '@/app/main/util/multiControlManager';
-// import CheckBox from '@/app/main/component/controls/CheckBox';
 
 const testData : TaskCardInfo = {
     task_name : 'Task Name',

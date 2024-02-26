@@ -52,7 +52,7 @@ function HoverTopButtons({
               className='absolute top-[3px] node-option-button'
               onClick={onDelNodeClick}
             >
-              <TrashIcon  className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr'/>
+              <TrashIcon  className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr-bold'/>
             </button>
           </td>
           <td className='h-inherit w-[30px]'>
@@ -61,7 +61,7 @@ function HoverTopButtons({
               className='absolute top-[3px] node-option-button'
               onClick={()=>alert('Show a control-box')}
             >
-              <AdjustmentsHorizontalIcon  className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr'/>
+              <AdjustmentsHorizontalIcon  className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr-bold'/>
             </button>
           </td>
         </tr>
@@ -90,7 +90,7 @@ function BottomButtons({
             className='absolute top-[2px] node-option-button'
             onClick={()=>alert(`Play a node!! [${id}]`)}
           >
-            <PlayIcon className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr'/>
+            <PlayIcon className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr-bold'/>
           </button>
         </td>
         <td className='h-inherit w-[30px]'>
@@ -99,7 +99,7 @@ function BottomButtons({
             className='absolute top-[2px] node-option-button'
             onClick={()=>alert(`Play a Log viewer!! [${id}]`)}
           >
-            <DocumentTextIcon className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr'/>
+            <DocumentTextIcon className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr-bold'/>
           </button>
         </td>
       </tr>

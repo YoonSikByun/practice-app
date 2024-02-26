@@ -13,7 +13,7 @@ export type TabHeadItem = {
     id: string;
 }
 
-const topMargin : number = 20;
+const topMargin : number = 15;
 
 function ItemBox(
     {
@@ -50,7 +50,7 @@ function ItemBox(
         <li
             style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}
              className={clsx("text-sm px-[5px] border-solid border-[1px]",
-                `border-borderclr-bold hover:bg-mouseoverclr w-[150px]`,
+                `border-borderclr-bold hover:bg-mouseoverclr-light w-[150px]`,
                 {"bg-tabhead" : (id !== currentTabHeadId)},
                 {"bg-tabhead border-t-4" : (id === currentTabHeadId)})}
         >
@@ -72,7 +72,7 @@ function ItemBox(
                  onClick={handlerOnClickX}
                  title='작업공간 닫기'
                 >
-                    <XCircleIcon className='h-6 w-6 hover:bg-mouseoverclr' />
+                    <XCircleIcon className='h-6 w-6 hover:bg-mouseoverclr-bold' />
                 </button>
             </div>
             <div>
@@ -152,7 +152,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                 <button
                     onClick={addItem}
                     style={{height: (mainLayoutSize['topGNB'].height - (topMargin + 6 ))}}
-                    className={clsx('rounded mt-[3px] bg-hanablue-200 hover:bg-mouseoverclr',
+                    className={clsx('rounded mt-[3px] bg-hanablue-200 hover:bg-mouseoverclr-bold',
                     'border-solid border-[1px] border-borderclr-bold')}
                     title='작업공간 생성'
                 >

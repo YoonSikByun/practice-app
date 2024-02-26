@@ -33,7 +33,10 @@ const config: Config = {
           100 : 'rgb(191, 191, 191)'
         },
 
-        mouseoverclr : 'rgb(241, 159, 181)',
+        mouseoverclr : {
+          light : 'rgb(253, 241, 244)',
+          bold : 'rgb(241, 159, 181)'
+        },
         titlebg : {
           1 : 'rgb(235, 245, 245)',
           2 : 'rgb(140, 201, 202)',

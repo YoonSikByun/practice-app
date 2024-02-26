@@ -1,10 +1,28 @@
-import { mainLayoutSize, workspaceLayoutSize } from "@/app/main/config/layoutFrame";
+import {
+    mainLayoutSize,
+    workspaceLayoutSize,
+    projectLayoutSize
+} from "@/app/main/config/layoutFrame";
+
+class Project {
+    getSearchHeight() { return `${projectLayoutSize['projectSearch'].height}px`; }
+    getTitleHeight() { return `${projectLayoutSize['projectTitle'].height}px`; }
+    getListHeight() {
+        const bottomPadding = 13; //이유를 알 수 없게, 내용이 많아지면 하단이 잘려서 추가 공간을 임의로 더한다.
+        const extrMargin = mainLayoutSize['topGNB'].height +
+                        projectLayoutSize['projectSearch'].height +
+                        projectLayoutSize['projectTitle'].height + 
+                        projectLayoutSize['projectPagingList'].height;
+        return `calc(100vh - ${extrMargin + bottomPadding}px)`;
+    }
+    getPagingListHeight() { return `${projectLayoutSize['projectPagingList'].height}px`; }
+}
 
 class Workspace {
     getOuterMargin() { return `${workspaceLayoutSize['outerMargin'].width}px`; }
     getContainerWidth() { return `calc(100% - ${workspaceLayoutSize['outerMargin'].width} * 2)`; }
     getContainerHeight() { return this.getContainerWidth(); }
-    getProjectTitleHeight() { return `${workspaceLayoutSize['projectTitle'].height}px`; }
+    getProjectContainerHeight() { return `${workspaceLayoutSize['projectTitle'].height}px`; }
     getProjectInfoHeight() { return `${workspaceLayoutSize['projectInformation'].height}px`; }
     getTaskListHeadHeight() { return `${workspaceLayoutSize['taskListHead'].height}px`; }
     getTaskListBodyPadding() { return `${workspaceLayoutSize['taskListBodyPadding'].height}px`; }
@@ -33,6 +51,7 @@ class Workspace {
 
 class CalcStyleRegion {
     workspace : Workspace = new Workspace();
+    project :  Project = new Project();
 
     getTopMargin() {return `${mainLayoutSize['topGNB'].height}px`; }
     getTopHeight() {return `${mainLayoutSize['topGNB'].height}px`; }

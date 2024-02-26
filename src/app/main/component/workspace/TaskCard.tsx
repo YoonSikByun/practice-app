@@ -30,7 +30,7 @@ function HoverComponent() {
     return (
         <div className={clsx('invisible group-hover:visible', 'absolute top-1/2 left-[calc(50%-50px)]')}>
             <button
-                className='bg-blue-400 h-[40px] w-[100px] rounded shadow-lg text-xl font-bold hover:bg-mouseoverclr'
+                className='bg-blue-400 h-[40px] w-[100px] rounded shadow-lg text-xl font-bold hover:bg-mouseoverclr-bold'
                 onClick={() => alert('노드디자이너 열기')}
             >
                 열기
@@ -47,7 +47,7 @@ export function TaskCreateCard() {
                 <div className='relative h-full w-[50%]'>
                     <div className='absolute top-[calc(50%-50px)] left-[calc(100%-90px)] flex flex-col items-center'>
                         <button>
-                            <DocumentPlusIcon className='h-[50px] w-[50px] fill-hanablue-700 hover:fill-mouseoverclr'/>
+                            <DocumentPlusIcon className='h-[50px] w-[50px] fill-hanablue-700 hover:fill-mouseoverclr-bold'/>
                         </button>
                         <p>새로 만들기</p>
                     </div>
@@ -55,7 +55,7 @@ export function TaskCreateCard() {
                 <div className='relative h-full w-[50%]'>
                     <div className='absolute rounded-full top-[calc(50%-50px)] left-[40px] flex flex-col items-center'>
                     <button>
-                        <FolderArrowDownIcon className='h-[50px] w-[50px] fill-hanablue-700 hover:fill-mouseoverclr'/>
+                        <FolderArrowDownIcon className='h-[50px] w-[50px] fill-hanablue-700 hover:fill-mouseoverclr-bold'/>
                     </button>
                     <p>가져오기</p>
                     </div>

@@ -23,7 +23,7 @@ function ItemBox(
             "shadow-md",
             {"bg-slate-100" : selectIndex !== index},
             {"bg-slate-300" : selectIndex === index},
-            'hover:bg-mouseoverclr',
+            'hover:bg-mouseoverclr-bold',
             className)}
          >
             {children}

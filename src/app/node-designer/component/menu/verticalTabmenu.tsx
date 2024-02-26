@@ -68,7 +68,7 @@ function TabHead({
                 {'bg-nodedg-tabhead' : clicked === false},
                 'h-full w-full',
                 'border-solid border-borderclr-bold border-r-[1px] border-b-[1px]',
-                'hover:bg-mouseoverclr'
+                'hover:bg-mouseoverclr-bold'
             )}
             onClick={(e)=>{onButtonClick(menuItem.title)}}>
             <p className={clsx('absolute top-[44px] left-[-40px] rotate-90 h-[20px] w-[107px] text-nowrap overflow-hidden text-black')}>

@@ -228,7 +228,7 @@ export default function ReactFlowApp(
         connectionLineComponent={ConnectionLine}
       >
         <Panel position="top-left">
-          <RadioButton className='text-lg' selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
+          <RadioButton className='text-base' selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
         </Panel>
         <Controls position='top-right'/>
         {/* <MiniMap nodeComponent={CustomMiniMapNode}/> */}

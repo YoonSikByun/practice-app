@@ -16,6 +16,20 @@ export const mainLayoutSize : MainLayoutSize = {
     project : {width: 300, height: 0}
 }
 
+export type ProjectLayoutSize = {
+    projectSearch: Size;
+    projectTitle: Size;
+    projectList: Size;
+    projectPagingList: Size;
+}
+
+export const projectLayoutSize : ProjectLayoutSize = {
+    projectSearch: {width: 0, height: 45}, 
+    projectTitle: {width: 0, height: 25},
+    projectList: {width: 0, height: 0},
+    projectPagingList: {width: 0, height: 40},
+}
+
 export type WorkspaceLayoutSize = {
     outerMargin: Size;
     projectTitle: Size;
