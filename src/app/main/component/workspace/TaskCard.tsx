@@ -17,9 +17,8 @@ export type TaskCardInfo = {
 function TaskBorder({children} : {children? : React.ReactNode}) {
     return (
         <div className={clsx('task-item ml-2 my-3 group relative rounded',
-            'border-[1px] border-borderclr-bold',
             'flex flex-col p-2 bg-cardclr-back shadow-lg shadow-black-500',
-            'border-solid border-borderclr-light hover:border-[3px]')}
+            'border-[1px] border-solid border-borderclr-light hover:border-borderclr-bold')}
         >
             {children}
         </div>

@@ -13,7 +13,8 @@ export type TabHeadItem = {
     id: string;
 }
 
-const topMargin : number = 15;
+const topMargin : number = 10;
+const selectionMargin : number = 8;
 
 function ItemBox(
     {
@@ -49,35 +50,44 @@ function ItemBox(
     return (
         <li
             style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}
-             className={clsx("text-sm px-[5px] border-solid border-[1px]",
-                `border-borderclr-bold hover:bg-mouseoverclr-light w-[150px]`,
-                {"bg-tabhead" : (id !== currentTabHeadId)},
-                {"bg-tabhead border-t-4" : (id === currentTabHeadId)})}
+            className={clsx("flex flex-col text-sm bg-white border-solid border-[1px]",
+                'border-borderclr-bold hover:bg-mouseoverclr-light w-[150px]')}
         >
-            <div className="flex">
-                <button
-                 style={{
-                    lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`,
-                     width: 'calc(100% - 10px)'
+            <div className={clsx(
+                    {"bg-borderclr-bold" : (id === currentTabHeadId)})}
+                    style={{
+                        height: `${selectionMargin}px`,
+                        width: '100%'
+                    }}
+            />
+            <div className="flex flex-row px-2"
+                style={{
+                    height: `${mainLayoutSize['topGNB'].height - (selectionMargin+topMargin)}px`,
+                    width: '100%'
                 }}
-                 onClick={handlerOnClick}
+            >
+                <button
+                    style={{
+                        height: `${mainLayoutSize['topGNB'].height - (selectionMargin+topMargin)}px`,
+                        lineHeight: `${mainLayoutSize['topGNB'].height - (selectionMargin+topMargin)}px`,
+                        width: 'calc(100% - 10px)'
+                    }}
+                    onClick={handlerOnClick}
                 >
                     {children}
                 </button>
                 <button
-                 style={{
-                    lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`,
-                    width: '30px'
-                 }}
-                 onClick={handlerOnClickX}
-                 title='작업공간 닫기'
+                    style={{
+                        lineHeight: `${mainLayoutSize['topGNB'].height - (selectionMargin+topMargin)}px`,
+                        width: '30px'}}
+
+                    onClick={handlerOnClickX}
+                    title='작업공간 닫기'
                 >
                     <XCircleIcon className='h-6 w-6 hover:bg-mouseoverclr-bold' />
                 </button>
             </div>
-            <div>
 
-            </div>
         </li>
     );
 }
@@ -123,7 +133,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
     }
 
     return (
-        <ul className={clsx(`flex space-x-[2px]`)}
+        <ul className={clsx(`flex space-x-[3px]`)}
         style={{
             height: (mainLayoutSize['topGNB'].height - topMargin),
             lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`,
@@ -145,13 +155,12 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                     );
                 })
             }
-            <li
-                style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}
+            <li style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}
                 className={clsx('w-[30px]')}
             >
                 <button
                     onClick={addItem}
-                    style={{height: (mainLayoutSize['topGNB'].height - (topMargin + 6 ))}}
+                    style={{marginTop: '7px', height: (mainLayoutSize['topGNB'].height - (topMargin + 11))}}
                     className={clsx('rounded mt-[3px] bg-hanablue-200 hover:bg-mouseoverclr-bold',
                     'border-solid border-[1px] border-borderclr-bold')}
                     title='작업공간 생성'

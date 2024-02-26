@@ -49,8 +49,8 @@ function Project({
                     'h-[80px] pr-[23px]',
                     'mt-3 mb-2 mr-1 shadow-md',
                     'border-[1px] rounded border-borderclr-light',
-                    {'border-borderclr-light' : checked !== true},
-                    {'border-t-[7px] border-[1px] border-borderclr-bold' : checked === true},
+                    {'ml-[10px] border-borderclr-light' : checked !== true},
+                    {'border-l-[10px] border-[1px] border-borderclr-bold' : checked === true},
                     'hover:bg-mouseoverclr-light')}
                 onClick={handleOnClick}
             >
