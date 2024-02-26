@@ -15,7 +15,7 @@ import { Rect } from "@/app/common/util/definition";
 import {calcStyle} from '@/app/node-designer/util/calcStyleRegion';
 import clsx from 'clsx';
 import BottomSheet from "@/app/node-designer/component/bottomSheet/BottomSheet";
-import Variables from './component/menu/variables';
+import Variables from '@/app/node-designer/component/menu/variables/variablesMenu';
 
 export default function NodeDesigner(
   {
@@ -25,7 +25,8 @@ export default function NodeDesigner(
   } : {
     id : string,
     padding? : {top: number; left: number; right: number; bottom: number},
-  }) {
+  }
+) {
   // 외부에서 NodeDesginer 컨퍼넌트를 사용을 고려해 외부에 사용중인 상하좌우 여백 크기를 설정해준다.
   outSidePadding.set(padding);
 
