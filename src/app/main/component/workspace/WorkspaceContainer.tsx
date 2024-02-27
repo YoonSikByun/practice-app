@@ -16,7 +16,7 @@ export default function WorkspaceContainer() {
             {/* 프로젝트 제목 부분 */}
             <div className='project-title'
                 style={{
-                    height: calcStyle.workspace.getProjectTitleHeight()
+                    height: calcStyle.workspace.getProjectContainerHeight()
                 }}
             >
                 <div className="title">
@@ -29,7 +29,7 @@ export default function WorkspaceContainer() {
             {/* 프로젝트 생성 정보 */}
             <div className='project-information'
                 style={{
-                    height: calcStyle.workspace.getProjectTitleHeight()
+                    height: calcStyle.workspace.getProjectContainerHeight()
                 }}
             >
                 <div className='content'>

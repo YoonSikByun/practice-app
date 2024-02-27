@@ -4,11 +4,10 @@ import CustomHandle from '@/app/node-designer/component/react-flow/custom/Custom
 import NodeBoundary from '@/app/node-designer/component/node/nodeBoundary';
 import {NoramlNodeData} from '@/app/node-designer/component/react-flow/custom/nodeTypes';
 import clsx from 'clsx';
-import '@/app/node-designer/scss/component/react-flow/custom/CustomNode.scss';
 import { TrashIcon, PlayIcon, DocumentTextIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
 import { multiNodeStateCallback } from '@/app/node-designer/util/nodeDesignerStateManager';
 
-function TopButtons({
+function HoverTopButtons({
   id,
   parentId
 } : {
@@ -36,16 +35,15 @@ function TopButtons({
         return changedNodes;
       }
     );
-    
   };
 
   return (
     <div className={
       clsx('invisible group-hover:visible',
-          'absolute top-[-55px] left-[0px]',
+          'absolute top-[-43px] left-[0px]',
           'w-full h-[45px]')
     }>
-      <table className={clsx('w-[115px] border-2 border-dotted border-slate-800')}>
+      <table className={clsx('w-[115px]')}>
         <tbody>
         <tr  className='flex h-[30px]'>
           <td className='h-inherit w-[30px]'>
@@ -54,7 +52,7 @@ function TopButtons({
               className='absolute top-[3px] node-option-button'
               onClick={onDelNodeClick}
             >
-              <TrashIcon/>
+              <TrashIcon  className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr-bold'/>
             </button>
           </td>
           <td className='h-inherit w-[30px]'>
@@ -63,7 +61,7 @@ function TopButtons({
               className='absolute top-[3px] node-option-button'
               onClick={()=>alert('Show a control-box')}
             >
-              <AdjustmentsHorizontalIcon/>
+              <AdjustmentsHorizontalIcon  className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr-bold'/>
             </button>
           </td>
         </tr>
@@ -82,18 +80,17 @@ function BottomButtons({
   return (
     <table className={
       clsx('absolute top-[45px] left-[0px]',
-          'h-[30px] w-[115px]',
-          'border-2 border-dotted border-slate-800'
+          'h-[30px] w-[115px]'
     )}>
       <tbody>
-      <tr className='flex h-[30px] bg-yellow-100'>
+      <tr className='flex h-[30px]'>
         <td className='h-inherit w-[30px]'>
           <button
             title='Play'
             className='absolute top-[2px] node-option-button'
             onClick={()=>alert(`Play a node!! [${id}]`)}
           >
-            <PlayIcon/>
+            <PlayIcon className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr-bold'/>
           </button>
         </td>
         <td className='h-inherit w-[30px]'>
@@ -102,7 +99,7 @@ function BottomButtons({
             className='absolute top-[2px] node-option-button'
             onClick={()=>alert(`Play a Log viewer!! [${id}]`)}
           >
-            <DocumentTextIcon/>
+            <DocumentTextIcon className='fill-hanablue-700 h-7 w-7 hover:fill-mouseoverclr-bold'/>
           </button>
         </td>
       </tr>
@@ -143,11 +140,13 @@ export function CustomNode(
         nodeKind={data?.nodeKind ?? ''}
         className={clsx(data?.className ?? '', 
           {'shadow-md shadow-gray-500' : !selected},
-          {'shadow-lg shadow-emerald-950 border-[3px]' : selected})}
+          {'shadow-lg shadow-emerald-950 border-[3px]' : selected},
+          'hover:bg-nodedg-node-mouseover'
+        )}
         Icon={data?.icon}
         isDraggable={false}
       >
-        <TopButtons id={id} parentId={parentId}/>
+        <HoverTopButtons id={id} parentId={parentId}/>
         {(showOptButtons) && <BottomButtons id={id}/>}
       </NodeBoundary>
     </div>

@@ -1,9 +1,8 @@
-import ProjectSearchMenu from "@/app/main/component/projects/projectSearchMenu"
-import "@/app/main/scss/sidebar.scss"
 import "@/app/main/scss/layout.scss"
-import ProjectListLabel from "@/app/main/component/projects/projectListLabel"
+import ProjectContainer from "@/app/main/component/projects/ProjectContainer"
 import { calcStyle } from "@/app/main/util/calcStyleRegion"
 import WorkspaceContainer from "@/app/main/component/workspace/WorkspaceContainer"
+import clsx from "clsx"
 
 export default function Home() {
     return (
@@ -13,7 +12,9 @@ export default function Home() {
                 top: calcStyle.getTopMargin(),
                 height: calcStyle.getHomeHeight()}}
         >
-            <div className="home-sidebar-project-list-area"
+            <div className={clsx(
+                    'border-r-[1px] border-borderclr-bold'
+                )}
                 style={{
                     position: 'absolute',
                     left: calcStyle.getProjectLeft(),
@@ -21,10 +22,9 @@ export default function Home() {
                     width: calcStyle.getProjectWidth()
                 }}
             >
-                <ProjectSearchMenu/>
-                <ProjectListLabel/>
+                <ProjectContainer/>
             </div>
-            <div className="bg-white"
+            <div className="bg-slate-100"
                 style={{
                     position: 'absolute',
                     left: calcStyle.getWorkspaceLeft(),

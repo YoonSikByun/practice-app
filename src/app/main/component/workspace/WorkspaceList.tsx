@@ -1,11 +1,13 @@
 import '@/app/main/scss/Workspace.scss';
 
+import { useMemo } from 'react';
 import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/util/calcStyleRegion';
-import TaskCard, {TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
 import MenuContext from '../menuContext/menuContext';
 import { menuItems } from '../menuContext/menuItems';
 import { useRef, useState } from 'react';
+import TaskCard, {TaskCreateCard, TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
+import { MultiCheckboxManager } from '@/app/main/util/multiControlManager';
 
 const testData : TaskCardInfo = {
     task_name : 'Task Name',
@@ -59,9 +61,12 @@ export default function WorkspaceList() {
         }
 
     }
+    const multiCheckboxManager = useMemo(() => new MultiCheckboxManager(), []);
+    const allChek = (e : any) => multiCheckboxManager.allChek(e.target.checked);
+
     return (
     <div className='task-list'>
-        <div className='head rounded bg-titlebg-2'
+        <div className='head rounded bg-titlebg-2 border-[1px] border-borderclr-bold'
             style={{
                 height: calcStyle.workspace.getTaskListHeadHeight(),
             }}
@@ -70,11 +75,11 @@ export default function WorkspaceList() {
                 <p className='ml-3 text-xl font-bold'>작업목록</p>
             </div>
             <div className="edit">
-                <button><Bars3Icon className='h-7 w-7' /></button>
-                <input type='checkbox' className='h-5 w-5' />
+                <button><Bars3Icon className='h-7 w-7 mr-2' /></button>
+                <input type='checkbox' className='h-7 w-7' onChange={allChek}/>
             </div>
         </div>
-        <div className='body'
+        <div className='body border-b-[1px] border-borderclr-bold'
             style={{
                 height: calcStyle.workspace.getTaskListBodyOuterHeight(),
                 padding: calcStyle.workspace.getTaskListBodyPadding()
@@ -85,23 +90,24 @@ export default function WorkspaceList() {
                     height: calcStyle.workspace.getTaskListBodyInnerHeight()
                 }}
             >
+                <TaskCreateCard/>
             {
                 testDataList.map((data, index) => {
                     return (
-                        <TaskCard key={index} data={data} handleContextMenu={handleContextMenu}/>
+                        <TaskCard key={index} id={`${index}`} checkBoxManager={multiCheckboxManager}  handleContextMenu={handleContextMenu} data={data}/>
                     );
                 })
             }
             </div>
         </div>
-        <div className='paging-list bg-red-200 text-center'
+        <div className='paging-list text-center'
             style={{
                 height: calcStyle.workspace.getPagingListHeight(),
                 lineHeight: calcStyle.workspace.getPagingListHeight()
             }}
         >
             <span className='text-xl font-bold'>
-                {'<  0  1  2  3  4  5  10  11  12  13  14  15  >'}
+                {'<  0  1  2  3  4  5  10  11  12  13  14  15 ... >'}
             </span>
         </div>
         <MenuContext 

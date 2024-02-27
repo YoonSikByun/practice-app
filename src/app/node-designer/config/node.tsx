@@ -28,7 +28,7 @@ const defaultClass : string = clsx(
     'bg-nodedg-node-back m-1 shadow-md',
     'border-[1px] border-borderclr-light border-solid rounded-[8px]');
 
-const designClass : string = clsx(defaultClass, 'cursor-grab hover:bg-mouseoverclr');
+const designClass : string = clsx(defaultClass, 'cursor-grab hover:bg-mouseoverclr-bold');
 
 const desginNodeSize : NodeSize = {width: 125, height: 50};
 

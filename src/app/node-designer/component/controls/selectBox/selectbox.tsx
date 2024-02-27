@@ -1,10 +1,12 @@
 import {OPTIONS} from "@/app/node-designer/component/controls/selectBox/options"
 
-const SelectBox = () => {
+export default function SelectBox({className, style} : {className? : string, style?:any}) {
 	return (
-		<select className='sidebar-deck-option-row'>
+		<select className={className}
+			style={{...style}}
+		>
 			{OPTIONS.map((option) => (
-				<option className='sidebar-deck-option-row'
+				<option className={className}
 					key={option.value}
 					value={option.value}>
 					{option.name}
@@ -13,6 +15,3 @@ const SelectBox = () => {
 		</select>
 	);
 };
-
-
-export default SelectBox
