@@ -32,7 +32,7 @@ import ConnectionLine from '@/app/node-designer/component/react-flow/custom/Conn
 const bgGuideType = ['none', BackgroundVariant.Cross, BackgroundVariant.Dots, BackgroundVariant.Lines];
 
 const rfStyle = { backgroundColor: '#FFFFFF' };
-const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 11, height: 11, color: 'rgb(0, 149, 145)' };
+const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 13, height: 13, color: '#009591' };
 
 // const initialNodes = [
 //   { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: getNodeData('Kind0') },
@@ -142,7 +142,8 @@ export default function ReactFlowApp(
         id: uuid(),
         type: 'custom-edge',
         markerEnd: edgeMarkerEnd
-    };
+      };
+      console.log('add edges...........');
       setEdges((eds) => addEdge(edge, eds));
     },
     [setEdges],
