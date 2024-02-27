@@ -172,3 +172,25 @@
     color: black;
     background-color: white;
 }
+
+.context-menu{
+    visibility: hidden;
+    opacity: 0;
+    background-color: #888;
+    position: fixed;
+    z-index: 5;
+    color: black;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-size: 0.875rem;
+    max-width: 250px;
+    box-shadow: 1px 1px 5px black;
+}
+
+.context-menu.active{
+    visibility: visible;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+}

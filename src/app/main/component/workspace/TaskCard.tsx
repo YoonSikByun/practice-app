@@ -1,5 +1,6 @@
 import '@/app/main/scss/Workspace.scss';
 import { Bars3Icon, ArchiveBoxIcon } from '@heroicons/react/24/outline';
+import { useRef, useState } from 'react';
 import { DocumentPlusIcon, FolderArrowDownIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
@@ -68,11 +69,13 @@ export default function TaskCard(
     {
         data,
         id,
-        checkBoxManager
+        checkBoxManager,
+        handleContextMenu
     } : {
         data : TaskCardInfo,
         id : string,
         checkBoxManager : MultiCheckboxManager
+        handleContextMenu : any
     }
 ) {
     return (
@@ -83,7 +86,7 @@ export default function TaskCard(
                     <p className='text-xl'>{data.task_name}</p>
                 </div>
                 <div className='w-[20%] flex flex-row-reverse items-center'>
-                    <button><Bars3Icon className='h-7 w-7 mr-1' /></button>
+                    <button onClick={e=> handleContextMenu(e)}><Bars3Icon className='h-7 w-7 mr-1' /></button>
                     <CheckBox className='h-7 w-7 mr-1' id={id}
                      checkBoxManager={checkBoxManager}
                     />

@@ -3,6 +3,9 @@ import '@/app/main/scss/Workspace.scss';
 import { useMemo } from 'react';
 import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
+import MenuContext from '../menuContext/menuContext';
+import { menuItems } from '../menuContext/menuItems';
+import { useRef, useState } from 'react';
 import TaskCard, {TaskCreateCard, TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 
@@ -22,6 +25,42 @@ const testDataList : TaskCardInfo[] = [
 ]
 
 export default function WorkspaceList() {
+    const contextMenuRef = useRef<HTMLInputElement>(null);
+    const [contextMenu , setContextMenu] = useState({
+        position : {
+            x: 0, 
+            y: 0
+        },
+        isToggled : false
+    })
+    const handleContextMenu = (e : any) => {
+        e.preventDefault();
+        setContextMenu({
+            ...contextMenu,
+            isToggled: true
+        });
+        if(contextMenuRef.current){
+            const contextMenuAttr = contextMenuRef.current.getBoundingClientRect()
+            const isLeft = e.clientX < window?.innerWidth / 2
+            let x
+            let y = e.clientY;
+
+            if(isLeft) {
+                x = e.clientX
+            } else {
+                x = e.clientX - contextMenuAttr.width
+            }
+            
+            setContextMenu({
+                position : {
+                    x,
+                    y
+                },
+                isToggled :true
+            })
+        }
+
+    }
     const multiCheckboxManager = useMemo(() => new MultiCheckboxManager(), []);
     const allChek = (e : any) => multiCheckboxManager.allChek(e.target.checked);
 
@@ -55,7 +94,7 @@ export default function WorkspaceList() {
             {
                 testDataList.map((data, index) => {
                     return (
-                        <TaskCard key={index} id={`${index}`} checkBoxManager={multiCheckboxManager} data={data}/>
+                        <TaskCard key={index} id={`${index}`} checkBoxManager={multiCheckboxManager}  handleContextMenu={handleContextMenu} data={data}/>
                     );
                 })
             }
@@ -71,6 +110,14 @@ export default function WorkspaceList() {
                 {'<  0  1  2  3  4  5  10  11  12  13  14  15 ... >'}
             </span>
         </div>
+        <MenuContext 
+                contextMenuRef = {contextMenuRef}
+                contextMenu = {contextMenu}
+                width = {200}
+                height= {200}
+                role = "menuItem"
+                menuItems = {menuItems}
+        ></MenuContext>
     </div>
     )
 }
