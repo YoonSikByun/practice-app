@@ -3,6 +3,9 @@ import '@/app/main/scss/Workspace.scss';
 import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/util/calcStyleRegion';
 import TaskCard, {TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
+import MenuContext from '../menuContext/menuContext';
+import { menuItems } from '../menuContext/menuItems';
+import { useRef, useState } from 'react';
 
 const testData : TaskCardInfo = {
     task_name : 'Task Name',
@@ -20,6 +23,42 @@ const testDataList : TaskCardInfo[] = [
 ]
 
 export default function WorkspaceList() {
+    const contextMenuRef = useRef<HTMLInputElement>(null);
+    const [contextMenu , setContextMenu] = useState({
+        position : {
+            x: 0, 
+            y: 0
+        },
+        isToggled : false
+    })
+    const handleContextMenu = (e : any) => {
+        e.preventDefault();
+        setContextMenu({
+            ...contextMenu,
+            isToggled: true
+        });
+        if(contextMenuRef.current){
+            const contextMenuAttr = contextMenuRef.current.getBoundingClientRect()
+            const isLeft = e.clientX < window?.innerWidth / 2
+            let x
+            let y = e.clientY;
+
+            if(isLeft) {
+                x = e.clientX
+            } else {
+                x = e.clientX - contextMenuAttr.width
+            }
+            
+            setContextMenu({
+                position : {
+                    x,
+                    y
+                },
+                isToggled :true
+            })
+        }
+
+    }
     return (
     <div className='task-list'>
         <div className='head rounded bg-titlebg-2'
@@ -49,7 +88,7 @@ export default function WorkspaceList() {
             {
                 testDataList.map((data, index) => {
                     return (
-                        <TaskCard key={index} data={data}/>
+                        <TaskCard key={index} data={data} handleContextMenu={handleContextMenu}/>
                     );
                 })
             }
@@ -65,6 +104,14 @@ export default function WorkspaceList() {
                 {'<  0  1  2  3  4  5  10  11  12  13  14  15  >'}
             </span>
         </div>
+        <MenuContext 
+                contextMenuRef = {contextMenuRef}
+                contextMenu = {contextMenu}
+                width = {200}
+                height= {200}
+                role = "menuItem"
+                menuItems = {menuItems}
+        ></MenuContext>
     </div>
     )
 }

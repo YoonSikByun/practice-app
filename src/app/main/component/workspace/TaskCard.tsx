@@ -1,6 +1,7 @@
 import '@/app/main/scss/Workspace.scss';
 import { Bars3Icon, ArchiveBoxIcon } from '@heroicons/react/24/outline';
-
+import MenuContext from '@/app/main/component/menuContext/menuContext' 
+import { useRef, useState } from 'react';
 export type TaskCardInfo = {
     task_name : string;
     create_date : string;
@@ -12,13 +13,15 @@ export type TaskCardInfo = {
 
 export default function TaskCard(
     {
-        data
+        data,
+        handleContextMenu
     } : {
         data : TaskCardInfo
+        handleContextMenu : any
     }
 ) {
-
     return (
+        <>
         <div className='task-item rounded flex flex-col p-2 bg-cardclr-back shadow-lg'>
             <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>
                 <div className='w-[80%] flex flex-row items-center'>
@@ -26,7 +29,7 @@ export default function TaskCard(
                     <p className='text-xl'>{data.task_name}</p>
                 </div>
                 <div className='w-[20%] flex flex-row-reverse items-center'>
-                    <button><Bars3Icon className='h-6 w-6' /></button>
+                    <button><Bars3Icon className='h-6 w-6' onClick={e=> handleContextMenu(e)}/></button>
                     <input type='checkbox' className='h-4 w-4 mr-2' />
                 </div>
             </div>
@@ -42,5 +45,6 @@ export default function TaskCard(
                 {data.description}
             </div>
         </div>
+        </>
     );
 }
