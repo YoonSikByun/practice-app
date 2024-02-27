@@ -42,11 +42,12 @@ function Popup(
     }, [closePopup]);
 
     const getRefPosition = (ref : any) => {
+
         const r : Rect = ref.current?.getBoundingClientRect() as Rect;
         if(!r) return {x: INVALID_INDEX, y: INVALID_INDEX};
         else  return {x: r.left, y: r.top}; }
 
-    const OnDrageChange = (deltaX : number, deltaY : number) => {
+    const OnDragChange = (deltaX : number, deltaY : number) => {
         if(PIVOT_POSITION.x === INVALID_INDEX &&
             PIVOT_POSITION.y === INVALID_INDEX) {
             PIVOT_POSITION = getRefPosition(popupRef); }
@@ -77,7 +78,7 @@ function Popup(
                         'border-b-2',
                         'border-black',
                         'cursor-all-scroll')}
-                    {...registMouseEvent(OnDrageChange, OnMouseUp)}
+                    {...registMouseEvent(OnDragChange, OnMouseUp)}
                     style={{width: popupSize.width}}
                 >
                     <div className='text-xl'
