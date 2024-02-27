@@ -3,16 +3,16 @@
 import '@/app/node-designer/scss/layout.scss';
 
 import { useState, useRef, useEffect } from "react";
-import {registMouseEvent, inRange} from "@/app/common/util/moudeMove";
+import {registMouseEvent, inRange} from "@/app/common/lib/mouseMove";
 
 import ReactFlowApp from "@/app/node-designer/component/react-flow/reactflow"
-import Boundary from '@/app/common/util/Boundary';
+import Boundary from '@/app/common/lib/Boundary';
 import VerticalTabMenu from "@/app/node-designer/component/menu/verticalTabmenu";
 import NodesAccordion from '@/app/node-designer/component/menu/nodesMenu';
 import {verticalTablMenuItems, nodesAccordionPanelItems} from '@/app/node-designer/config/menu'
 import {layoutSize, outSidePadding} from '@/app/node-designer/config/layoutFrame'
-import { Rect } from "@/app/common/util/definition";
-import {calcStyle} from '@/app/node-designer/util/calcStyleRegion';
+import { Rect } from "@/app/common/lib/definition";
+import {calcStyle} from '@/app/node-designer/lib/calcStyleRegion';
 import clsx from 'clsx';
 import BottomSheet from "@/app/node-designer/component/bottomSheet/BottomSheet";
 import Variables from '@/app/node-designer/component/menu/variables/variablesMenu';
@@ -122,7 +122,7 @@ export default function NodeDesigner(
         ref={bottomRef}
       >
         <Boundary className="resize-bar"
-          {...registMouseEvent((deltaX, deltaY) => {
+          {...registMouseEvent((deltaX : number, deltaY : number) => {
             if(!bottomRef.current) return;
             let change_size = curBottomSheetHeight - deltaY;
             const {size, limited} = inRange(change_size, layoutSize['minBottomSheet'].height, maxBottomSheetHeight);

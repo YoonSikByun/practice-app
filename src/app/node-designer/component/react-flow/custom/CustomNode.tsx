@@ -5,7 +5,7 @@ import NodeBoundary from '@/app/node-designer/component/node/nodeBoundary';
 import {NoramlNodeData} from '@/app/node-designer/component/react-flow/custom/nodeTypes';
 import clsx from 'clsx';
 import { TrashIcon, PlayIcon, DocumentTextIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
-import { multiNodeStateCallback } from '@/app/node-designer/util/nodeDesignerStateManager';
+import { multiNodeStateCallback } from '@/app/node-designer/lib/nodeDesignerStateManager';
 
 function HoverTopButtons({
   id,

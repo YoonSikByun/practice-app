@@ -6,7 +6,7 @@ import NewProjectPopup from "@/app/main/component/popup/NewProjectPopup";
 import ImportProjectPopup from "@/app/main/component/popup/ImportProjectPopup";
 import { InboxArrowDownIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { ArrowUpCircleIcon, ArrowDownCircleIcon } from "@heroicons/react/16/solid";
-import { calcStyle } from "@/app/main/util/calcStyleRegion";
+import { calcStyle } from "@/app/main/lib/calcStyleRegion";
 import clsx from "clsx";
 
 function ProjectTitle (

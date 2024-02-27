@@ -9,7 +9,7 @@ import {
   PageName,
   MultiNodeDesignerCallbackManager,
   multiNodeDesignerCallbackManager
-} from "@/app/main/util/globalStateManager";
+} from "@/app/main/lib/globalStateManager";
 import { v4 as uuid } from "uuid";
 
 //노드 디자이너(Reactflow) 감싸고 있는 컨퍼넌트

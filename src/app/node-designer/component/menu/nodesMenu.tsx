@@ -3,7 +3,7 @@ import '@/app/node-designer/scss/component/nodesMenu.scss';
 import clsx from 'clsx';
 import { useState } from 'react';
 import { NodesAccordionPanelItem } from '@/app/node-designer/config/menu';
-import { calcStyle } from '@/app/node-designer/util/calcStyleRegion';
+import { calcStyle } from '@/app/node-designer/lib/calcStyleRegion';
 import {forwardRef} from 'react';
 
 export default forwardRef(

@@ -1,4 +1,4 @@
-import { Position } from "@/app/common/util/definition";
+import { Position } from "@/app/common/lib/definition";
 
 export function registMouseEvent(
     onDragChange: (deltaX: number, deltaY: number, initPosition?: Position) => void,

@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import {useState, useEffect} from 'react'
 
 import '@/app/node-designer/scss/component/react-flow/custom/Sidebar.scss'
-import { calcStyle } from '@/app/node-designer/util/calcStyleRegion';
+import { calcStyle } from '@/app/node-designer/lib/calcStyleRegion';
 import VariableDeckList from '@/app/node-designer/component/menu/variables/variableDeckList'
 import VariableDeck from '@/app/node-designer/component/menu/variables/variableDeck';
 

@@ -24,8 +24,8 @@ import ReactFlow,
 import { customNodeTypes, getNodeSize, getNodeData } from '@/app/node-designer/component/react-flow/custom/nodeTypes';
 import CustomEdge from '@/app/node-designer/component/react-flow/custom/CustomEdge';
 import { v4 as uuid } from "uuid";
-import { Size } from '@/app/common/util/definition';
-import { multiNodeStateCallback } from '@/app/node-designer/util/nodeDesignerStateManager';
+import { Size } from '@/app/common/lib/definition';
+import { multiNodeStateCallback } from '@/app/node-designer/lib/nodeDesignerStateManager';
 import { RadioButton } from '@/app/node-designer/component/controls/RadioButton';
 import ConnectionLine from '@/app/node-designer/component/react-flow/custom/ConnectionLine';
 
@@ -143,7 +143,6 @@ export default function ReactFlowApp(
         type: 'custom-edge',
         markerEnd: edgeMarkerEnd
       };
-      console.log('add edges...........');
       setEdges((eds) => addEdge(edge, eds));
     },
     [setEdges],

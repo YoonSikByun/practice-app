@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import Left from '@/app/main/component/top/Left'
 import Center from '@/app/main/component/top/Center'
 import Right from '@/app/main/component/top/Right'
-import { calcStyle } from "@/app/main/util/calcStyleRegion"
+import { calcStyle } from "@/app/main/lib/calcStyleRegion"
 import clsx from 'clsx'
 
 //Global Navigation Bar

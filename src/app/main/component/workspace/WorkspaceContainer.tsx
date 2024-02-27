@@ -2,7 +2,7 @@ import '@/app/main/scss/Workspace.scss';
 
 import { InformationCircleIcon, Bars3Icon } from "@heroicons/react/24/outline"
 import WorkspaceList from '@/app/main/component/workspace/WorkspaceList';
-import { calcStyle } from '@/app/main/util/calcStyleRegion';
+import { calcStyle } from '@/app/main/lib/calcStyleRegion';
 
 export default function WorkspaceContainer() {
     return (

@@ -3,9 +3,9 @@ import { useState, useRef, useMemo, useCallback, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { XCircleIcon } from '@heroicons/react/24/outline';
 import clsx from 'clsx';
-import Boundary from '@/app/common/util/Boundary';
-import {registMouseEvent} from "@/app/common/util/moudeMove";
-import { Rect, Size, Position } from '@/app/common/util/definition';
+import Boundary from '@/app/common/lib/Boundary';
+import {registMouseEvent} from "@/app/common/lib/mouseMove";
+import { Rect, Size, Position } from '@/app/common/lib/definition';
 
 const INVALID_INDEX = -10000;
 let PIVOT_POSITION : Position = {x: INVALID_INDEX, y: INVALID_INDEX};

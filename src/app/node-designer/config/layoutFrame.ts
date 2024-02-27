@@ -1,4 +1,4 @@
-import { Size } from "@/app/common/util/definition";
+import { Size } from "@/app/common/lib/definition";
 
 export type ShowingPanelSize = {
     reactFlowRect : any;

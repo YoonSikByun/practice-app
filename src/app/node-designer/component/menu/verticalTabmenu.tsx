@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import { VerticalTabMenuItem } from '@/app/node-designer/config/menu';
-import { calcStyle } from '@/app/node-designer/util/calcStyleRegion';
+import { calcStyle } from '@/app/node-designer/lib/calcStyleRegion';
 
 export default function VerticalTabMenu({
     menuItems,

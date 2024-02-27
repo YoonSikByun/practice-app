@@ -2,7 +2,7 @@ import '@/app/main/scss/Workspace.scss';
 import { Bars3Icon, ArchiveBoxIcon } from '@heroicons/react/24/outline';
 import { DocumentPlusIcon, FolderArrowDownIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
-import { MultiCheckboxManager } from '@/app/main/util/multiControlManager';
+import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 import CheckBox from '@/app/main/component/controls/CheckBox';
 
 export type TaskCardInfo = {

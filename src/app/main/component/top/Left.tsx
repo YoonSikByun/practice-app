@@ -1,4 +1,4 @@
-import { mainStateCallbackManager, PageName } from "@/app/main/util/globalStateManager";
+import { mainStateCallbackManager, PageName } from "@/app/main/lib/globalStateManager";
 import Image from 'next/image'
 import logo_png from '@/app/main/image/logo.png';
 //Global Navigation Bar

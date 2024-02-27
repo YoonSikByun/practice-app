@@ -2,9 +2,9 @@ import '@/app/main/scss/Workspace.scss';
 
 import { useMemo } from 'react';
 import { Bars3Icon } from "@heroicons/react/24/outline"
-import { calcStyle } from '@/app/main/util/calcStyleRegion';
+import { calcStyle } from '@/app/main/lib/calcStyleRegion';
 import TaskCard, {TaskCreateCard, TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
-import { MultiCheckboxManager } from '@/app/main/util/multiControlManager';
+import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 
 const testData : TaskCardInfo = {
     task_name : 'Task Name',
