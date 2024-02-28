@@ -1,15 +1,45 @@
 import DefaultPopup from "@/app/main/component/popup/DefaultPopup"
-import { newProject } from "../../data/wrapper"
+import useSWR from 'swr';
+
+async function fetcher<JSON = any>(
+    input: RequestInfo,
+    init?: RequestInit
+  ): Promise<JSON> {
+    const res = await fetch(input, init)
+    return res.json()
+  }
 
 function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
+    // const { data, mutate } = useSWR('/api/data', fetch)
+
     //여기에서 팝업 내용을 넣는다.
     const handleCloseBtn = () => {
         setVisible(false)
     }
     
-    const addProject = () => {
-        newProject()
-    }
+    const sendData = async () => {
+
+        const newData = {
+            id : '11111111',
+            name : 'abdc',
+            creatorId   : 'aaaa'
+        }
+
+        try {
+          // Update the local state immediately and fire the
+          // request. Since the API will return the updated
+          // data, there is no need to start a new revalidation
+          // and we can directly populate the cache.
+          await  fetch('/api/project', {
+              method: 'POST',
+              body: JSON.stringify(newData)
+            });
+        } catch (e) {
+          // If the API errors, the original data will be
+          // rolled back by SWR automatically.
+          console.log(e);
+        }
+      }
 
     return(
             <div className="dialog-content">
@@ -19,7 +49,7 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
                 </div>
                 <div className="dialog-button-container">
                     <button className="dialog-button btn-can" onClick={handleCloseBtn}>취소</button>
-                    <button className="dialog-button btn-ok" onClick={addProject}>확인</button>
+                    <button className="dialog-button btn-ok" onClick={sendData}>확인</button>
                 </div>
             </div>
     );
