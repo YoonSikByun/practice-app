@@ -1,6 +1,4 @@
-import Boundary from "@/app/common/util/Boundary";
-import { Size } from "@/app/common/util/definition";
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { MenuItem } from "./menuItems";
 
 const MenuContext = (
@@ -26,6 +24,8 @@ const MenuContext = (
             e.stopPropagation()
         }
 
+
+        
         return ( 
             <menu style={{
                 top : contextMenu.position.y + 2 + "px",
@@ -33,7 +33,7 @@ const MenuContext = (
                 width : width,
                 height : height
                 }}
-                className={`context-menu ${contextMenu.isToggled ? "active" : ""}`}
+                className={`context-menu ${contextMenu.isToggled ? "active" : "" }`}
                 ref={contextMenuRef}
             >
                 <ul>
