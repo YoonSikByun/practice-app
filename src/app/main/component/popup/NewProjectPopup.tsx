@@ -1,4 +1,5 @@
 import DefaultPopup from "@/app/main/component/popup/DefaultPopup"
+import { newProject } from "../../data/wrapper"
 
 function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
     //여기에서 팝업 내용을 넣는다.
@@ -6,6 +7,10 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
         setVisible(false)
     }
     
+    const addProject = () => {
+        newProject()
+    }
+
     return(
             <div className="dialog-content">
                 <div className="dialog-input-container"> 
@@ -14,7 +19,7 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
                 </div>
                 <div className="dialog-button-container">
                     <button className="dialog-button btn-can" onClick={handleCloseBtn}>취소</button>
-                    <button className="dialog-button btn-ok">확인</button>
+                    <button className="dialog-button btn-ok" onClick={addProject}>확인</button>
                 </div>
             </div>
     );
