@@ -1,6 +1,6 @@
 import '@/app/main/scss/Workspace.scss';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
 import MenuContext from '../menuContext/menuContext';
@@ -61,6 +61,31 @@ export default function WorkspaceList() {
         }
 
     }
+    useEffect(() => {
+    	function closeOutsideClick(e :any) {
+        	if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
+                setContextMenu({
+                    ...contextMenu,
+                    isToggled: false
+                });
+            }
+        }
+        function handleWheel() {
+            setContextMenu({
+                ...contextMenu,
+                isToggled: false
+            });
+        }
+        document.addEventListener("mousedown", closeOutsideClick);
+        document.addEventListener("wheel", handleWheel); 
+        return () => { 
+            document.removeEventListener("mousedown", closeOutsideClick); 
+            document.removeEventListener("wheel", handleWheel);
+        }
+    }, [contextMenu, contextMenuRef]);
+
+    
+      
     const multiCheckboxManager = useMemo(() => new MultiCheckboxManager(), []);
     const allChek = (e : any) => multiCheckboxManager.allChek(e.target.checked);
 
