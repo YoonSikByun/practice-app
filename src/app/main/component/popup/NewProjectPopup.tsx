@@ -1,5 +1,4 @@
 import DefaultPopup from "@/app/main/component/popup/DefaultPopup"
-import useSWR from 'swr';
 
 async function fetcher<JSON = any>(
     input: RequestInfo,
@@ -13,16 +12,12 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
     // const { data, mutate } = useSWR('/api/data', fetch)
 
     //여기에서 팝업 내용을 넣는다.
-    const handleCloseBtn = () => {
-        setVisible(false)
-    }
-    
+    const handleCloseBtn = () => { setVisible(false) }
     const sendData = async () => {
-
         const newData = {
-            id : '11111111',
+            id : 'ppppp-1111',
             name : 'abdc',
-            creatorId   : 'aaaa'
+            creatorId   : 'admin'
         }
 
         try {
