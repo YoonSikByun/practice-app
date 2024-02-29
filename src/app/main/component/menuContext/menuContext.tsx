@@ -1,13 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { MenuItem } from "./menuItems";
+import { MenuItem } from "./MenuGroup";
 
 const MenuContext = (
     {
         menuItems,
         contextMenu,
         width,
-        height,
-        role,
         contextMenuRef
     } 
     : 
@@ -15,8 +13,6 @@ const MenuContext = (
         menuItems : MenuItem[],
         contextMenu : any,
         width : number,
-        height : number,
-        role : string,
         contextMenuRef : any
     }
     ) => { 
@@ -24,21 +20,18 @@ const MenuContext = (
             e.stopPropagation()
         }
 
-
-        
         return ( 
             <menu style={{
                 top : contextMenu.position.y + 2 + "px",
                 left : contextMenu.position.x + 2 + "px",
                 width : width,
-                height : height
                 }}
-                className={`context-menu ${contextMenu.isToggled ? "active" : "" }`}
+                className={`context-menu ${contextMenu.isToggled ? "open" : ""}`}
                 ref={contextMenuRef}
             >
                 <ul>
                     {menuItems.map((item , index) => {
-                        return <li key={index} onClick={(e) => handleContextMenu(e, item)}> item</li>;
+                        return item.hasUnderLine ? <li className="separate" key={index} onClick={(e) => handleContextMenu(e, item)}> {item.title}</li> : <li key={index} onClick={(e) => handleContextMenu(e, item)}> {item.title}</li>;
                     })}
                 </ul>
             </menu>
