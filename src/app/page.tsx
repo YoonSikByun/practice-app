@@ -11,6 +11,8 @@ import {
   multiNodeDesignerCallbackManager
 } from "@/app/main/lib/globalStateManager";
 import { v4 as uuid } from "uuid";
+import { StatusPopup, POPUP_TYPE } from "@/app/common/lib/globalMessage";
+import { gStatusPopup } from "@/app/common/lib/globalMessage";
 
 //노드 디자이너(Reactflow) 감싸고 있는 컨퍼넌트
 function WrapperNodeDesigner(
@@ -20,18 +22,18 @@ function WrapperNodeDesigner(
   } : {
     id : string,
     callbackManager : MultiNodeDesignerCallbackManager
-  }) {
+  }
+) {
   const [visible, setVisible] = useState(true);
-
   useEffect(() => callbackManager.registerShowHideCallback(id, setVisible), [id, callbackManager]);
 
   return (
-  <div
-    className='absolute'
-    style={{display: (visible) ? 'block' : 'none'}}
-  >
-    <NodeDesigner id={id} padding={{top: mainLayoutSize['topGNB'].height, left:0,right:0,bottom:0}}/>
-  </div>
+    <div
+      className='absolute'
+      style={{display: (visible) ? 'block' : 'none'}}
+    >
+      <NodeDesigner id={id} padding={{top: mainLayoutSize['topGNB'].height, left:0,right:0,bottom:0}}/>
+    </div>
   );
 }
 
@@ -40,10 +42,22 @@ export default function Page() {
   const [childNodeDesignerIdList, setChildNodeDesignerIdList] = useState<string[]>([]);
   const [childNodeDesignerList, setChildNodeDesignerList] = useState<any[]>([]);
 
+  const [globalErrorMsg, setGlobalErrorMsg] = useState('');
+  const [globalWarningMsg, setGlobalWarningMsg] = useState('');
+  const [globalInfoMsg, setInfoMsg] = useState('');
+  const [globalSuccessMsg, setGlobalSuccessMsg] = useState('');
+
   //다른 모듈에서도 페이지 이동에 사용할 수 있도록 페이지 useState 함수를 콜백함수로 등록한다.
   useEffect(() => {
     mainStateCallbackManager.registerSetCurrentPageName(setShowPageName);
   }, [setShowPageName]);
+
+  useEffect(() => {
+    gStatusPopup.registerSetErrorMsgCallback(setGlobalErrorMsg);
+    gStatusPopup.registerSetWarningMsgCallback(setGlobalWarningMsg);
+    gStatusPopup.registerSetInfoMsgCallback(setInfoMsg);
+    gStatusPopup.registerSetSuccessMsgCallback(setGlobalSuccessMsg);
+  }, []);
 
   //노드디자이너 신규 생성
   const addChildNodeDesigner = () => {
@@ -78,12 +92,20 @@ export default function Page() {
 
   return (
     <>
-      <div style={{display: (showPageName === PageName.HOME) ? 'block' : 'none'}}>
-        <HomeMain/>
-      </div>
-      <div style={{display: (showPageName === PageName.NODE_DESIGNER) ? 'block' : 'none'}}>
-        {childNodeDesignerList}
-      </div>
+      <>
+        <div style={{display: (showPageName === PageName.HOME) ? 'block' : 'none'}}>
+          <HomeMain/>
+        </div>
+        <div style={{display: (showPageName === PageName.NODE_DESIGNER) ? 'block' : 'none'}}>
+          {childNodeDesignerList}
+        </div>
+      </>
+      <>
+        {(globalErrorMsg) && <StatusPopup msg={globalErrorMsg} status={POPUP_TYPE.ERROR} />}
+        {(globalWarningMsg) && <StatusPopup msg={globalWarningMsg} status={POPUP_TYPE.WARNING} />}
+        {(globalInfoMsg) && <StatusPopup msg={globalInfoMsg} status={POPUP_TYPE.INFO} />}
+        {(globalSuccessMsg) && <StatusPopup msg={globalSuccessMsg} status={POPUP_TYPE.SUCCESS} />}
+      </>
     </>
   );
 }

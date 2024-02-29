@@ -16,3 +16,10 @@ export type Position = {
     x: number;
     y: number;
 }
+
+
+export type ResponseData = {
+    status : number;
+    message : string;
+    data : any;
+}

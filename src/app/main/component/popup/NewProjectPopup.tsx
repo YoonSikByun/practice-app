@@ -1,52 +1,53 @@
 import DefaultPopup from "@/app/main/component/popup/DefaultPopup"
-
-async function fetcher<JSON = any>(
-    input: RequestInfo,
-    init?: RequestInit
-  ): Promise<JSON> {
-    const res = await fetch(input, init)
-    return res.json()
-  }
+import { useState, useRef } from "react";
+import { SendData } from "@/app/common/lib/fetchServer";
+import { ResponseData } from "@/app/common/lib/definition";
+import { v1 as suid } from "uuid";
+import { gStatusPopup } from "@/app/common/lib/globalMessage";
 
 function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
     // const { data, mutate } = useSWR('/api/data', fetch)
+    const [projectName, setProjectName] = useState('');
+    const inputRef = useRef<HTMLInputElement>(null);//ts
 
     //여기에서 팝업 내용을 넣는다.
     const handleCloseBtn = () => { setVisible(false) }
-    const sendData = async () => {
-        const newData = {
-            id : 'ppppp-1111',
-            name : 'abdc',
-            creatorId   : 'admin'
+    const createProject = async () => {
+        if(!projectName) {
+            gStatusPopup.clearAllMsg();
+            gStatusPopup.setInfoMsg('프로젝트명을 입력해 주세요.');
+            inputRef.current?.focus();
+            return;
+        }
+        const newProject = { id : '9e2f7830-d6e5-11ee-8026-d3ae9bdc511b', name : projectName, creatorId : 'admin' }
+
+        const recvData : ResponseData = await SendData('POST', 'api/project', newProject);
+        gStatusPopup.clearAllMsg();
+        if (recvData['status'] != 200) {
+            gStatusPopup.setErrorMsg(recvData['message']);
+        } else {
+            gStatusPopup.setSuccessMsg(recvData['message']);
         }
 
-        try {
-          // Update the local state immediately and fire the
-          // request. Since the API will return the updated
-          // data, there is no need to start a new revalidation
-          // and we can directly populate the cache.
-          await  fetch('/api/project', {
-              method: 'POST',
-              body: JSON.stringify(newData)
-            });
-        } catch (e) {
-          // If the API errors, the original data will be
-          // rolled back by SWR automatically.
-          console.log(e);
-        }
-      }
+        handleCloseBtn();
+    }
 
-    return(
-            <div className="dialog-content">
-                <div className="dialog-input-container"> 
-                        <span>이름</span>
-                        <input></input>
-                </div>
-                <div className="dialog-button-container">
-                    <button className="dialog-button btn-can" onClick={handleCloseBtn}>취소</button>
-                    <button className="dialog-button btn-ok" onClick={sendData}>확인</button>
-                </div>
+    return (
+        <div className="dialog-content">
+            <div className="dialog-input-container"> 
+                <span>이름</span>
+                {/* <input type="text"></input> */}
+                <input
+                    ref={inputRef}
+                    value={projectName}
+                    onChange={(e) => setProjectName(e.target.value)}
+                    autoFocus/>
             </div>
+            <div className="dialog-button-container">
+                <button className="dialog-button btn-can" onClick={handleCloseBtn}>취소</button>
+                <button className="dialog-button btn-ok" onClick={createProject}>확인</button>
+            </div>
+        </div>
     );
 }
 
