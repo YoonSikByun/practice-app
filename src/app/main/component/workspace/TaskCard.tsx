@@ -86,7 +86,7 @@ export default function TaskCard(
                     <p className='text-xl'>{data.task_name}</p>
                 </div>
                 <div className='w-[20%] flex flex-row-reverse items-center'>
-                    <button onClick={e=> handleContextMenu(e)}><Bars3Icon className='h-7 w-7 mr-1' /></button>
+                    <button onClick={e=> handleContextMenu(e , "TaskCard")}><Bars3Icon className='h-7 w-7 mr-1' /></button>
                     <CheckBox className='h-7 w-7 mr-1' id={id}
                      checkBoxManager={checkBoxManager}
                     />
