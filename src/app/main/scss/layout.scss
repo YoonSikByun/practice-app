@@ -94,7 +94,7 @@
     margin: 4px 0px 0px 0px;
     padding-left: 4px;
     border: solid 1px rgb(212, 212, 212);
-    color: #888;
+    color: #888;                                                
     align-items : center;
     font-size: 12px;
 }
@@ -176,7 +176,7 @@
 .context-menu{
     visibility: hidden;
     opacity: 0;
-    background-color: #888;
+    background-color: #ffffff;
     position: fixed;
     z-index: 5;
     color: black;
@@ -185,10 +185,24 @@
     border: 1px solid black;
     font-size: 0.875rem;
     max-width: 250px;
-    box-shadow: 1px 1px 5px black;
+    overflow:auto; 
 }
 
-.context-menu.active{
+.context-menu li{
+    height: 30px;
+    padding: 2px;
+}
+
+.context-menu li:hover{
+    background-color: #d3d3d3;
+}
+
+
+.separate{
+    border-bottom: solid 1px rgb(143, 168, 252);
+}
+
+.context-menu.open{
     visibility: visible;
     opacity: 1;
     display: flex;

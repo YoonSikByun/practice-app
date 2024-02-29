@@ -1,11 +1,8 @@
 import '@/app/main/scss/Workspace.scss';
 
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
-import MenuContext from '../menuContext/menuContext';
-import { menuItems } from '../menuContext/menuItems';
-import { useRef, useState } from 'react';
 import TaskCard, {TaskCreateCard, TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 
@@ -24,68 +21,16 @@ const testDataList : TaskCardInfo[] = [
     testData, testData, testData, testData, testData, testData, testData
 ]
 
-export default function WorkspaceList() {
-    const contextMenuRef = useRef<HTMLInputElement>(null);
-    const [contextMenu , setContextMenu] = useState({
-        position : {
-            x: 0, 
-            y: 0
-        },
-        isToggled : false
-    })
-    const handleContextMenu = (e : any) => {
-        e.preventDefault();
-        setContextMenu({
-            ...contextMenu,
-            isToggled: true
-        });
-        if(contextMenuRef.current){
-            const contextMenuAttr = contextMenuRef.current.getBoundingClientRect()
-            const isLeft = e.clientX < window?.innerWidth / 2
-            let x
-            let y = e.clientY;
-
-            if(isLeft) {
-                x = e.clientX
-            } else {
-                x = e.clientX - contextMenuAttr.width
-            }
-            
-            setContextMenu({
-                position : {
-                    x,
-                    y
-                },
-                isToggled :true
-            })
-        }
-
-    }
-    useEffect(() => {
-    	function closeOutsideClick(e :any) {
-        	if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
-                setContextMenu({
-                    ...contextMenu,
-                    isToggled: false
-                });
-            }
-        }
-        function handleWheel() {
-            setContextMenu({
-                ...contextMenu,
-                isToggled: false
-            });
-        }
-        document.addEventListener("mousedown", closeOutsideClick);
-        document.addEventListener("wheel", handleWheel); 
-        return () => { 
-            document.removeEventListener("mousedown", closeOutsideClick); 
-            document.removeEventListener("wheel", handleWheel);
-        }
-    }, [contextMenu, contextMenuRef]);
-
-    
-      
+type WorkspaceListProps = {
+    handleContextMenu: (e: any, MenuRole: string) => void;
+};
+export default function WorkspaceList( 
+    { 
+        handleContextMenu 
+    } : 
+    {
+        handleContextMenu : (e: any, MenuRole: string) => void
+    }) {
     const multiCheckboxManager = useMemo(() => new MultiCheckboxManager(), []);
     const allChek = (e : any) => multiCheckboxManager.allChek(e.target.checked);
 
@@ -100,7 +45,7 @@ export default function WorkspaceList() {
                 <p className='ml-3 text-xl font-bold'>작업목록</p>
             </div>
             <div className="edit">
-                <button><Bars3Icon className='h-7 w-7 mr-2' /></button>
+                <button onClick={e=> handleContextMenu(e , "TaskList")}><Bars3Icon className='h-7 w-7 mr-2' /></button>
                 <input type='checkbox' className='h-7 w-7' onChange={allChek}/>
             </div>
         </div>
@@ -119,7 +64,7 @@ export default function WorkspaceList() {
             {
                 testDataList.map((data, index) => {
                     return (
-                        <TaskCard key={index} id={`${index}`} checkBoxManager={multiCheckboxManager}  handleContextMenu={handleContextMenu} data={data}/>
+                        <TaskCard key={index} id={`${index}`} checkBoxManager={multiCheckboxManager}  handleContextMenu={(e:any) => handleContextMenu(e,"TaskCard")} data={data}/>
                     );
                 })
             }
@@ -135,14 +80,6 @@ export default function WorkspaceList() {
                 {'<  0  1  2  3  4  5  10  11  12  13  14  15 ... >'}
             </span>
         </div>
-        <MenuContext 
-                contextMenuRef = {contextMenuRef}
-                contextMenu = {contextMenu}
-                width = {200}
-                height= {200}
-                role = "menuItem"
-                menuItems = {menuItems}
-        ></MenuContext>
     </div>
     )
 }
