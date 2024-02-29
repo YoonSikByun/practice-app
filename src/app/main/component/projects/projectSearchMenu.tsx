@@ -1,5 +1,4 @@
 import clsx from "clsx"
-import Left from "../top/Left"
 
 export default function ProjectSearchMenu ({onChange} : any) {
     return (
