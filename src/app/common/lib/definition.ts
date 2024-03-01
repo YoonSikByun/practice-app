@@ -19,7 +19,18 @@ export type Position = {
 
 
 export type ResponseData = {
-    status : number;
+    error : boolean;
     message : string;
     data : any;
+}
+
+export type ProjectData = {
+    id          : string;
+    name        : string;
+    creatorId   : string;
+    workspace   : number;
+}
+
+export type SelectWorkspace = {
+    projectId   : string;
 }

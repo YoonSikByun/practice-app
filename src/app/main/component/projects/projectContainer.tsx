@@ -1,12 +1,12 @@
 import { useState, useEffect } from "react"
 import ProjectList from "@/app/main/component/projects/ProjectList";
 import ProjectSearchMenu from "@/app/main/component/projects/projectSearchMenu"
-import { ProjectItem } from "@/app/main/config/projectItems"
 import NewProjectPopup from "@/app/main/component/popup/NewProjectPopup";
 import ImportProjectPopup from "@/app/main/component/popup/ImportProjectPopup";
 import { InboxArrowDownIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { ArrowUpCircleIcon, ArrowDownCircleIcon } from "@heroicons/react/16/solid";
 import { calcStyle } from "@/app/main/lib/calcStyleRegion";
+import { ProjectData } from "@/app/common/lib/definition";
 import clsx from "clsx";
 
 function ProjectTitle (
@@ -76,23 +76,23 @@ function ProjectTitle (
 }
 
 //좌측 아코디언 메뉴 패널에 표시될 항목들
-export const testData : ProjectItem[] = [
-    {id: 'project01' , projectName: 'project01', workspace: 0},
-    {id: 'project02' , projectName: 'project02', workspace: 0},
-    {id: 'project03' , projectName: 'project03', workspace: 0},
-    {id: 'project04' , projectName: 'project04', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
-    {id: 'project05' , projectName: 'project05', workspace: 0},
+export const testData : ProjectData[] = [
+    {id: 'project01' , name: 'project01', creatorId: 'admin', workspace: 0},
+    {id: 'project02' , name: 'project02', creatorId: 'admin', workspace: 0},
+    {id: 'project03' , name: 'project03', creatorId: 'admin', workspace: 0},
+    {id: 'project04' , name: 'project04', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
 ];
 
 export default function ProjectContainer() {

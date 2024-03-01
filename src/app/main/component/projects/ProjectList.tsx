@@ -1,13 +1,13 @@
 import { useState } from "react"
 import clsx from "clsx"
-import { ProjectItem } from "@/app/main/config/projectItems"
+import { ProjectData } from "@/app/common/lib/definition";
 
 export default function ProjectList(
     {
         data,
         showProject
     } : {
-        data : ProjectItem[],
+        data : ProjectData[],
         showProject : boolean
     }) {
     const [checkedIndex, setcheckedIndex] = useState(0);
@@ -17,7 +17,7 @@ export default function ProjectList(
             {showProject && data.map((item , idx) => {
                 return (
                     <Project
-                        key={item.id}
+                        key={idx}
                         projectItem={item}
                         idx={idx}
                         checked={idx == checkedIndex ? true : false}
@@ -34,7 +34,7 @@ function Project({
     checked,
     setCheckedIndex,
 } : {
-    projectItem : ProjectItem
+    projectItem : ProjectData
     idx:number
     checked : boolean
     setCheckedIndex : any
@@ -56,7 +56,7 @@ function Project({
             >
                 <div className="flex flex-col m-2">
                     <span className='font-bold'>
-                        {projectItem.projectName}
+                        {projectItem.name}
                     </span>
                     <div className={clsx("flex flex-row mt-2")}>
                         <span className='text-sm'>작업공간 : {projectItem.workspace}</span>

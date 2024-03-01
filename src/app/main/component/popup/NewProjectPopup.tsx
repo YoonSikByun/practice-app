@@ -1,6 +1,6 @@
 import DefaultPopup from "@/app/main/component/popup/DefaultPopup"
 import { useState, useRef } from "react";
-import { SendData } from "@/app/common/lib/fetchServer";
+import { Post } from "@/app/common/lib/fetchServer";
 import { ResponseData } from "@/app/common/lib/definition";
 import { v1 as suid } from "uuid";
 import { gStatusPopup } from "@/app/common/lib/globalMessage";
@@ -12,6 +12,7 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
 
     //여기에서 팝업 내용을 넣는다.
     const handleCloseBtn = () => { setVisible(false) }
+    
     const createProject = async () => {
         if(!projectName) {
             gStatusPopup.clearAllMsg();
@@ -21,11 +22,14 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
         }
         const newProject = { id : '9e2f7830-d6e5-11ee-8026-d3ae9bdc511b', name : projectName, creatorId : 'admin' }
 
-        const recvData : ResponseData = await SendData('POST', 'api/project', newProject);
+        const recvData : ResponseData = await Post('api/project/insert', newProject);
         gStatusPopup.clearAllMsg();
-        if (recvData['status'] != 200) {
+        console.log(`recvData['error'] : ${recvData['error']}`);
+        if (recvData['error'] === true) {
+            console.log('error');
             gStatusPopup.setErrorMsg(recvData['message']);
         } else {
+            console.log('success');
             gStatusPopup.setSuccessMsg(recvData['message']);
         }
 
@@ -36,8 +40,8 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
         <div className="dialog-content">
             <div className="dialog-input-container"> 
                 <span>이름</span>
-                {/* <input type="text"></input> */}
                 <input
+                    type='text'
                     ref={inputRef}
                     value={projectName}
                     onChange={(e) => setProjectName(e.target.value)}
