@@ -27,27 +27,34 @@ class GlobalStatusPopupManager {
         this.callbackSetSuccessMsg = f;}
     
     setErrorMsg(msg : string) {
+        this.clearAllMsg();
         if(!this.callbackSetErrorMsg) return;
         this.callbackSetErrorMsg(msg);
     }
     setWarningMsg(msg : string) {
+        this.clearAllMsg();
+
         if(!this.callbackSetWarningMsg) return;
         this.callbackSetWarningMsg(msg);
     }
     setInfoMsg(msg : string) {
+        this.clearAllMsg();
+
         if(!this.callbackSetInfoMsg) return;
         this.callbackSetInfoMsg(msg);
     }
     setSuccessMsg(msg : string) {
+        this.clearAllMsg();
+
         if(!this.callbackSetSuccessMsg) return;
         this.callbackSetSuccessMsg(msg);
     }
 
     clearAllMsg() {
-        this.setErrorMsg('');
-        this.setWarningMsg('');
-        this.setInfoMsg('');
-        this.setSuccessMsg('');
+        if(this.callbackSetErrorMsg) this.callbackSetErrorMsg('');
+        if(this.callbackSetWarningMsg) this.callbackSetWarningMsg('');
+        if(this.callbackSetInfoMsg) this.callbackSetInfoMsg('');
+        if(this.callbackSetSuccessMsg) this.callbackSetSuccessMsg('');
     }
 }
 

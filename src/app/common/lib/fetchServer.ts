@@ -43,7 +43,6 @@ export async function Get(
       reponseData = await fetcher(destURI);
     } catch (e) {
       console.error('Error:', e);
-      throw new Error('Failed to get.');
     }
     console.log(`Receive data : ${prettyjson.render(reponseData)}`);
     return reponseData; 

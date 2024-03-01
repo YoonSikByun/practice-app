@@ -1,38 +1,39 @@
 import DefaultPopup from "@/app/main/component/popup/DefaultPopup"
 import { useState, useRef } from "react";
-import { Post } from "@/app/common/lib/fetchServer";
-import { ResponseData } from "@/app/common/lib/definition";
-import { v1 as suid } from "uuid";
+import { v4 as uuid } from "uuid";
 import { gStatusPopup } from "@/app/common/lib/globalMessage";
+import { rqInsertProject } from "@/app/main/lib/request";
+import { InsertProject } from "@/app/common/lib/definition";
+import { globalData } from "@/app/common/lib/globalData";
+import { useSWRConfig } from "swr";
+import { RQ_URL } from "@/app/main/lib/request";
 
 function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
-    // const { data, mutate } = useSWR('/api/data', fetch)
     const [projectName, setProjectName] = useState('');
-    const inputRef = useRef<HTMLInputElement>(null);//ts
+    const inputRef = useRef<HTMLInputElement>(null);
+    const { mutate } = useSWRConfig();
 
     //여기에서 팝업 내용을 넣는다.
     const handleCloseBtn = () => { setVisible(false) }
-    
+
     const createProject = async () => {
         if(!projectName) {
-            gStatusPopup.clearAllMsg();
             gStatusPopup.setInfoMsg('프로젝트명을 입력해 주세요.');
             inputRef.current?.focus();
             return;
         }
-        const newProject = { id : '9e2f7830-d6e5-11ee-8026-d3ae9bdc511b', name : projectName, creatorId : 'admin' }
+        const newProject : InsertProject = {
+            id : uuid(),
+            name : projectName,
+            creatorId : globalData.loginInfo.getUserId()
+        };
 
-        const recvData : ResponseData = await Post('api/project/insert', newProject);
-        gStatusPopup.clearAllMsg();
-        console.log(`recvData['error'] : ${recvData['error']}`);
-        if (recvData['error'] === true) {
-            console.log('error');
-            gStatusPopup.setErrorMsg(recvData['message']);
-        } else {
-            console.log('success');
-            gStatusPopup.setSuccessMsg(recvData['message']);
+        const data = await rqInsertProject(newProject, `[${projectName}] 프로젝트가 신규 추가되었습니다.`);
+        // 정상 처리면 프로젝트 재조회
+        if(!data['error']) {
+            mutate(RQ_URL.SELECT_PROJECT);
         }
-
+    
         handleCloseBtn();
     }
 

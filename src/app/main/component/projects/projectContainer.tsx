@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import ProjectList from "@/app/main/component/projects/ProjectList";
 import ProjectSearchMenu from "@/app/main/component/projects/projectSearchMenu"
 import NewProjectPopup from "@/app/main/component/popup/NewProjectPopup";
@@ -8,6 +8,10 @@ import { ArrowUpCircleIcon, ArrowDownCircleIcon } from "@heroicons/react/16/soli
 import { calcStyle } from "@/app/main/lib/calcStyleRegion";
 import { ProjectData } from "@/app/common/lib/definition";
 import clsx from "clsx";
+import useSWR from 'swr'
+import { RQ_URL } from "@/app/main/lib/request";
+import { Get } from "@/app/common/lib/fetchServer";
+
 
 function ProjectTitle (
     {
@@ -75,31 +79,42 @@ function ProjectTitle (
     )
 }
 
-//좌측 아코디언 메뉴 패널에 표시될 항목들
-export const testData : ProjectData[] = [
-    {id: 'project01' , name: 'project01', creatorId: 'admin', workspace: 0},
-    {id: 'project02' , name: 'project02', creatorId: 'admin', workspace: 0},
-    {id: 'project03' , name: 'project03', creatorId: 'admin', workspace: 0},
-    {id: 'project04' , name: 'project04', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-    {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-];
+// //좌측 아코디언 메뉴 패널에 표시될 항목들
+// export const testData : ProjectData[] = [
+//     {id: 'project01' , name: 'project01', creatorId: 'admin', workspace: 0},
+//     {id: 'project02' , name: 'project02', creatorId: 'admin', workspace: 0},
+//     {id: 'project03' , name: 'project03', creatorId: 'admin', workspace: 0},
+//     {id: 'project04' , name: 'project04', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
+// ];
 
 export default function ProjectContainer() {
     const [projectCount, setProjectCount] = useState<number>(0);
     const [showProject, setShowProject] = useState<boolean>(true);
+    const [projectList, setProjectList] = useState<ProjectData[]>([]);
 
-    useEffect(() => setProjectCount(testData.length), []);
+    const fetcher = useCallback(async (url : string) => await Get(url), []);
+    const { data, isLoading, error } = useSWR(RQ_URL.SELECT_PROJECT, fetcher);
+
+    console.log(`data : ${data}, isLoading : ${isLoading}, error : ${error}`);
+
+    useEffect(() => {
+        const count = (data) ? data['data'].length : 0;
+        const list = (data) ? data['data'] : [];
+        setProjectList(list);
+        setProjectCount(count);
+    }, [data]);
 
     return (
         <div className='flex flex-col'>
@@ -129,7 +144,7 @@ export default function ProjectContainer() {
                     }}
                 >
                     <ProjectList
-                        data={testData}
+                        data={projectList}
                         showProject={showProject}/>
                 </div>
             </div>

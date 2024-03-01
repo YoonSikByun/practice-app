@@ -1,9 +1,9 @@
 import { Prisma } from '@prisma/client'
-import { ProjectData} from '@/app/common/lib/definition';
+import { InsertProject} from '@/app/common/lib/definition';
 import { prismaCli } from '@/app/api/lib/util';
 
 //신규 프로젝트 생성
-export async function insertProject(data : ProjectData) {
+export async function insertProject(data : InsertProject) {
     return await prismaCli.project.create({data: data});
 }
 

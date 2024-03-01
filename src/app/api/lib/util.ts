@@ -1,8 +1,8 @@
-import { PrismaClient, Prisma } from '@prisma/client'
+import { PrismaClient, Prisma } from '@prisma/client';
 import { getCurrentDate } from '@/app/common/lib/util';
 
-export const prettyjson = require('prettyjson')
-export const prismaCli = new PrismaClient()
+export const prettyjson = require('prettyjson');
+export const prismaCli = new PrismaClient();
 
  function searchParamToObject(req : Request) {
     const url = new URL(req.url);
