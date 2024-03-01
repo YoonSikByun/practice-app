@@ -23,9 +23,9 @@ export async function GetRequestData(req : Request) {
             break;
     }
 
-    console.log(`------ [${req.method}] GetRequestData ---------`);
+    console.log(`------ [${req.method} : ${req.url}] GetRequestData ---------`);
     console.log(prettyjson.render(data, {noColor: true}));
-    console.log('-----------------------------------------------');
+    console.log('------------------------------------------------------------');
 
     return data;
 }
@@ -73,9 +73,9 @@ export async function ReceiveProc(req : Request, procFunc : any) {
         const data = await GetRequestData(req);
         const res = await ExecServiceFunc(procFunc, data);
 
-        console.log(`------ ReceiveProc ---------`);
+        console.log(`------ ReceiveProc [${req.url}]---------`);
         console.log(prettyjson.render(res, {noColor: true}));
-        console.log('----------------------------');
+        console.log('----------------------------------------');
 
         return NextResponse.json(res, { status : 200});
   
