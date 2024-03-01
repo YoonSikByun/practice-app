@@ -79,26 +79,6 @@ function ProjectTitle (
     )
 }
 
-// //좌측 아코디언 메뉴 패널에 표시될 항목들
-// export const testData : ProjectData[] = [
-//     {id: 'project01' , name: 'project01', creatorId: 'admin', workspace: 0},
-//     {id: 'project02' , name: 'project02', creatorId: 'admin', workspace: 0},
-//     {id: 'project03' , name: 'project03', creatorId: 'admin', workspace: 0},
-//     {id: 'project04' , name: 'project04', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-//     {id: 'project05' , name: 'project05', creatorId: 'admin', workspace: 0},
-// ];
-
 export default function ProjectContainer() {
     const [projectCount, setProjectCount] = useState<number>(0);
     const [showProject, setShowProject] = useState<boolean>(true);
@@ -114,7 +94,7 @@ export default function ProjectContainer() {
         const list = (data) ? data['data'] : [];
         setProjectList(list);
         setProjectCount(count);
-    }, [data]);
+    }, [data, isLoading, error]);
 
     return (
         <div className='flex flex-col'>
