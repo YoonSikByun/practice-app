@@ -90,7 +90,7 @@ export default function ProjectContainer() {
     console.log(`data : ${data}, isLoading : ${isLoading}, error : ${error}`);
 
     useEffect(() => {
-        const count = (data) ? data['data'].length : 0;
+        const count = (data) ? data['data']?.length ?? 0 : 0;
         const list = (data) ? data['data'] : [];
         setProjectList(list);
         setProjectCount(count);

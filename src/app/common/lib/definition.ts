@@ -45,3 +45,16 @@ export type ProjectData = {
 export type SelectWorkspace = {
     projectId   : string;
 }
+
+//작업공간 조회 응답 데이터
+export type WorksapceData = {
+    id          : string;
+    name        : string;
+    createdAt   : string;
+    updatedAt?  : string;
+    creatorId   : string;
+    projectId   : string;
+    description : string;
+    setting     : string;
+    desgin      : string;
+}
