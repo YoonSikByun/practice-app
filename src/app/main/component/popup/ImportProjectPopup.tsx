@@ -1,5 +1,4 @@
 import DefaultPopup from "@/app/main/component/popup/DefaultPopup"
-// import TextEditor from "../textEditor/textEditor";
 import Tiptap, {TiptapCallbackManager} from "@/app/main/component/controls/TextEditor/Tiptap";
 import { useMemo } from "react";
 import clsx from "clsx";
@@ -60,7 +59,7 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
                             "bg-hanablue-300 hover:bg-mouseoverclr-light")}
                             onClick={() => alert(callbackManager.getContent())}
                     >
-                        저장
+                        가져오기
                     </button>
                     <button
                         className={clsx("ml-1 border-borderclr-bold border-[1px] px-3 py-1",

@@ -1,19 +1,10 @@
 import '@/app/main/scss/Workspace.scss';
 import { Bars3Icon, ArchiveBoxIcon } from '@heroicons/react/24/outline';
-import { useRef, useState } from 'react';
 import { DocumentPlusIcon, FolderArrowDownIcon } from '@heroicons/react/24/solid';
 import clsx from 'clsx';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 import CheckBox from '@/app/main/component/controls/CheckBox';
-
-export type TaskCardInfo = {
-    task_name : string;
-    create_date : string;
-    update_date : string;
-    create_user : string;
-    update_user : string;
-    description : string;
-}
+import { WorkspaceData } from '@/app/common/lib/definition';
 
 function TaskBorder({children} : {children? : React.ReactNode}) {
     return (
@@ -72,7 +63,7 @@ export default function TaskCard(
         checkBoxManager,
         handleContextMenu
     } : {
-        data : TaskCardInfo,
+        data : WorkspaceData,
         id : string,
         checkBoxManager : MultiCheckboxManager
         handleContextMenu : any
@@ -83,7 +74,7 @@ export default function TaskCard(
             <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>
                 <div className='w-[80%] h-[35px] flex flex-row items-center'>
                     <ArchiveBoxIcon className='h-5 w-5 ml-2 mr-2' />
-                    <p className='text-xl'>{data.task_name}</p>
+                    <p className='text-xl'>{data.name}</p>
                 </div>
                 <div className='w-[20%] flex flex-row-reverse items-center'>
                     <button onClick={e=> handleContextMenu(e , "TaskCard")}><Bars3Icon className='h-7 w-7 mr-1' /></button>
@@ -93,11 +84,11 @@ export default function TaskCard(
                 </div>
             </div>
             <div className='mt-1'>
-                <p className='text-sm'>* 생성 일자 : {data.create_date}</p>
-                <p className='text-sm'>* 변경 일자 : {data.update_date}</p>
+                <p className='text-sm'>* 생성 일자 : {data.createdAt}</p>
+                <p className='text-sm'>* 변경 일자 : {data.updatedAt}</p>
                 <div className='flex flex-row items-center w-full'>
-                    <p className='text-sm w-[50%]'>* 생성자 : {data.create_user}</p>
-                    <p className='text-sm w-[50%]'>* 수정자 : {data.update_user}</p>
+                    <p className='text-sm w-[50%]'>* 생성자 : {data.creatorId}</p>
+                    <p className='text-sm w-[50%]'>* 수정자 : {data.updatorId}</p>
                 </div>
             </div>
             <div className='overflow-y-scroll whitespace-pre-line mt-2'>

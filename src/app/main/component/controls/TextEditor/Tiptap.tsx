@@ -278,7 +278,7 @@ export default function Tiptap(
       <MenuBar editor={editor} />
       <EditorContent
         editor={editor}
-        className='border-[1px] border-black overflow-auto'
+        className='border-[1px] border-black overflow-y-scroll'
         style={{width: `${width}`, height: `${height}`}} />
       <div className="character-count w-[100%] text-right">
         <p>({editor?.storage.characterCount.characters()} / {limit}) 글자</p>

@@ -3,9 +3,9 @@ import '@/app/main/scss/Workspace.scss';
 import { useMemo } from 'react';
 import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
-import TaskCard, {TaskCreateCard, TaskCardInfo} from '@/app/main/component/workspace/TaskCard';
+import TaskCard, {TaskCreateCard} from '@/app/main/component/workspace/TaskCard';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
-
+import { WorkspaceData } from '@/app/common/lib/definition';
 
 type WorkspaceListProps = {
     handleContextMenu: (e: any, MenuRole: string) => void;
@@ -13,11 +13,11 @@ type WorkspaceListProps = {
 export default function WorkspaceList( 
     { 
         handleContextMenu,
-        testDataList 
+        workspaceList, 
     } : 
     {
         handleContextMenu : (e: any, MenuRole: string , id : string) => void
-        testDataList : TaskCardInfo[]
+        workspaceList : WorkspaceData[]
     }) {
     const multiCheckboxManager = useMemo(() => new MultiCheckboxManager(), []);
     const allChek = (e : any) => multiCheckboxManager.allChek(e.target.checked);
@@ -33,7 +33,9 @@ export default function WorkspaceList(
                 <p className='ml-3 text-xl font-bold'>작업목록</p>
             </div>
             <div className="edit">
-                <button onClick={e=> handleContextMenu(e , "TaskList", '')}><Bars3Icon className='h-7 w-7 mr-2' /></button>
+                <button onClick={e=> handleContextMenu(e , "TaskList", '')}>
+                    <Bars3Icon className='h-7 w-7 mr-2' />
+                </button>
                 <input type='checkbox' className='h-7 w-7' onChange={allChek}/>
             </div>
         </div>
@@ -50,9 +52,13 @@ export default function WorkspaceList(
             >
                 <TaskCreateCard/>
             {
-                testDataList.map((data, index) => {
+                (workspaceList && workspaceList.length > 0 ) &&workspaceList.map((data, index) => {
                     return (
-                        <TaskCard key={index} id={`${index}`} checkBoxManager={multiCheckboxManager}  handleContextMenu={(e:any) => handleContextMenu(e,"TaskCard", String(index))} data={data}/>
+                        <TaskCard
+                            key={index} id={`${index}`} checkBoxManager={multiCheckboxManager}
+                            handleContextMenu={(e:any) => handleContextMenu(e,"TaskCard", String(index))}
+                            data={data}
+                        />
                     );
                 })
             }

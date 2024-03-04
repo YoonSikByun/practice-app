@@ -47,12 +47,13 @@ export type SelectWorkspace = {
 }
 
 //작업공간 조회 응답 데이터
-export type WorksapceData = {
+export type WorkspaceData = {
     id          : string;
     name        : string;
     createdAt   : string;
     updatedAt?  : string;
     creatorId   : string;
+    updatorId?  : string;
     projectId   : string;
     description : string;
     setting     : string;

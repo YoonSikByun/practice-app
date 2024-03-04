@@ -1,6 +1,8 @@
 import { useState } from "react"
 import clsx from "clsx"
 import { ProjectData } from "@/app/common/lib/definition";
+import { globalData } from "@/app/common/lib/globalData";
+import { globalDataStateManager } from "@/app/common/lib/globalStateManager";
 
 export default function ProjectList(
     {
@@ -41,7 +43,10 @@ function Project({
 }) {
     const handleOnClick = () => {
         setCheckedIndex(idx);
+        globalData.menuInfo.setSelectedProject(projectItem);
+        globalDataStateManager.setSelectedProjectId(projectItem.id);
     }
+
     return (
         <>
             <div

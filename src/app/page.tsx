@@ -9,7 +9,7 @@ import {
   PageName,
   MultiNodeDesignerCallbackManager,
   multiNodeDesignerCallbackManager
-} from "@/app/main/lib/globalStateManager";
+} from "@/app/common/lib/globalStateManager";
 import { v4 as uuid } from "uuid";
 import { StatusPopup, POPUP_TYPE } from "@/app/common/lib/globalMessage";
 import { gStatusPopup } from "@/app/common/lib/globalMessage";

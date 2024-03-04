@@ -5,7 +5,7 @@ import {
     mainStateCallbackManager,
     PageName,
     multiNodeDesignerCallbackManager
-} from '@/app/main/lib/globalStateManager';
+} from '@/app/common/lib/globalStateManager';
 import { XCircleIcon, PlusIcon, Square2StackIcon } from "@heroicons/react/24/outline";
 
 export type TabHeadItem = {

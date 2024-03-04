@@ -1,9 +1,9 @@
 import { Prisma } from '@prisma/client'
-import { ProjectData, SelectWorkspace } from '@/app/common/lib/definition';
+import { WorkspaceData, SelectWorkspace } from '@/app/common/lib/definition';
 import { prismaCli } from '@/app/api/lib/util';
 
 //신규 프로젝트 생성
-export async function insertWorkspace(data : ProjectData) {
+export async function insertWorkspace(data : WorkspaceData) {
     return await prismaCli.workspace.create({data: data});
 }
 
