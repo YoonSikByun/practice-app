@@ -55,83 +55,8 @@
     border-bottom: solid 1px rgb(143, 168, 252);
 }
 
-.dialog-load-project-body {
-    display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
-    padding: 1% 4% 1% 4%;
-    margin-left: 10px;
-    width: 96%;
-    height: calc(100% - 50px);
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: black;
-}
-
 .dialog-title{
     margin-right: 66%;
-}
-
-
-.dialog-load-project-title{
-    margin-right: 80%;
-}
-
-.dialog-load-project-label{
-    margin: 4px 16px 0 0 ;
-    display: flex;
-    width: 118px;
-    font-size: 12px;
-    text-align: left;
-}
-
-
-.dialog-load-project-filename {
-    width: 72%;
-    height: 20px;
-    display: flex;
-    cursor: default;
-    margin: 4px 0px 0px 0px;
-    padding-left: 4px;
-    border: solid 1px rgb(212, 212, 212);
-    color: #888;                                                
-    align-items : center;
-    font-size: 12px;
-}
-
-.dialog-load-project-btn{
-    font-size: 12px;
-    margin: 0 0 0 12px;
-    padding: 0 12px 0 12px;
-    height: 20px;
-    display: flex;
-    align-items : center;
-    font-weight: lighter;
-    margin: 6px 0px 0px 12px;
-    border : solid 1px rgb(212, 212, 212);
-}
-
-.dialog-load-project-btn:hover{
-    cursor: pointer;
-    background-color: rgb(143, 168, 252);
-    color: white;
-}
-
-.dialog-load-project-btn:active{
-    cursor: pointer;
-    background-color: rgb(192, 207, 255);
-    color: white;
-}
-
-.dialog-title-close-btn {
-    // margin-left: 20px
-}
-
-.dialog-content {
-    margin: 9px 1px 1px 20px;
-    padding: 10px 0 20px 0;
-    width: 86%;
-    display: block;
 }
 
 .dialog-input-container{

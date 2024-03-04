@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.11.0",
     "@heroicons/react": "^2.1.1",
     "@mui/material": "^5.15.11",
+    "@tiptap/extension-character-count": "^2.2.4",
     "@tiptap/extension-color": "^2.2.4",
     "@tiptap/extension-highlight": "^2.2.4",
     "@tiptap/extension-text-align": "^2.2.4",
