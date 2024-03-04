@@ -1,0 +1,135 @@
+.top-head {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+}
+
+
+.dialog-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+    background-color: rgb(0, 0, 0);
+    opacity: .2;
+    
+}
+
+.dialog {
+    position: absolute;
+    color: black;
+    display: block;
+    width:360px;
+    border-radius: 5px;
+    padding: 1em;
+    background: rgb(255, 255, 255);
+    z-index: 100;
+}
+
+.dialog-load-project{
+    position: absolute;
+    color: black;
+    display: block;
+    width: 845px;
+    height: 579px;
+    left: 150%;
+    top: 10%;
+    border-radius: 5px;
+    padding: 1em;
+    background: rgb(255, 255, 255);
+    z-index: 100;
+}
+
+.dialog-load-project-header {
+    cursor: move;
+    display: block;
+    margin-left: 10px;
+    white-space: nowrap;
+    width: 96%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: black;
+    border-bottom: solid 1px rgb(143, 168, 252);
+}
+
+.dialog-title{
+    margin-right: 66%;
+}
+
+.dialog-input-container{
+    padding: 0 0 20px 0;
+}
+
+.dialog-content input {
+    margin-left: 52px;
+    width: 231px;
+    font-size: 12px;
+    font-weight: lighter;
+    border: 1px solid #888;
+    height: 18px;   
+}
+
+.dialog-content span {
+    font-size: 12px;
+    margin: 0px 0px 8px 2px;
+}
+
+.dialog-button-container{
+    height: 32px;
+    float: right
+}
+
+.dialog-button{
+    padding: 1px 20px 1px 20px;
+    border-radius: 5px;
+    border-color: 1px solid rgb(143, 168, 252);
+}
+
+.btn-ok{
+    background-color: rgb(143, 168, 252);
+    color: white;
+}
+
+.btn-cancle{
+    color: black;
+    background-color: white;
+}
+
+.context-menu{
+    visibility: hidden;
+    opacity: 0;
+    background-color: #ffffff;
+    position: fixed;
+    z-index: 5;
+    color: black;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid black;
+    font-size: 0.875rem;
+    max-width: 250px;
+    overflow:auto; 
+}
+
+.context-menu li{
+    height: 30px;
+    padding: 2px;
+}
+
+.context-menu li:hover{
+    background-color: #d3d3d3;
+}
+
+
+.separate{
+    border-bottom: solid 1px rgb(143, 168, 252);
+}
+
+.context-menu.open{
+    visibility: visible;
+    opacity: 1;
+    display: flex;
+    flex-direction: column;
+}
