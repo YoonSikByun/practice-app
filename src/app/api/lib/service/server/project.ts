@@ -1,5 +1,4 @@
-import { Prisma } from '@prisma/client'
-import { InsertProject} from '@/app/common/lib/definition';
+import { InsertProject} from '@/app/api/lib/service/common/definition';
 import { prismaCli } from '@/app/api/lib/util';
 
 //신규 프로젝트 생성

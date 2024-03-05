@@ -84,7 +84,7 @@ function Popup(
                     <div className='text-xl'
                         style={{width: '90%'}}
                     >
-                        {title}
+                        <span className='font-bold text-xl'>{title}</span>
                     </div>
                     <div style={{width: '10%', textAlign: 'right'}}>
                         <button title='닫기' onClick={closePopup}>

@@ -2,11 +2,12 @@ import DefaultPopup from "@/app/main/component/popup/DefaultPopup"
 import { useState, useRef } from "react";
 import { v4 as uuid } from "uuid";
 import { gStatusPopup } from "@/app/common/lib/globalMessage";
-import { rqInsertProject } from "@/app/main/lib/request";
-import { InsertProject } from "@/app/common/lib/definition";
+import { submitInsertProject } from "@/app/api/lib/service/client/request";
+import { InsertProject } from "@/app/api/lib/service/common/definition";
 import { globalData } from "@/app/common/lib/globalData";
 import { useSWRConfig } from "swr";
-import { RQ_URL } from "@/app/main/lib/request";
+import { RQ_URL } from "@/app/api/lib/service/client/request";
+import clsx from "clsx";
 
 function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
     const [projectName, setProjectName] = useState('');
@@ -26,31 +27,46 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
             id : uuid(),
             name : projectName,
             creatorId : globalData.loginInfo.getUserId()
-        };
-
-        const data = await rqInsertProject(newProject, `[${projectName}] 프로젝트가 신규 추가되었습니다.`);
-        // 정상 처리면 프로젝트 재조회
-        if(!data['error']) {
-            mutate(RQ_URL.SELECT_PROJECT);
         }
+
+        const data = await submitInsertProject(newProject, `[${projectName}] 프로젝트가 신규 추가되었습니다.`);
+
+        // 정상 처리면 프로젝트 재조회
+        if(!data['error']) { mutate(RQ_URL.SELECT_PROJECT); }
     
         handleCloseBtn();
     }
 
     return (
-        <div className="dialog-content">
-            <div className="dialog-input-container"> 
+        <div className="m-5 flex flex-col items-center">
+            <div className="flex flex-row items-center"> 
                 <span>이름</span>
                 <input
                     type='text'
+                    placeholder='프로젝트명을 입력해주세요'
                     ref={inputRef}
                     value={projectName}
                     onChange={(e) => setProjectName(e.target.value)}
-                    autoFocus/>
+                    className="ml-3 w-[280px] border-borderclr-bold border-[1px] px-3 py-1"
+                    maxLength={100}
+                    autoFocus
+                />
             </div>
-            <div className="dialog-button-container">
-                <button className="dialog-button btn-can" onClick={handleCloseBtn}>취소</button>
-                <button className="dialog-button btn-ok" onClick={createProject}>확인</button>
+            <div className="flex flex-row-reverse w-full m-5">
+                <button
+                    className={clsx("ml-1 border-borderclr-bold border-[1px] px-3 py-1",
+                    "bg-hanablue-300 hover:bg-mouseoverclr-light")}
+                    onClick={createProject}
+                >
+                    만들기
+                </button>
+                <button
+                    className={clsx("ml-1 border-borderclr-bold border-[1px] px-3 py-1",
+                    "bg-hanablue-100 hover:bg-mouseoverclr-light")}
+                    onClick={handleCloseBtn}
+                >
+                    취소
+                </button>
             </div>
         </div>
     );

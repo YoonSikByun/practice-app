@@ -45,16 +45,18 @@ const MenuBar = (
   const imgSize : Size = {width : 20, height : 20};
 
   return (
-    <div className={clsx('tiptap-toolbar', {className})} style={{...style}}>
-      <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={editor.isActive('heading', { level: 1 }) ? 'bg-red-200' : ''}>
+    <div className={clsx('tiptap-toolbar', 'flex flex-row flex-wrap',
+      {className})}
+      style={{...style}}
+    >
+      <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={editor.isActive('heading', { level: 1 }) ? 'bg-red-200' : ''} title='h1 크기'>
       <Image
           priority
           src={fontSize}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="h1 크기"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={editor.isActive('heading', { level: 2 }) ? 'bg-red-200' : ''}
-      >
+      <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={editor.isActive('heading', { level: 2 }) ? 'bg-red-200' : ''} title='h2 크기'>
       <Image
           priority
           src={fontSize}
@@ -62,7 +64,7 @@ const MenuBar = (
           className='m-[2.5px]'
           alt="h2 크기"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={editor.isActive('heading', { level: 3 }) ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={editor.isActive('heading', { level: 3 }) ? 'bg-red-200' : ''} title='h3 크기'>
       <Image
           priority
           src={fontSize}
@@ -77,35 +79,35 @@ const MenuBar = (
           style={{width : imgSize.width, height : imgSize.height }}
           alt="문단"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'bg-red-200' : ''} title='글자 굵게'>
         <Image
           priority
           src={bold}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="글자 굵게"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'bg-red-200' : ''} title='이태릭'>
       <Image
           priority
           src={italic}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="이태릭"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'bg-red-200' : ''} title='취소선'>
       <Image
           priority
           src={strikethrough}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="취소선"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleHighlight().run()} className={editor.isActive('highlight') ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().toggleHighlight().run()} className={editor.isActive('highlight') ? 'bg-red-200' : ''} title='강조'>
       <Image
           priority
           src={highlight}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="강조"/>
       </button>
-      <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className={editor.isActive({ textAlign: 'left' }) ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className={editor.isActive({ textAlign: 'left' }) ? 'bg-red-200' : ''} title='왼쪽 정렬'>
       <Image
           priority
           src={alignLeft}
@@ -119,63 +121,63 @@ const MenuBar = (
         style={{width : imgSize.width, height : imgSize.height }}
         alt="가운데 정렬"/>
       </button>
-      <button onClick={() => editor.chain().focus().setTextAlign('right').run()} className={editor.isActive({ textAlign: 'right' }) ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().setTextAlign('right').run()} className={editor.isActive({ textAlign: 'right' }) ? 'bg-red-200' : ''} title='오른쪽 정렬'>
       <Image
         priority
         src={alignRight}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="오른쪽 정렬"/>
       </button>
-      <button onClick={() => editor.chain().focus().setTextAlign('justify').run()} className={editor.isActive({ textAlign: 'justify' }) ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().setTextAlign('justify').run()} className={editor.isActive({ textAlign: 'justify' }) ? 'bg-red-200' : ''} title='평문 정렬'>
       <Image
         priority
         src={justifyAlign}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="평문 정렬"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive('bulletList') ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive('bulletList') ? 'bg-red-200' : ''} title='목록화'>
         <Image
         priority
         src={bulletList}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="목록화"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive('orderedList') ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive('orderedList') ? 'bg-red-200' : ''} title='번호 목록화'>
       <Image
         priority
         src={orderedList}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="번호 목록화"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleBlockquote().run()} className={editor.isActive('blockquote') ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().toggleBlockquote().run()} className={editor.isActive('blockquote') ? 'bg-red-200' : ''} title='블록쿼트'>
       <Image
         priority
         src={blockquote}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="블록쿼트"/>
       </button>
-      <button onClick={() => editor.chain().focus().setHorizontalRule().run()}>
+      <button onClick={() => editor.chain().focus().setHorizontalRule().run()} title='수평선'>
       <Image
         priority
         src={horizontalRule}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="수평선"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'bg-red-200' : ''}>
+      <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'bg-red-200' : ''} title='코드 블록'>
       <Image
         priority
         src={codeBlock}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="코드 블록"/>
       </button>
-      <button onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()}>
+      <button onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()} title='작업 취소'>
       <Image
         priority
         src={undo}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="작업 취소"/>
       </button>
-      <button onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()}>
+      <button onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()} title='작업 되돌리기'>
       <Image
         priority
         src={redo}
@@ -207,18 +209,19 @@ export class TiptapCallbackManager {
 
 export default function Tiptap(
   {
-    width,
+    width='',
     height,
     content = '',
     word_limit = 2500,
     callbackManager,
   } : {
-    width : string,
+    width? : string,
     height : string,
     content? : string,
     word_limit? : number,
     callbackManager? : TiptapCallbackManager
   }) {
+  const tiptapWidth = (width) ? width : '630px';
   const limit = word_limit;
   const editor : Editor | null = useEditor({
     extensions: [
@@ -237,32 +240,6 @@ export default function Tiptap(
       },
     },
     content: content,
-    // content: `
-    //   <h3 style="text-align:center">
-    //     Devs Just Want to Have Fun by Cyndi Lauper
-    //   </h3>
-    //   <p style="text-align:center">
-    //     I come home in the morning light<br>
-    //     My mother says, <mark>“When you gonna live your life right?”</mark><br>
-    //     Oh mother dear we’re not the fortunate ones<br>
-    //     And devs, they wanna have fun<br>
-    //     Oh devs just want to have fun</p>
-    //   <p style="text-align:center">
-    //     The phone rings in the middle of the night<br>
-    //     My father yells, "What you gonna do with your life?"<br>
-    //     Oh daddy dear, you know you’re still number one<br>
-    //     But <s>girls</s>devs, they wanna have fun<br>
-    //     Oh devs just want to have
-    //   </p>
-    //   <p style="text-align:center">
-    //     That’s all they really want<br>
-    //     Some fun<br>
-    //     When the working day is done<br>
-    //     Oh devs, they wanna have fun<br>
-    //     Oh devs just wanna have fun<br>
-    //     (devs, they wanna, wanna have fun, devs wanna have)
-    //   </p>
-    // `,
   })
 
   const getContent = useCallback(() => editor?.getHTML(), [editor]);
@@ -275,12 +252,14 @@ export default function Tiptap(
 
   return (
     <div className='flex flex-col gap-1'>
-      <MenuBar editor={editor} />
+      <MenuBar editor={editor} style={{width: `${tiptapWidth}`, height: '35px'}} />
       <EditorContent
         editor={editor}
         className='border-[1px] border-black overflow-y-scroll'
-        style={{width: `${width}`, height: `${height}`}} />
-      <div className="character-count w-[100%] text-right">
+        style={{width: `${tiptapWidth}`, height: `${height}`}} />
+      <div className="character-count text-right"
+          style={{width: `${tiptapWidth}`}}
+      >
         <p>({editor?.storage.characterCount.characters()} / {limit}) 글자</p>
       </div>
     </div>

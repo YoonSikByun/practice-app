@@ -61,7 +61,7 @@ async function ExecServiceFunc(func : any, data : any) {
         }
     )
 
-    res = {error: false, message: `[${getCurrentDate()}] 처리 완료했습니다.`, data: resData};
+    if(!res) res = {error: false, message: `[${getCurrentDate()}] 처리 완료했습니다.`, data: resData};
     return res;
 }
 

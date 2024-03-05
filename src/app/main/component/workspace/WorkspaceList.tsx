@@ -5,7 +5,7 @@ import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
 import TaskCard, {TaskCreateCard} from '@/app/main/component/workspace/TaskCard';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
-import { WorkspaceData } from '@/app/common/lib/definition';
+import { WorkspaceData } from '@/app/api/lib/service/common/definition';
 
 type WorkspaceListProps = {
     handleContextMenu: (e: any, MenuRole: string) => void;

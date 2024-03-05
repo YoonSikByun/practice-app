@@ -1,5 +1,5 @@
 const prettyjson = require('prettyjson');
-import { ResponseData } from "@/app/common/lib/definition";
+import { ResponseData } from "@/app/api/lib/service/common/definition";
 
 export async function fetcher<JSON = any> (
     input: RequestInfo,

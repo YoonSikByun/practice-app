@@ -5,6 +5,8 @@ import clsx from 'clsx';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 import CheckBox from '@/app/main/component/controls/CheckBox';
 import { WorkspaceData } from '@/app/common/lib/definition';
+import NewWorkspacePopup from '@/app/main/component/popup/NewWorkspacePopup';
+import { useState } from 'react';
 
 function TaskBorder({children} : {children? : React.ReactNode}) {
     return (
@@ -31,13 +33,14 @@ function HoverComponent() {
 }
 
 export function TaskCreateCard() {
+    const [newWorkspacePopupVisible, setNewWorkspacePopupVisible] = useState(false);
     return (
         <TaskBorder>
             <div className='w-full text-center'><p className='text-2xl mt-3'>작업공간 만들기</p></div>
             <div className='flex flex-row h-full w-full'>
                 <div className='relative h-full w-[50%]'>
                     <div className='absolute top-[calc(50%-50px)] left-[calc(100%-90px)] flex flex-col items-center'>
-                        <button>
+                        <button onClick={() => setNewWorkspacePopupVisible(!newWorkspacePopupVisible)}>
                             <DocumentPlusIcon className='h-[50px] w-[50px] fill-hanablue-700 hover:fill-mouseoverclr-bold'/>
                         </button>
                         <p>새로 만들기</p>
@@ -51,6 +54,7 @@ export function TaskCreateCard() {
                     <p>가져오기</p>
                     </div>
                 </div>
+                <NewWorkspacePopup visible={newWorkspacePopupVisible} setVisible={setNewWorkspacePopupVisible} />
             </div>
         </TaskBorder>
     )

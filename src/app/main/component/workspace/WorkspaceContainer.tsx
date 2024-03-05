@@ -3,69 +3,18 @@ import '@/app/main/scss/Workspace.scss';
 import { InformationCircleIcon, Bars3Icon } from "@heroicons/react/24/outline"
 import WorkspaceList from '@/app/main/component/workspace/WorkspaceList';
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
-import MenuContext from '../menuContext/menuContext';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import useSWR from 'swr';
-import { RQ_URL } from '@/app/main/lib/request';
+import { RQ_URL } from '@/app/api/lib/service/client/request';
 import { Get } from '@/app/common/lib/fetchServer';
-import { MenuItem, menuGroups } from '../menuContext/MenuGroup';
-import { SelectWorkspace, WorkspaceData } from '@/app/common/lib/definition';
+import MenuContext from '@/app/main/component/menuContext/menuContext';
+import { MenuItem, menuGroups } from '@/app/main/component/menuContext/MenuGroup';
+import { WorkspaceData } from '@/app/api/lib/service/common/definition';
 import { globalDataStateManager } from '@/app/common/lib/globalStateManager';
 import { globalData } from '@/app/common/lib/globalData';
+const prettyjson = require('prettyjson');
 
 type HandleContextMenuFunction = (e: any, MenuRole: string) => void;
-
-// const testData : TaskCardInfo = {
-//     task_name : 'Task Name_1',
-//     create_date : '2023/02/22 - 14:10:53',
-//     update_date : '2023/02/22 - 14:10:53',
-//     create_user : 'admin',
-//     update_user : 'admin',
-//     description : '■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n'
-// }
-// const testData2 : TaskCardInfo = {
-//     task_name : 'Task Name_2',
-//     create_date : '2023/02/22 - 14:10:53',
-//     update_date : '2023/02/22 - 14:10:53',
-//     create_user : 'admin',
-//     update_user : 'admin',
-//     description : '■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n'
-// }
-// const testData3 : TaskCardInfo = {
-//     task_name : 'Task Name_3',
-//     create_date : '2023/02/22 - 14:10:53',
-//     update_date : '2023/02/22 - 14:10:53',
-//     create_user : 'admin',
-//     update_user : 'admin',
-//     description : '■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n'
-// }
-// const testData4 : TaskCardInfo = {
-//     task_name : 'Task Name_4',
-//     create_date : '2023/02/22 - 14:10:53',
-//     update_date : '2023/02/22 - 14:10:53',
-//     create_user : 'admin',
-//     update_user : 'admin',
-//     description : '■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n'
-// }
-// const testData5 : TaskCardInfo = {
-//     task_name : 'Task Name_5',
-//     create_date : '2023/02/22 - 14:10:53',
-//     update_date : '2023/02/22 - 14:10:53',
-//     create_user : 'admin',
-//     update_user : 'admin',
-//     description : '■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n'
-// }
-// const testData6 : TaskCardInfo = {
-//     task_name : 'Task Name_6',
-//     create_date : '2023/02/22 - 14:10:53',
-//     update_date : '2023/02/22 - 14:10:53',
-//     create_user : 'admin',
-//     update_user : 'admin',
-//     description : '■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n■ 이거슨 테스트...\n'
-// }
-// const testDataList : TaskCardInfo[] = [
-//     testData,testData2, testData3, testData4, testData5, testData6
-// ]
 
 export default function WorkspaceContainer() {
     const [selectedMenuGroup , setSelectedMenuGroup] =  useState<MenuItem[]>([]);
@@ -80,10 +29,7 @@ export default function WorkspaceContainer() {
     })
     const handleContextMenu = useCallback((e : any , MenuRole : string , id : string) => {
         e.preventDefault();
-        setContextMenu({
-            ...contextMenu,
-            isToggled: true
-        });
+        setContextMenu({...contextMenu, isToggled: true});
         setSelectedMenuGroup(menuGroups[MenuRole])
         if(contextMenuRef.current){
             const contextMenuAttr = contextMenuRef.current.getBoundingClientRect()
@@ -96,7 +42,7 @@ export default function WorkspaceContainer() {
             } else {
                 x = e.clientX - contextMenuAttr.width
             }
-            
+
             setContextMenu({
                 position : {
                     x,
@@ -137,17 +83,17 @@ export default function WorkspaceContainer() {
 
     globalDataStateManager.registerSetSelectedProjectIdCallback(setSelectedProjectId);
 
-    // const fetcher = useCallback(async ([url, projectId]: string[]) => await Get(url, {projectId: projectId}), []);
-    // const { data, isLoading, error } = useSWR([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()], fetcher);
-    const fetcher = useCallback(async ([url, projectId]: string[]) => await Get(url, {projectId: selectedProjectId}), [selectedProjectId]);
+    const fetcher = useCallback(async ([url, projectId]: string[]) => await Get(url, {projectId: projectId}), []);
     const { data, isLoading, error } = useSWR([RQ_URL.SELECT_WORKSPACE, selectedProjectId], fetcher);
 
-    console.log(`data : ${data}, isLoading : ${isLoading}, error : ${error}`);
+    console.log(`[${RQ_URL.SELECT_WORKSPACE}] data : ${data}, isLoading : ${isLoading}, error : ${error}`);
 
     useEffect(() => {
         const count = (data) ? data['data']?.length ?? 0 : 0;
         const list = (data) ? data['data'] : [];
-        setWorkspaceList(list);
+        console.log(`list.length : ${list.length}, isLoading : ${isLoading}, typeof : ${typeof list}`);
+        console.log('------ prettey -----\n', prettyjson.render(list['project']));
+        setWorkspaceList(list['project']);
         setWorkspaceCount(count);
     }, [data, isLoading, error]);
 

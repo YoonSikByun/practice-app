@@ -17,6 +17,7 @@ export default function ProjectList(
     return (
         <>
             {showProject && (data?.length ?? 0 > 0) && data.map((item , idx) => {
+                
                 return (
                     <Project
                         key={idx}

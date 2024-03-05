@@ -6,10 +6,10 @@ import ImportProjectPopup from "@/app/main/component/popup/ImportProjectPopup";
 import { InboxArrowDownIcon, PlusIcon } from '@heroicons/react/24/outline';
 import { ArrowUpCircleIcon, ArrowDownCircleIcon } from "@heroicons/react/16/solid";
 import { calcStyle } from "@/app/main/lib/calcStyleRegion";
-import { ProjectData } from "@/app/common/lib/definition";
+import { ProjectData } from "@/app/api/lib/service/common/definition";
 import clsx from "clsx";
 import useSWR from 'swr'
-import { RQ_URL } from "@/app/main/lib/request";
+import { RQ_URL } from "@/app/api/lib/service/client/request";
 import { Get } from "@/app/common/lib/fetchServer";
 
 
@@ -87,7 +87,7 @@ export default function ProjectContainer() {
     const fetcher = useCallback(async (url : string) => await Get(url), []);
     const { data, isLoading, error } = useSWR(RQ_URL.SELECT_PROJECT, fetcher);
 
-    console.log(`data : ${data}, isLoading : ${isLoading}, error : ${error}`);
+    console.log(`[${RQ_URL.SELECT_PROJECT}] data : ${data}, isLoading : ${isLoading}, error : ${error}`);
 
     useEffect(() => {
         const count = (data) ? data['data']?.length ?? 0 : 0;

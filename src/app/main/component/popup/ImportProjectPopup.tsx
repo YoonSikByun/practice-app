@@ -46,11 +46,12 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
                 <div className="flex flex-row">
                     <div className="w-[118px] text-left mr-2">설명</div>
                     <div>
-                    <Tiptap
-                        content={content}
-                        callbackManager={callbackManager}
-                        width='100%'
-                        height='320px'/>
+                        <Tiptap
+                            content={content}
+                            callbackManager={callbackManager}
+                            width='100%'
+                            height='320px'
+                        />
                     </div>
                 </div>
                 <div className="flex flex-row-reverse">
