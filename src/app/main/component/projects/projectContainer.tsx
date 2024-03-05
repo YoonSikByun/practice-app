@@ -123,9 +123,9 @@ export default function ProjectContainer() {
                         height: calcStyle.project.getListHeight()
                     }}
                 >
-                    <ProjectList
+                    {(projectList && projectList.length > 0) && <ProjectList
                         data={projectList}
-                        showProject={showProject}/>
+                        showProject={showProject}/>}
                 </div>
             </div>
             <div className={clsx('ml-[15px] mr-[15px]',

@@ -90,9 +90,11 @@ export default function WorkspaceContainer() {
 
     useEffect(() => {
         const count = (data) ? data['data']?.length ?? 0 : 0;
-        const list = (data) ? data['data'] : [];
+        const list = (data && data['data']) ? data['data'] : [];
+
         console.log(`list.length : ${list.length}, isLoading : ${isLoading}, typeof : ${typeof list}`);
         console.log('------ prettey -----\n', prettyjson.render(list['project']));
+        if(list)
         setWorkspaceList(list['project']);
         setWorkspaceCount(count);
     }, [data, isLoading, error]);
