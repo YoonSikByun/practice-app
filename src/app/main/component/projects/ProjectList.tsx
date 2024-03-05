@@ -70,13 +70,13 @@ function Project({
             >
                 <div className="flex flex-col m-2">
                     <span className='font-bold'>
-                        {projectData?.name ?? ''}
+                        {projectItem.name}
                     </span>
                     <div className={clsx("flex flex-row mt-2")}>
-                        <span className='text-sm'>생성자 : {projectData?.creatorId ?? ''}</span>
+                        <span className='text-sm'>생성자 : {projectItem.creatorId}</span>
                     </div>
                     <div className={clsx("flex flex-row mt-2")}>
-                        <span className='text-sm'>작업공간 : {projectData?._count['workspaces'] ?? 0}</span>
+                        <span className='text-sm'>작업공간 : {projectItem._count['workspaces']}</span>
                     </div>
                 </div>
             </div>

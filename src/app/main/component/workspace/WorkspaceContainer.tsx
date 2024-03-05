@@ -88,13 +88,22 @@ export default function WorkspaceContainer() {
     console.log(`[${RQ_URL.SELECT_WORKSPACE}] data : ${data}, isLoading : ${isLoading}, error : ${error}`);
 
     useEffect(() => {
-        const count = (data) ? data['data']?.length ?? 0 : 0;
-        const list = (data && data['data']) ? data['data'] : [];
+        const workspaceData = (data && data['data']) ? data['data'] : {};
 
-        setWorkspaceList(list['project']);
+        if('workspace' in workspaceData)
+            setWorkspaceList(workspaceData['workspace']);
+        else
+            setWorkspaceList([]);
+
         const selectedProjectData = globalData.menuInfo.getSelectedProjectData();
-        if(selectedProjectData) selectedProjectData._count['workspaces'] = count;
-        globalDataStateManager.setSelectedProjectItem(selectedProjectData);
+
+        if(selectedProjectData) {
+            selectedProjectData._count['workspaces'] = ('count' in workspaceData) ? workspaceData['count'] : 0;
+            globalDataStateManager.setSelectedProjectItem({...selectedProjectData});
+        }
+        else {
+            globalDataStateManager.setSelectedProjectItem({});
+        }
     }, [data, isLoading, error]);
 
     return (

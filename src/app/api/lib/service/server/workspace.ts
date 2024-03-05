@@ -20,8 +20,17 @@ export async function selectWorkspace(data : SelectWorkspace) {
     //프로젝트 목록과 프로젝트에 포함된 워크스페이스 건수 조회
     const [project_list, count] = await prismaCli.$transaction([
         prismaCli.workspace.findMany(query),
-        prismaCli.workspace.count()
+        prismaCli.project.findFirst({
+            where: {
+                id: data.projectId
+            },
+            include: {
+                _count: {
+                    select : {workspaces: true}
+                },
+            },
+        })
     ]);
 
-    return {project: project_list, workspace: count};
+    return {workspace: project_list, count: count?._count.workspaces};
 }

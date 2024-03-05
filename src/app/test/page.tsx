@@ -21,7 +21,7 @@ export default function Page() {
       project_list.map((item : any, index : number) => {
           console.log('id : ', item['id']);
           console.log('name : ', item['name']);
-          console.log('count : ', item['_count']['workspaces']);
+          console.log('count : ', item['count']);
         }
 
       )
