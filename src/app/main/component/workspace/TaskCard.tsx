@@ -4,7 +4,7 @@ import { DocumentPlusIcon, FolderArrowDownIcon } from '@heroicons/react/24/solid
 import clsx from 'clsx';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 import CheckBox from '@/app/main/component/controls/CheckBox';
-import { WorkspaceData } from '@/app/common/lib/definition';
+import { WorkspaceData } from '@/app/api/lib/service/common/definition';
 import NewWorkspacePopup from '@/app/main/component/popup/NewWorkspacePopup';
 import { useState } from 'react';
 

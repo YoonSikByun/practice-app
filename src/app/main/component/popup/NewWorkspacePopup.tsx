@@ -6,6 +6,9 @@ import { v4 as uuid } from "uuid";
 import { InsertWorkspace } from "@/app/api/lib/service/common/definition";
 import { submitInsertWorkspace } from "@/app/api/lib/service/client/request";
 import { globalData } from "@/app/common/lib/globalData";
+import { useSWRConfig } from "swr";
+import { RQ_URL } from "@/app/api/lib/service/client/request";
+import { globalMessageManager } from "@/app/common/lib/globalMessage";
 
 const popupWidth : number = 800;
 const popupHeight : number = 500;
@@ -22,6 +25,8 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
         new TiptapCallbackManager()
     ), []);
 
+    const { mutate } = useSWRConfig();
+
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
         event.preventDefault()
 
@@ -33,22 +38,23 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
             projectId     : globalData.menuInfo.getSelectedProjectId(),
             description  : tiptapCallbackManager.getContent() ?? '',
         }
-
+        if(newWorkspace['name'].trim().length < 1)
+        {
+            globalMessageManager.setInfoMsg('작업공간 이름을 입력해주세요.')
+            return;
+        }
         console.log('-------- Submit formData ---------');
         console.log(prettyjson.render(JSON.stringify(newWorkspace)));
         console.log('----------------------------------');
 
-        await submitInsertWorkspace(newWorkspace,
-                `[${newWorkspace['name']}] 작업공간이 신규 추가되었습니다.`);
-
-        // const response = await fetch('/api/submit', {
-        //   method: 'POST',
-        //   body: formData,
-        // })
-     
-        // Handle response if necessary
-        // const data = await response.json()
-        // ...
+        const recvData = await submitInsertWorkspace(newWorkspace,
+                                    `[${newWorkspace['name']}] 작업공간이 신규 추가되었습니다.`);
+        if(!recvData['error']) {
+            // 정상 처리면 프로젝트 재조회
+            mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
+            handleCloseBtn();
+        }
+    
       }
 
     return(

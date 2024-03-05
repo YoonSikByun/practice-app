@@ -1,6 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import clsx from "clsx"
-import { ProjectData } from "@/app/common/lib/definition";
+import { ProjectData } from "@/app/api/lib/service/common/definition";
 import { globalData } from "@/app/common/lib/globalData";
 import { globalDataStateManager } from "@/app/common/lib/globalStateManager";
 
@@ -42,11 +42,19 @@ function Project({
     checked : boolean
     setCheckedIndex : any
 }) {
+    const [projectData, setProjectData] = useState<ProjectData>(projectItem);
     const handleOnClick = () => {
         setCheckedIndex(idx);
-        globalData.menuInfo.setSelectedProject(projectItem);
-        globalDataStateManager.setSelectedProjectId(projectItem.id);
     }
+
+    useEffect(() => {
+        if(checked)
+        {
+            globalDataStateManager.setSelectedProjectId(projectItem.id);
+            globalDataStateManager.registerSetSelectedProjectItemCallback(setProjectData);
+            globalData.menuInfo.setSelectedProjectData(projectItem);
+        }
+    }, [checked, projectItem]);
 
     return (
         <>
@@ -62,13 +70,13 @@ function Project({
             >
                 <div className="flex flex-col m-2">
                     <span className='font-bold'>
-                        {projectItem.name}
+                        {projectData?.name ?? ''}
                     </span>
                     <div className={clsx("flex flex-row mt-2")}>
-                        <span className='text-sm'>생성자 : {projectItem.creatorId}</span>
+                        <span className='text-sm'>생성자 : {projectData?.creatorId ?? ''}</span>
                     </div>
                     <div className={clsx("flex flex-row mt-2")}>
-                        <span className='text-sm'>작업공간 : {projectItem._count['workspaces']}</span>
+                        <span className='text-sm'>작업공간 : {projectData?._count['workspaces'] ?? 0}</span>
                     </div>
                 </div>
             </div>

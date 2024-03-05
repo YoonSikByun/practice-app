@@ -12,7 +12,7 @@ import {
 } from "@/app/common/lib/globalStateManager";
 import { v4 as uuid } from "uuid";
 import { StatusPopup, POPUP_TYPE } from "@/app/common/lib/globalMessage";
-import { gStatusPopup } from "@/app/common/lib/globalMessage";
+import { globalMessageManager } from "@/app/common/lib/globalMessage";
 
 //노드 디자이너(Reactflow) 감싸고 있는 컨퍼넌트
 function WrapperNodeDesigner(
@@ -53,10 +53,10 @@ export default function Page() {
   }, [setShowPageName]);
 
   useEffect(() => {
-    gStatusPopup.registerSetErrorMsgCallback(setGlobalErrorMsg);
-    gStatusPopup.registerSetWarningMsgCallback(setGlobalWarningMsg);
-    gStatusPopup.registerSetInfoMsgCallback(setInfoMsg);
-    gStatusPopup.registerSetSuccessMsgCallback(setGlobalSuccessMsg);
+    globalMessageManager.registerSetErrorMsgCallback(setGlobalErrorMsg);
+    globalMessageManager.registerSetWarningMsgCallback(setGlobalWarningMsg);
+    globalMessageManager.registerSetInfoMsgCallback(setInfoMsg);
+    globalMessageManager.registerSetSuccessMsgCallback(setGlobalSuccessMsg);
   }, []);
 
   //노드디자이너 신규 생성

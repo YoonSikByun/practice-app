@@ -11,7 +11,7 @@ export enum POPUP_TYPE {
     SUCCESS = 'success'
 }
 
-class GlobalStatusPopupManager {
+class GlobalMessageManager {
     callbackSetErrorMsg : any = null;
     callbackSetWarningMsg : any = null;
     callbackSetInfoMsg : any = null;
@@ -58,14 +58,14 @@ class GlobalStatusPopupManager {
     }
 }
 
-export const gStatusPopup = new GlobalStatusPopupManager();
+export const globalMessageManager = new GlobalMessageManager();
 
 export function StatusPopup({msg, status} : {msg : string, status : POPUP_TYPE}) {
     // console.log(`StatusPopup - msg(${msg}), status(${status})`);
     useEffect(() => {
         const timeId = setTimeout(() => {
           // After 10 seconds set the show value to false
-          gStatusPopup.clearAllMsg();
+          globalMessageManager.clearAllMsg();
         }, 10000)
     
         return () => {
@@ -76,13 +76,13 @@ export function StatusPopup({msg, status} : {msg : string, status : POPUP_TYPE})
     const hide = () => {
         switch(status) {
             case POPUP_TYPE.ERROR:
-                gStatusPopup.setErrorMsg('');
+                globalMessageManager.setErrorMsg('');
             case POPUP_TYPE.WARNING:
-                gStatusPopup.setWarningMsg('');
+                globalMessageManager.setWarningMsg('');
             case POPUP_TYPE.INFO:
-                gStatusPopup.setInfoMsg('');
+                globalMessageManager.setInfoMsg('');
             case POPUP_TYPE.SUCCESS:
-                gStatusPopup.setSuccessMsg('');
+                globalMessageManager.setSuccessMsg('');
         }
     }
 
@@ -100,13 +100,22 @@ export function StatusPopup({msg, status} : {msg : string, status : POPUP_TYPE})
             severity={status}
             color={status}
             action={
-                <Button color="inherit" size="small" onClick={hide}>
+                <Button color="inherit" size="medium" onClick={hide}
+                    sx={{
+                        width: '70px',
+                        height: '30px',
+                        fontSize: '15px',
+                        border: '1px',
+                        borderColor: 'black',
+                        backgroundColor: 'blueviolet'
+                    }}
+                >
                     닫기
                 </Button>
             }
         >
-            <AlertTitle>{capitalizeFirstLetter(status)}</AlertTitle>
-            {msg}
+            <AlertTitle><p className='font-bold text-2xl'>{capitalizeFirstLetter(status)}</p></AlertTitle>
+            <p className='font-bold text-xl'>{msg}</p>
         </Alert>
     );
 }

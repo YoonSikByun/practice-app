@@ -88,7 +88,7 @@ function Popup(
                     </div>
                     <div style={{width: '10%', textAlign: 'right'}}>
                         <button title='닫기' onClick={closePopup}>
-                            <XCircleIcon className={clsx("h-7 w-7 text-gray-700")} />
+                            <XCircleIcon className={clsx("h-8 w-8 text-gray-700")} />
                         </button>
                     </div>
                 </div>

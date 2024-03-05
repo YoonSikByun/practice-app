@@ -1,4 +1,4 @@
-import { gStatusPopup } from "@/app/common/lib/globalMessage";
+import { globalMessageManager } from "@/app/common/lib/globalMessage";
 import { InsertProject, InsertWorkspace } from "@/app/api/lib/service/common/definition";
 import { Post } from "@/app/common/lib/fetchServer";
 import { ResponseData } from "@/app/api/lib/service/common/definition";
@@ -20,9 +20,9 @@ export async function submitInsertProject(
 ) {
     const recvData : ResponseData = await Post(RQ_URL.INSERT_PROJECT, data);
     if (recvData['error'] === true) {
-        gStatusPopup.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
+        globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
     } else {
-        gStatusPopup.setSuccessMsg((successMessage) ? successMessage : recvData['message']);
+        globalMessageManager.setSuccessMsg((successMessage) ? successMessage : recvData['message']);
     }
 
     return recvData;
@@ -33,7 +33,7 @@ export async function submitProjectList() {
     console.log(prettyjson.render(recvData));
 
     if (recvData['error'] === true)
-        gStatusPopup.setErrorMsg(recvData['message']);
+        globalMessageManager.setErrorMsg(recvData['message']);
 
     return recvData['data'];
 }
@@ -47,9 +47,9 @@ export async function submitInsertWorkspace(
 ) {
     const recvData : ResponseData = await Post(RQ_URL.INSERT_WORKSPACE, data);
     if (recvData['error'] === true) {
-        gStatusPopup.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
+        globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
     } else {
-        gStatusPopup.setSuccessMsg((successMessage) ? successMessage : recvData['message']);
+        globalMessageManager.setSuccessMsg((successMessage) ? successMessage : recvData['message']);
     }
 
     return recvData;

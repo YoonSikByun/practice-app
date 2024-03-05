@@ -67,12 +67,20 @@ export class MultiNodeDesignerCallbackManager {
   //데이터 상태 변경
   export class GlobalDataStateManager {
     private callbackSelectedProjectIdFunc : ((id : string) => void) | null = null;
+    private callbackSelectedProjectItemFunc : ((item : any) => void) | null = null;
     registerSetSelectedProjectIdCallback(f : (id : string) => void) {
       this.callbackSelectedProjectIdFunc = f;
+    }
+    registerSetSelectedProjectItemCallback(f : (item : any) => void) {
+      this.callbackSelectedProjectItemFunc = f;
     }
     setSelectedProjectId(id : string) {
       if(!this.callbackSelectedProjectIdFunc) return;
       this.callbackSelectedProjectIdFunc(id);
+    }
+    setSelectedProjectItem(item : any) {
+      if(!this.callbackSelectedProjectItemFunc) return;
+      this.callbackSelectedProjectItemFunc(item);
     }
   }
 

@@ -1,7 +1,7 @@
 import DefaultPopup from "@/app/main/component/popup/DefaultPopup"
 import { useState, useRef } from "react";
 import { v4 as uuid } from "uuid";
-import { gStatusPopup } from "@/app/common/lib/globalMessage";
+import { globalMessageManager } from "@/app/common/lib/globalMessage";
 import { submitInsertProject } from "@/app/api/lib/service/client/request";
 import { InsertProject } from "@/app/api/lib/service/common/definition";
 import { globalData } from "@/app/common/lib/globalData";
@@ -19,7 +19,7 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
 
     const createProject = async () => {
         if(!projectName) {
-            gStatusPopup.setInfoMsg('프로젝트명을 입력해 주세요.');
+            globalMessageManager.setInfoMsg('프로젝트명을 입력해 주세요.');
             inputRef.current?.focus();
             return;
         }

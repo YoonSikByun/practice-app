@@ -26,7 +26,7 @@ export default function WorkspaceContainer() {
         },
         isToggled : false,
         id : ''
-    })
+    });
     const handleContextMenu = useCallback((e : any , MenuRole : string , id : string) => {
         e.preventDefault();
         setContextMenu({...contextMenu, isToggled: true});
@@ -78,8 +78,7 @@ export default function WorkspaceContainer() {
     }, [contextMenu, contextMenuRef]);
 
     const [workspaceList, setWorkspaceList] = useState<WorkspaceData[]>([]);
-    const [count, setWorkspaceCount ] = useState<number>(0);
-    const [selectedProjectId, setSelectedProjectId] = useState<string>('');
+    const [selectedProjectId, setSelectedProjectId] = useState<string>(globalData.menuInfo.getSelectedProjectId());
 
     globalDataStateManager.registerSetSelectedProjectIdCallback(setSelectedProjectId);
 
@@ -92,11 +91,10 @@ export default function WorkspaceContainer() {
         const count = (data) ? data['data']?.length ?? 0 : 0;
         const list = (data && data['data']) ? data['data'] : [];
 
-        console.log(`list.length : ${list.length}, isLoading : ${isLoading}, typeof : ${typeof list}`);
-        console.log('------ prettey -----\n', prettyjson.render(list['project']));
-        if(list)
         setWorkspaceList(list['project']);
-        setWorkspaceCount(count);
+        const selectedProjectData = globalData.menuInfo.getSelectedProjectData();
+        if(selectedProjectData) selectedProjectData._count['workspaces'] = count;
+        globalDataStateManager.setSelectedProjectItem(selectedProjectData);
     }, [data, isLoading, error]);
 
     return (
@@ -114,7 +112,7 @@ export default function WorkspaceContainer() {
                 }}
             >
                 <div className="title">
-                    <p className='text-2xl font-bold'>{globalData.menuInfo.getSelectedProject()?.name ?? ''}</p>
+                    <p className='text-2xl font-bold'>{globalData.menuInfo.getSelectedProjectData()?.name ?? ''}</p>
                 </div>
                 <div className="edit">
                     <button onClick={e => handleContextMenu(e,"Project", '')}><Bars3Icon className='h-7 w-7' /></button>

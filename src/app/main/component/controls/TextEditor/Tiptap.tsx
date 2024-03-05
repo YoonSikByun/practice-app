@@ -42,7 +42,7 @@ const MenuBar = (
 ) => {
   if (!editor) { return null }
 
-  const imgSize : Size = {width : 20, height : 20};
+  const imgSize : Size = {width : 19, height : 19};
 
   return (
     <div className={clsx('tiptap-toolbar', 'flex flex-row flex-wrap',

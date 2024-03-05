@@ -1,4 +1,4 @@
-import { ProjectData } from "@/app/common/lib/definition";
+import { ProjectData } from "@/app/api/lib/service/common/definition";
 
 class LoginInfo {
     private userId : string = 'admin';
@@ -10,9 +10,9 @@ class LoginInfo {
 
 class MenuInfo {
     private selectedProjectItem : ProjectData | null = null;
-    getSelectedProject() { return this.selectedProjectItem; }
+    getSelectedProjectData() { return this.selectedProjectItem; }
     getSelectedProjectId() { return this.selectedProjectItem?.id ?? ''; }
-    setSelectedProject(projectItem : ProjectData) { this.selectedProjectItem = projectItem; }
+    setSelectedProjectData(projectItem : ProjectData) { this.selectedProjectItem = projectItem; }
 }
 
 class GlobalData {
