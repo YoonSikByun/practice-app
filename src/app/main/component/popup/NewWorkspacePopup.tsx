@@ -93,7 +93,6 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
                     type="submit"
                     className={clsx("ml-1 border-borderclr-bold border-[1px] px-3 py-1 w-[80px]",
                         "bg-hanablue-300 hover:bg-mouseoverclr-light")}
-                        // onClick={() => alert(tiptapCallbackManager.getContent())}
                 >
                     만들기
                 </button>

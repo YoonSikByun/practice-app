@@ -19,6 +19,7 @@ import { submitDeleteWorkspace } from '@/app/api/lib/service/client/request';
 import { RQ_URL } from '@/app/api/lib/service/client/request';
 import { globalData } from '@/app/common/lib/globalData';
 import { StringHtmlRender } from '@/app/main/component/controls/TextEditor/Tiptap';
+import { mainStateCallbackManager } from '@/app/common/lib/globalStateManager';
 
 function TaskBorder({children} : {children? : React.ReactNode}) {
     return (
@@ -36,7 +37,7 @@ function HoverComponent() {
         <div className={clsx('invisible group-hover:visible', 'absolute top-1/2 left-[calc(50%-50px)]')}>
             <button
                 className='bg-blue-400 h-[40px] w-[100px] rounded shadow-lg text-xl font-bold hover:bg-mouseoverclr-bold'
-                onClick={() => alert('노드디자이너 열기')}
+                onClick={() => mainStateCallbackManager.addNodeDesigner()}
             >
                 열기
             </button>
@@ -93,7 +94,7 @@ export default function TaskCard(
             case ACTION.UPDATE:
             break;
             case ACTION.DELETE:
-                const recvData = await submitDeleteWorkspace({id : parentKey}, '작업공간 삭제를 완료하지 못했습니다.');
+                const recvData = await submitDeleteWorkspace({id : parentKey}, '작업공간 삭제가 완료되었습니다.');
                 // 정상 처리면 재조회
                 if(!recvData['error']) {
                     mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);

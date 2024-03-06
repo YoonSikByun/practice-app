@@ -6,14 +6,34 @@ export enum PageName {
 //다른 모듈에서 main 페이지 컨퍼넌트 렌더링 변경을 위한 매니저
 class MainStateCallbackManager {
     private callbackFuncSetCurrentPageName: any = null;
+    private callbackSetCurrentTabHeadId : any = null;
+    private callbackAddNodeDesigner : any = null;
 
     registerSetCurrentPageName(callbackFunc : (v : PageName) => void) {
         this.callbackFuncSetCurrentPageName = callbackFunc;
     }
 
+    registerSetCurrentTabHeadId(f : (v:string) => void) {
+      this.callbackSetCurrentTabHeadId = f;
+    }
+
+    registerAddNodeDesigner(f : () => void) {
+      this.callbackAddNodeDesigner = f;
+    }
+
     setCurrentPageName(pageName : PageName) {
         if(!this.callbackFuncSetCurrentPageName) return;
         this.callbackFuncSetCurrentPageName(pageName);
+    }
+
+    setCurrentTabHeadId(tabId : string) {
+      if(!this.callbackSetCurrentTabHeadId) return;
+      this.callbackSetCurrentTabHeadId(tabId);
+    }
+
+    addNodeDesigner() {
+      if(!this.callbackAddNodeDesigner) return;
+      this.callbackAddNodeDesigner();
     }
 }
 
@@ -37,6 +57,7 @@ export class MultiNodeDesignerCallbackManager {
       this.callbackDeleteNodeDesignerFuncs = f;
     }
   
+    
     showNodeDesigner(id : string) {
       if(!this.callbackShowHideFuncs.hasOwnProperty(id)) return;
       this.hideAll();
@@ -68,6 +89,7 @@ export class MultiNodeDesignerCallbackManager {
   export class GlobalDataStateManager {
     private callbackSelectedProjectIdFunc : ((id : string) => void) | null = null;
     private callbackSelectedProjectItemFunc : ((item : any) => void) | null = null;
+    
     registerSetSelectedProjectId(f : (id : string) => void) {
       this.callbackSelectedProjectIdFunc = f;
     }

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import './globals.css'
-import Top from '@/app/main/component/top/Top'
+import TopContainer from '@/app/main/component/top/TopContainer'
 
 export const metadata: Metadata = {
   title: 'MLapp Studio',
@@ -23,7 +23,7 @@ export default function RootLayout({
         }}
       >
         <div>
-          <Top/>
+          <TopContainer/>
         </div>
         <div>
           {children}

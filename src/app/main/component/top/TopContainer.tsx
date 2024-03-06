@@ -9,7 +9,7 @@ import { calcStyle } from "@/app/main/lib/calcStyleRegion"
 import clsx from 'clsx'
 
 //Global Navigation Bar
-export default function Top() {
+export default function TopContainer() {
 
     //페이지가 새로고침 되거나 다른 사이트로 이동할 때 경고 메시지를 보여준다.
     useEffect(() => {

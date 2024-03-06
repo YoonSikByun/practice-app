@@ -3,11 +3,16 @@ import Image from 'next/image'
 import logo_png from '@/app/main/image/logo.png';
 //Global Navigation Bar
 export default function Left() {
+    const onClick = () => {
+        mainStateCallbackManager.setCurrentPageName(PageName.HOME);
+        mainStateCallbackManager.setCurrentTabHeadId('');
+    }
+
     return (
         <div className='flex h-full mt-1 ml-3'>
             <button
                 title='Home으로 이동'
-                onClick={() => mainStateCallbackManager.setCurrentPageName(PageName.HOME)}
+                onClick={onClick}
             >
                 <Image
                     src={logo_png}
