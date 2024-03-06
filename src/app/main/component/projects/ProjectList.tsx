@@ -51,7 +51,7 @@ function Project({
         if(checked)
         {
             globalDataStateManager.setSelectedProjectId(projectItem.id);
-            globalDataStateManager.registerSetSelectedProjectItemCallback(setProjectData);
+            globalDataStateManager.registerSetSelectedProjectItem(setProjectData);
             globalData.menuInfo.setSelectedProjectData(projectItem);
         }
     }, [checked, projectItem]);

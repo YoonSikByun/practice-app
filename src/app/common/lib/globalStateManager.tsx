@@ -68,10 +68,10 @@ export class MultiNodeDesignerCallbackManager {
   export class GlobalDataStateManager {
     private callbackSelectedProjectIdFunc : ((id : string) => void) | null = null;
     private callbackSelectedProjectItemFunc : ((item : any) => void) | null = null;
-    registerSetSelectedProjectIdCallback(f : (id : string) => void) {
+    registerSetSelectedProjectId(f : (id : string) => void) {
       this.callbackSelectedProjectIdFunc = f;
     }
-    registerSetSelectedProjectItemCallback(f : (item : any) => void) {
+    registerSetSelectedProjectItem(f : (item : any) => void) {
       this.callbackSelectedProjectItemFunc = f;
     }
     setSelectedProjectId(id : string) {

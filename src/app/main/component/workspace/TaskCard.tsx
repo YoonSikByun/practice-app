@@ -7,6 +7,13 @@ import CheckBox from '@/app/main/component/controls/CheckBox';
 import { WorkspaceData } from '@/app/api/lib/service/common/definition';
 import NewWorkspacePopup from '@/app/main/component/popup/NewWorkspacePopup';
 import { useState } from 'react';
+import MenuContext from '@/app/main/component/menuContext/menuContext';
+import {
+    ACTION,
+    ContextMenuCallback,
+    ContextMenuArgument,
+    MenuRole
+} from '@/app/main/component/menuContext/definition';
 
 function TaskBorder({children} : {children? : React.ReactNode}) {
     return (
@@ -65,14 +72,29 @@ export default function TaskCard(
         data,
         id,
         checkBoxManager,
-        handleContextMenu
     } : {
         data : WorkspaceData,
         id : string,
         checkBoxManager : MultiCheckboxManager
-        handleContextMenu : any
     }
 ) {
+    const contextMenucallback : ContextMenuCallback = (action : ACTION, parentKey : string) => {
+        console.log('----------------------------------');
+        console.log(`call back : action - ${action}, parentKey - ${parentKey}`);
+        console.log('----------------------------------');}
+
+    const [visibleContextMenu, setVisibleContextMenu] = useState(false);
+    const [conextMenuArg, setContextMenuArg] = useState<ContextMenuArgument>({
+        clientX : -1, clientY : -1,
+        menuRole : MenuRole.TASKCARD, parentKey : '',
+        callbackProc : contextMenucallback});
+
+    const handleClickContextMenuButton = (e : React.MouseEvent<HTMLElement>) => {
+        setVisibleContextMenu(!visibleContextMenu);
+        setContextMenuArg({
+        ...conextMenuArg, clientX : e.clientX, clientY: e.clientY});
+    }
+
     return (
         <TaskBorder>
             <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>
@@ -81,10 +103,11 @@ export default function TaskCard(
                     <p className='text-xl'>{data.name}</p>
                 </div>
                 <div className='w-[20%] flex flex-row-reverse items-center'>
-                    <button onClick={e=> handleContextMenu(e , "TaskCard")}><Bars3Icon className='h-7 w-7 mr-1' /></button>
+                    <button onClick={e=> handleClickContextMenuButton(e)}>
+                        <Bars3Icon className='h-7 w-7 mr-1' />
+                    </button>
                     <CheckBox className='h-7 w-7 mr-1' id={id}
-                     checkBoxManager={checkBoxManager}
-                    />
+                     checkBoxManager={checkBoxManager}/>
                 </div>
             </div>
             <div className='mt-1'>
@@ -99,6 +122,10 @@ export default function TaskCard(
                 {data.description}
             </div>
             <HoverComponent/>
+            <MenuContext
+                visible={visibleContextMenu}
+                setVisible={setVisibleContextMenu}
+                contextMenuArgument={conextMenuArg}/>
         </TaskBorder>
     );
 }

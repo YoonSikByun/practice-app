@@ -3,87 +3,33 @@ import '@/app/main/scss/Workspace.scss';
 import { InformationCircleIcon, Bars3Icon } from "@heroicons/react/24/outline"
 import WorkspaceList from '@/app/main/component/workspace/WorkspaceList';
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
-import { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback } from 'react';
 import useSWR from 'swr';
 import { RQ_URL } from '@/app/api/lib/service/client/request';
 import { Get } from '@/app/common/lib/fetchServer';
+
 import MenuContext from '@/app/main/component/menuContext/menuContext';
-import { MenuItem, menuGroups } from '@/app/main/component/menuContext/MenuGroup';
+import {
+    ACTION,
+    ContextMenuCallback,
+    ContextMenuArgument,
+    MenuRole
+} from '@/app/main/component/menuContext/definition';
+
 import { WorkspaceData } from '@/app/api/lib/service/common/definition';
 import { globalDataStateManager } from '@/app/common/lib/globalStateManager';
 import { globalData } from '@/app/common/lib/globalData';
-const prettyjson = require('prettyjson');
-
-type HandleContextMenuFunction = (e: any, MenuRole: string) => void;
 
 export default function WorkspaceContainer() {
-    const [selectedMenuGroup , setSelectedMenuGroup] =  useState<MenuItem[]>([]);
-    const contextMenuRef = useRef<HTMLInputElement>(null);
-    const [contextMenu , setContextMenu] = useState({
-        position : {
-            x: 0, 
-            y: 0
-        },
-        isToggled : false,
-        id : ''
-    });
-    const handleContextMenu = useCallback((e : any , MenuRole : string , id : string) => {
-        e.preventDefault();
-        setContextMenu({...contextMenu, isToggled: true});
-        setSelectedMenuGroup(menuGroups[MenuRole])
-        if(contextMenuRef.current){
-            const contextMenuAttr = contextMenuRef.current.getBoundingClientRect()
-            const isLeft = e.clientX < window?.innerWidth / 2
-            let x
-            let y = e.clientY;
-
-            if(isLeft) {
-                x = e.clientX
-            } else {
-                x = e.clientX - contextMenuAttr.width
-            }
-
-            setContextMenu({
-                position : {
-                    x,
-                    y
-                },
-                isToggled :true,
-                id : id
-            })
-        }
-    }, [contextMenu]);
-
-    useEffect(() => {
-    	function closeOutsideClick(e :any) {
-        	if (contextMenuRef.current && !contextMenuRef.current.contains(e.target)) {
-                setContextMenu({
-                    ...contextMenu,
-                    isToggled: false
-                });
-            }
-        }
-        function handleWheel() {
-            setContextMenu({
-                ...contextMenu,
-                isToggled: false
-            });
-        }
-        document.addEventListener("mousedown", closeOutsideClick);
-        document.addEventListener("wheel", handleWheel); 
-        return () => { 
-            document.removeEventListener("mousedown", closeOutsideClick); 
-            document.removeEventListener("wheel", handleWheel);
-        }
-    }, [contextMenu, contextMenuRef]);
-
     const [workspaceList, setWorkspaceList] = useState<WorkspaceData[]>([]);
     const [selectedProjectId, setSelectedProjectId] = useState<string>(globalData.menuInfo.getSelectedProjectId());
 
-    globalDataStateManager.registerSetSelectedProjectIdCallback(setSelectedProjectId);
+    globalDataStateManager.registerSetSelectedProjectId(setSelectedProjectId);
 
-    const fetcher = useCallback(async ([url, projectId]: string[]) => await Get(url, {projectId: projectId}), []);
-    const { data, isLoading, error } = useSWR([RQ_URL.SELECT_WORKSPACE, selectedProjectId], fetcher);
+    const fetcher = useCallback(
+        async ([url, projectId]: string[]) => await Get(url, {projectId: projectId}), []);
+
+    const {data, isLoading, error} = useSWR([RQ_URL.SELECT_WORKSPACE, selectedProjectId], fetcher);
 
     console.log(`[${RQ_URL.SELECT_WORKSPACE}] data : ${data}, isLoading : ${isLoading}, error : ${error}`);
 
@@ -106,6 +52,24 @@ export default function WorkspaceContainer() {
         }
     }, [data, isLoading, error]);
 
+    const contextMenucallback : ContextMenuCallback = (action : ACTION, parentKey : string) => {
+        console.log('----------------------------------');
+        console.log(`call back : action - ${action}, parentKey - ${parentKey}`);
+        console.log('----------------------------------');
+    }
+
+    const [visibleContextMenu, setVisibleContextMenu] = useState(false);
+    const [conextMenuArg, setContextMenuArg] = useState<ContextMenuArgument>({
+        clientX : -1, clientY : -1,
+        menuRole : MenuRole.PROJECT, parentKey : '',
+        callbackProc : contextMenucallback});
+
+    const handleClickContextMenuButton = (e : React.MouseEvent<HTMLElement>) => {
+        setVisibleContextMenu(!visibleContextMenu);
+        setContextMenuArg({
+            ...conextMenuArg, clientX : e.clientX, clientY: e.clientY});
+    }
+
     return (
         <div className='workspace-container'
             style={{
@@ -124,7 +88,11 @@ export default function WorkspaceContainer() {
                     <p className='text-2xl font-bold'>{globalData.menuInfo.getSelectedProjectData()?.name ?? ''}</p>
                 </div>
                 <div className="edit">
-                    <button onClick={e => handleContextMenu(e,"Project", '')}><Bars3Icon className='h-7 w-7' /></button>
+                    <button
+                        onClick={(e) => handleClickContextMenuButton(e)}
+                    >
+                        <Bars3Icon className='h-7 w-7' />
+                    </button>
                 </div>
             </div>
             {/* 프로젝트 생성 정보 */}
@@ -138,18 +106,12 @@ export default function WorkspaceContainer() {
                     <div>Create on 2023/02/21 23:35 by hanaTI@mail.com</div>
                 </div>
             </div>
-            <WorkspaceList 
-                handleContextMenu = {handleContextMenu}
-                workspaceList = {workspaceList}
+            <WorkspaceList workspaceList = {workspaceList}/>
+            <MenuContext
+                visible={visibleContextMenu}
+                setVisible={setVisibleContextMenu}
+                contextMenuArgument={conextMenuArg}
             />
-            {/* <MenuContext 
-                contextMenuRef = {contextMenuRef}
-                contextMenu = {contextMenu}
-                width = {200}
-                menuItems = {selectedMenuGroup}
-                TaskCardList = {DataList}
-                setDataList = {setDataList}
-            ></MenuContext> */}
         </div>
     )
 }
