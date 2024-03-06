@@ -49,14 +49,14 @@ const MenuBar = (
       {className})}
       style={{...style}}
     >
-      <button onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={editor.isActive('heading', { level: 1 }) ? 'bg-red-200' : ''} title='h1 크기'>
+      <button type='button' onClick={() => editor.chain().focus().toggleHeading({ level: 1 }).run()} className={editor.isActive('heading', { level: 1 }) ? 'bg-red-200' : ''} title='h1 크기'>
       <Image
           priority
           src={fontSize}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="h1 크기"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={editor.isActive('heading', { level: 2 }) ? 'bg-red-200' : ''} title='h2 크기'>
+      <button type='button' onClick={() => editor.chain().focus().toggleHeading({ level: 2 }).run()} className={editor.isActive('heading', { level: 2 }) ? 'bg-red-200' : ''} title='h2 크기'>
       <Image
           priority
           src={fontSize}
@@ -64,7 +64,7 @@ const MenuBar = (
           className='m-[2.5px]'
           alt="h2 크기"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={editor.isActive('heading', { level: 3 }) ? 'bg-red-200' : ''} title='h3 크기'>
+      <button type='button' onClick={() => editor.chain().focus().toggleHeading({ level: 3 }).run()} className={editor.isActive('heading', { level: 3 }) ? 'bg-red-200' : ''} title='h3 크기'>
       <Image
           priority
           src={fontSize}
@@ -72,112 +72,112 @@ const MenuBar = (
           style={{width : imgSize.width-7, height : imgSize.height-7 }}
           alt="h3 크기"/>
       </button>
-      <button onClick={() => editor.chain().focus().setParagraph().run()} className={editor.isActive('paragraph') ? 'bg-red-200' : ''} title='문단'>
+      <button type='button' onClick={() => editor.chain().focus().setParagraph().run()} className={editor.isActive('paragraph') ? 'bg-red-200' : ''} title='문단'>
         <Image
           priority
           src={paragraph}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="문단"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'bg-red-200' : ''} title='글자 굵게'>
+      <button type='button' onClick={() => editor.chain().focus().toggleBold().run()} className={editor.isActive('bold') ? 'bg-red-200' : ''} title='글자 굵게'>
         <Image
           priority
           src={bold}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="글자 굵게"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'bg-red-200' : ''} title='이태릭'>
+      <button type='button' onClick={() => editor.chain().focus().toggleItalic().run()} className={editor.isActive('italic') ? 'bg-red-200' : ''} title='이태릭'>
       <Image
           priority
           src={italic}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="이태릭"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'bg-red-200' : ''} title='취소선'>
+      <button type='button' onClick={() => editor.chain().focus().toggleStrike().run()} className={editor.isActive('strike') ? 'bg-red-200' : ''} title='취소선'>
       <Image
           priority
           src={strikethrough}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="취소선"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleHighlight().run()} className={editor.isActive('highlight') ? 'bg-red-200' : ''} title='강조'>
+      <button type='button' onClick={() => editor.chain().focus().toggleHighlight().run()} className={editor.isActive('highlight') ? 'bg-red-200' : ''} title='강조'>
       <Image
           priority
           src={highlight}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="강조"/>
       </button>
-      <button onClick={() => editor.chain().focus().setTextAlign('left').run()} className={editor.isActive({ textAlign: 'left' }) ? 'bg-red-200' : ''} title='왼쪽 정렬'>
+      <button type='button' onClick={() => editor.chain().focus().setTextAlign('left').run()} className={editor.isActive({ textAlign: 'left' }) ? 'bg-red-200' : ''} title='왼쪽 정렬'>
       <Image
           priority
           src={alignLeft}
           style={{width : imgSize.width, height : imgSize.height }}
           alt="왼쪽 정렬"/>
       </button>
-      <button onClick={() => editor.chain().focus().setTextAlign('center').run()} className={editor.isActive({ textAlign: 'center' }) ? 'bg-red-200' : ''} title='가운데 정렬'>
+      <button type='button' onClick={() => editor.chain().focus().setTextAlign('center').run()} className={editor.isActive({ textAlign: 'center' }) ? 'bg-red-200' : ''} title='가운데 정렬'>
         <Image
         priority
         src={alignCenter}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="가운데 정렬"/>
       </button>
-      <button onClick={() => editor.chain().focus().setTextAlign('right').run()} className={editor.isActive({ textAlign: 'right' }) ? 'bg-red-200' : ''} title='오른쪽 정렬'>
+      <button type='button' onClick={() => editor.chain().focus().setTextAlign('right').run()} className={editor.isActive({ textAlign: 'right' }) ? 'bg-red-200' : ''} title='오른쪽 정렬'>
       <Image
         priority
         src={alignRight}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="오른쪽 정렬"/>
       </button>
-      <button onClick={() => editor.chain().focus().setTextAlign('justify').run()} className={editor.isActive({ textAlign: 'justify' }) ? 'bg-red-200' : ''} title='평문 정렬'>
+      <button type='button' onClick={() => editor.chain().focus().setTextAlign('justify').run()} className={editor.isActive({ textAlign: 'justify' }) ? 'bg-red-200' : ''} title='평문 정렬'>
       <Image
         priority
         src={justifyAlign}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="평문 정렬"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive('bulletList') ? 'bg-red-200' : ''} title='목록화'>
+      <button type='button' onClick={() => editor.chain().focus().toggleBulletList().run()} className={editor.isActive('bulletList') ? 'bg-red-200' : ''} title='목록화'>
         <Image
         priority
         src={bulletList}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="목록화"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive('orderedList') ? 'bg-red-200' : ''} title='번호 목록화'>
+      <button type='button' onClick={() => editor.chain().focus().toggleOrderedList().run()} className={editor.isActive('orderedList') ? 'bg-red-200' : ''} title='번호 목록화'>
       <Image
         priority
         src={orderedList}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="번호 목록화"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleBlockquote().run()} className={editor.isActive('blockquote') ? 'bg-red-200' : ''} title='블록쿼트'>
+      <button type='button' onClick={() => editor.chain().focus().toggleBlockquote().run()} className={editor.isActive('blockquote') ? 'bg-red-200' : ''} title='블록쿼트'>
       <Image
         priority
         src={blockquote}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="블록쿼트"/>
       </button>
-      <button onClick={() => editor.chain().focus().setHorizontalRule().run()} title='수평선'>
+      <button type='button' onClick={() => editor.chain().focus().setHorizontalRule().run()} title='수평선'>
       <Image
         priority
         src={horizontalRule}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="수평선"/>
       </button>
-      <button onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'bg-red-200' : ''} title='코드 블록'>
+      <button type='button' onClick={() => editor.chain().focus().toggleCodeBlock().run()} className={editor.isActive('codeBlock') ? 'bg-red-200' : ''} title='코드 블록'>
       <Image
         priority
         src={codeBlock}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="코드 블록"/>
       </button>
-      <button onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()} title='작업 취소'>
+      <button type='button' onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().chain().focus().undo().run()} title='작업 취소'>
       <Image
         priority
         src={undo}
         style={{width : imgSize.width, height : imgSize.height }}
         alt="작업 취소"/>
       </button>
-      <button onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()} title='작업 되돌리기'>
+      <button type='button' onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().chain().focus().redo().run()} title='작업 되돌리기'>
       <Image
         priority
         src={redo}
@@ -264,4 +264,9 @@ export default function Tiptap(
       </div>
     </div>
   )
+}
+
+export function StringHtmlRender(stringHtml : string) {
+  const theObj = {__html : stringHtml};
+  return <div className='tiptap m-2' dangerouslySetInnerHTML={theObj} />
 }

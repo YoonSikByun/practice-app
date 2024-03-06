@@ -18,5 +18,4 @@ export async function selectProject(data? : any) {
     });
 
     return allProject;
-    // return {project: allProject, workspace: count};
 }

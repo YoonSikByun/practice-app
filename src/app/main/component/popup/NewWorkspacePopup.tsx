@@ -91,14 +91,15 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
             <div className="flex flex-row-reverse">
                 <button
                     type="submit"
-                    className={clsx("ml-1 border-borderclr-bold border-[1px] px-3 py-1",
+                    className={clsx("ml-1 border-borderclr-bold border-[1px] px-3 py-1 w-[80px]",
                         "bg-hanablue-300 hover:bg-mouseoverclr-light")}
                         // onClick={() => alert(tiptapCallbackManager.getContent())}
                 >
                     만들기
                 </button>
                 <button
-                    className={clsx("ml-1 border-borderclr-bold border-[1px] px-3 py-1",
+                    type='button'
+                    className={clsx("ml-1 border-borderclr-bold border-[1px] px-3 py-1 w-[80px]",
                         "bg-hanablue-100 hover:bg-mouseoverclr-light")}
                     onClick={handleCloseBtn}
                 >

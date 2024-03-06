@@ -1,5 +1,9 @@
 import { globalMessageManager } from "@/app/common/lib/globalMessage";
-import { InsertProject, InsertWorkspace } from "@/app/api/lib/service/common/definition";
+import {
+    InsertProject,
+    InsertWorkspace,
+    DeleteWorkspace
+} from "@/app/api/lib/service/common/definition";
 import { Post } from "@/app/common/lib/fetchServer";
 import { ResponseData } from "@/app/api/lib/service/common/definition";
 import { Get } from "@/app/common/lib/fetchServer";
@@ -9,7 +13,8 @@ export enum RQ_URL {
     INSERT_PROJECT = 'api/project/insert',
     SELECT_PROJECT = 'api/project/select',
     INSERT_WORKSPACE = 'api/workspace/insert',
-    SELECT_WORKSPACE = 'api/workspace/select'
+    SELECT_WORKSPACE = 'api/workspace/select',
+    DELETE_WORKSPACE = 'api/workspace/delete',
 }
 
 //프로젝트 신규 추가
@@ -46,6 +51,22 @@ export async function submitInsertWorkspace(
     errorMessage? : string
 ) {
     const recvData : ResponseData = await Post(RQ_URL.INSERT_WORKSPACE, data);
+    if (recvData['error'] === true) {
+        globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
+    } else {
+        globalMessageManager.setSuccessMsg((successMessage) ? successMessage : recvData['message']);
+    }
+
+    return recvData;
+}
+
+//작업공간 삭제
+export async function submitDeleteWorkspace(
+    data : DeleteWorkspace,
+    successMessage? : string,
+    errorMessage? : string
+) {
+    const recvData : ResponseData = await Post(RQ_URL.DELETE_WORKSPACE, data);
     if (recvData['error'] === true) {
         globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
     } else {

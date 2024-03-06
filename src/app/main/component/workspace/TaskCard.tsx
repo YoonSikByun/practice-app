@@ -7,6 +7,7 @@ import CheckBox from '@/app/main/component/controls/CheckBox';
 import { WorkspaceData } from '@/app/api/lib/service/common/definition';
 import NewWorkspacePopup from '@/app/main/component/popup/NewWorkspacePopup';
 import { useState } from 'react';
+import { mutate } from 'swr';
 import MenuContext from '@/app/main/component/menuContext/menuContext';
 import {
     ACTION,
@@ -14,6 +15,10 @@ import {
     ContextMenuArgument,
     MenuRole
 } from '@/app/main/component/menuContext/definition';
+import { submitDeleteWorkspace } from '@/app/api/lib/service/client/request';
+import { RQ_URL } from '@/app/api/lib/service/client/request';
+import { globalData } from '@/app/common/lib/globalData';
+import { StringHtmlRender } from '@/app/main/component/controls/TextEditor/Tiptap';
 
 function TaskBorder({children} : {children? : React.ReactNode}) {
     return (
@@ -78,15 +83,33 @@ export default function TaskCard(
         checkBoxManager : MultiCheckboxManager
     }
 ) {
-    const contextMenucallback : ContextMenuCallback = (action : ACTION, parentKey : string) => {
+    const contextMenucallback : ContextMenuCallback = async (action : ACTION, parentKey : string) => {
         console.log('----------------------------------');
         console.log(`call back : action - ${action}, parentKey - ${parentKey}`);
-        console.log('----------------------------------');}
+        console.log('----------------------------------');
+
+        switch(action)
+        {
+            case ACTION.UPDATE:
+            break;
+            case ACTION.DELETE:
+                const recvData = await submitDeleteWorkspace({id : parentKey}, '작업공간 삭제를 완료하지 못했습니다.');
+                // 정상 처리면 재조회
+                if(!recvData['error']) {
+                    mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
+                }
+            break;
+            case ACTION.COPY:
+            break;
+            case ACTION.EXPORT:
+            break;
+        }
+    }
 
     const [visibleContextMenu, setVisibleContextMenu] = useState(false);
     const [conextMenuArg, setContextMenuArg] = useState<ContextMenuArgument>({
         clientX : -1, clientY : -1,
-        menuRole : MenuRole.TASKCARD, parentKey : '',
+        menuRole : MenuRole.TASKCARD, parentKey : data.id,
         callbackProc : contextMenucallback});
 
     const handleClickContextMenuButton = (e : React.MouseEvent<HTMLElement>) => {
@@ -102,7 +125,7 @@ export default function TaskCard(
                     <ArchiveBoxIcon className='h-5 w-5 ml-2 mr-2' />
                     <p className='text-xl'>{data.name}</p>
                 </div>
-                <div className='w-[20%] flex flex-row-reverse items-center'>
+                <div className={clsx('w-[20%] flex flex-row-reverse items-center')}>
                     <button onClick={e=> handleClickContextMenuButton(e)}>
                         <Bars3Icon className='h-7 w-7 mr-1' />
                     </button>
@@ -118,14 +141,16 @@ export default function TaskCard(
                     <p className='text-sm w-[50%]'>* 수정자 : {data.updatorId}</p>
                 </div>
             </div>
-            <div className='overflow-y-scroll whitespace-pre-line mt-2'>
-                {data.description}
+            <div className={clsx('overflow-auto whitespace-pre-line mt-2 mb-2 h-full',
+                                'bg-white border-[1px] border-borderclr-bold')}>
+                {StringHtmlRender(data.description)}
             </div>
             <HoverComponent/>
             <MenuContext
                 visible={visibleContextMenu}
                 setVisible={setVisibleContextMenu}
-                contextMenuArgument={conextMenuArg}/>
+                contextMenuArgument={conextMenuArg}
+            />
         </TaskBorder>
     );
 }

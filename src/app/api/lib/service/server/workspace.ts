@@ -1,5 +1,9 @@
 import { Prisma } from '@prisma/client'
-import { InsertWorkspace, SelectWorkspace } from '@/app/api/lib/service/common/definition';
+import {
+    InsertWorkspace,
+    SelectWorkspace,
+    DeleteWorkspace,
+} from '@/app/api/lib/service/common/definition';
 import { prismaCli } from '@/app/api/lib/util';
 
 //신규 프로젝트 생성
@@ -33,4 +37,15 @@ export async function selectWorkspace(data : SelectWorkspace) {
     ]);
 
     return {workspace: project_list, count: count?._count.workspaces};
+}
+
+//작업공간 삭제
+export async function deleteWorkspace(data : DeleteWorkspace) {
+    return await prismaCli.workspace.delete(
+        {
+            where: {
+            id: data.id,
+            },
+        }
+    );
 }

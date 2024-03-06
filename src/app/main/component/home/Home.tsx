@@ -1,5 +1,5 @@
 import "@/app/main/scss/layout.scss"
-import ProjectContainer from "@/app/main/component/projects/ProjectContainer"
+import ProjectContainer from "@/app/main/component/projects/projectContainer"
 import { calcStyle } from "@/app/main/lib/calcStyleRegion"
 import WorkspaceContainer from "@/app/main/component/workspace/WorkspaceContainer"
 import clsx from "clsx"

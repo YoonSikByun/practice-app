@@ -72,10 +72,10 @@ function Project({
                     <span className='font-bold'>
                         {projectItem.name}
                     </span>
-                    <div className={clsx("flex flex-row mt-2")}>
+                    <div className={clsx("flex flex-row mt-1")}>
                         <span className='text-sm'>생성자 : {projectItem.creatorId}</span>
                     </div>
-                    <div className={clsx("flex flex-row mt-2")}>
+                    <div className={clsx("flex flex-row mt-1")}>
                         <span className='text-sm'>작업공간 : {projectItem._count['workspaces']}</span>
                     </div>
                 </div>

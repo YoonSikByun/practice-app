@@ -72,10 +72,12 @@ export default function WorkspaceList(
             >
                 <TaskCreateCard/>
             {
-                (workspaceList && workspaceList.length > 0 ) &&workspaceList.map((data, index) => {
+                (workspaceList && workspaceList.length > 0 ) && workspaceList.map((data, index) => {
                     return (
                         <TaskCard
-                            key={index} id={`${index}`} checkBoxManager={multiCheckboxManager}
+                            key={index}
+                            id={`${index}`}
+                            checkBoxManager={multiCheckboxManager}
                             data={data}
                         />
                     );

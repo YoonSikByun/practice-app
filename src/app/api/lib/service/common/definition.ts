@@ -57,3 +57,8 @@ export type InsertWorkspace = {
     projectId       : string; //소속 프로젝트 ID
     description?    : string; //작업공간 설명
 }
+
+//작업공간 생성 요청
+export type DeleteWorkspace = {
+    id              : string; //작업공간 ID
+}

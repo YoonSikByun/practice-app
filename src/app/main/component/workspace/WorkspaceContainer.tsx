@@ -85,7 +85,9 @@ export default function WorkspaceContainer() {
                 }}
             >
                 <div className="title">
-                    <p className='text-2xl font-bold'>{globalData.menuInfo.getSelectedProjectData()?.name ?? ''}</p>
+                    <p className='text-2xl font-bold'>
+                        {globalData.menuInfo.getSelectedProjectData()?.name ?? ''}
+                    </p>
                 </div>
                 <div className="edit">
                     <button
@@ -106,7 +108,7 @@ export default function WorkspaceContainer() {
                     <div>Create on 2023/02/21 23:35 by hanaTI@mail.com</div>
                 </div>
             </div>
-            <WorkspaceList workspaceList = {workspaceList}/>
+            <WorkspaceList workspaceList={workspaceList}/>
             <MenuContext
                 visible={visibleContextMenu}
                 setVisible={setVisibleContextMenu}
