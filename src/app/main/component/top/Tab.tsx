@@ -125,7 +125,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
             return;
         }
 
-        multiNodeDesignerCallbackManager.addNodeDesigner(id, data.design);
+        multiNodeDesignerCallbackManager.openNodeDesigner(id, data.design);
         
         const newTabItem = { title: data.name, id: id};
         setTabItems([...tabItems, newTabItem]);
@@ -135,7 +135,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
 
     useEffect(() => {
         mainStateCallbackManager.registerSetCurrentTabHeadId(setCurrentTabHeadId);
-        mainStateCallbackManager.registerAddNodeDesigner(addNodeDesigner);
+        mainStateCallbackManager.registerMultiOpenNodeDesigner(addNodeDesigner);
     }, [addNodeDesigner]);
 
     //노드디자이너가 닫히면 탭헤더도 없앤한다.
@@ -150,7 +150,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
         setTabItems(newList);
 
         if(newList.length < 1) {
-            //노드디자이너가 모두 닫히면, 홈으로 페이지를 이동시킨다.
+            //노드디자이너가 모두 닫히면, 홈으로 이동시킨다.
             mainStateCallbackManager.setCurrentPageName(PageName.HOME);
             setCurrentTabHeadId('');
         } else {

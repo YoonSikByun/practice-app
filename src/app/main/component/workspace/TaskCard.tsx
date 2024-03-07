@@ -35,20 +35,24 @@ function TaskBorder({children} : {children? : React.ReactNode}) {
 }
 
 function HoverComponent({data} : {data:WorkspaceData}) {
-    const submitSelectReactflowData = async () => {
+    const onClickOpenReactflow = async () => {
+        //이 열려있는 노드디자이너면 탭을 선택해주고 끝낸다.
         if(mainStateCallbackManager.setCurrentTabIfExist(data.id))
             return;
+
+        //새로 여는 노드디자이너면 서버에서 저장 정보를 가져온다.
         const sendData : SelectWorkspace = {projectId : data.id};
         const recvData = await submitSelectReactflow(sendData, '작업 데이터를 불러오기가 완료되었습니다.', '작업 데이터 가져오기 실패했습니다.');
+        
         if(!recvData['error'])
-            mainStateCallbackManager.addNodeDesigner(recvData['data']);
+            mainStateCallbackManager.openNodeDesigner(recvData['data']);
     };
 
     return (
         <div className={clsx('invisible group-hover:visible', 'absolute top-1/2 left-[calc(50%-50px)]')}>
             <button
                 className='bg-blue-400 h-[40px] w-[100px] rounded shadow-lg text-xl font-bold hover:bg-mouseoverclr-bold'
-                onClick={submitSelectReactflowData}
+                onClick={onClickOpenReactflow}
             >
                 열기
             </button>

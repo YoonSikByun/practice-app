@@ -10,7 +10,6 @@ import {
   MultiNodeDesignerCallbackManager,
   multiNodeDesignerCallbackManager
 } from "@/app/common/lib/globalStateManager";
-import { v4 as uuid } from "uuid";
 import { StatusPopup, POPUP_TYPE } from "@/app/common/lib/globalMessage";
 import { globalMessageManager } from "@/app/common/lib/globalMessage";
 
@@ -41,8 +40,8 @@ function WrapperNodeDesigner(
 
 export default function Page() {
   const [showPageName, setShowPageName] = useState<PageName>(PageName.HOME);
-  const [childNodeDesignerIdList, setChildNodeDesignerIdList] = useState<string[]>([]);
-  const [childNodeDesignerList, setChildNodeDesignerList] = useState<any[]>([]);
+  const [multiNodeDesignerIdList, setMultiNodeDesignerIdList] = useState<string[]>([]);
+  const [multiNodeDesignerComponentList, setMultiNodeDesignerComponentList] = useState<any[]>([]);
 
   const [globalErrorMsg, setGlobalErrorMsg] = useState('');
   const [globalWarningMsg, setGlobalWarningMsg] = useState('');
@@ -62,33 +61,33 @@ export default function Page() {
   }, []);
 
   //노드디자이너 신규 생성
-  const addChildNodeDesigner = (id : string, data : string) => {
+  const openMultiNodeDesigner = (id : string, data : string) => {
     const nodedesignerId = id;
     const component = <WrapperNodeDesigner key={nodedesignerId} id={nodedesignerId} callbackManager={multiNodeDesignerCallbackManager} data={data}/>;
 
-    setChildNodeDesignerList([...childNodeDesignerList, component]);
-    setChildNodeDesignerIdList([...childNodeDesignerIdList, nodedesignerId]);
+    setMultiNodeDesignerComponentList([...multiNodeDesignerComponentList, component]);
+    setMultiNodeDesignerIdList([...multiNodeDesignerIdList, nodedesignerId]);
   }
 
   //다른 모듈에서 노드디자이너 신규 생성 할 수 있도록 콜백함수로 등록한다.
-  multiNodeDesignerCallbackManager.registerAddNodeDesigner(addChildNodeDesigner);
+  multiNodeDesignerCallbackManager.registerMultiOpenNodeDesigner(openMultiNodeDesigner);
 
   //생성된 노드디자이너를 삭제한다.
-  const deleteChildNodeDesigner = (id : string) => {
+  const deleteMultiNodeDesigner = (id : string) => {
     let idList = [];
     let componentList = [];
-    for(const index in childNodeDesignerIdList) {
-      if(childNodeDesignerIdList[index] == id) continue;
+    for(const index in multiNodeDesignerIdList) {
+      if(multiNodeDesignerIdList[index] == id) continue;
 
-      idList.push(childNodeDesignerIdList[index]);
-      componentList.push(childNodeDesignerList[index]);
+      idList.push(multiNodeDesignerIdList[index]);
+      componentList.push(multiNodeDesignerComponentList[index]);
     }
-    setChildNodeDesignerIdList(idList);
-    setChildNodeDesignerList(componentList);
+    setMultiNodeDesignerIdList(idList);
+    setMultiNodeDesignerComponentList(componentList);
   }
 
   //다른 모듈에서 생성된 노드디자이너를 삭제할 수 있도록 콜백함수 등록한다.
-  multiNodeDesignerCallbackManager.registerDeleteNodeDesigner(deleteChildNodeDesigner);
+  multiNodeDesignerCallbackManager.registerMultiDeleteNodeDesigner(deleteMultiNodeDesigner);
 
   return (
     <>
@@ -97,7 +96,7 @@ export default function Page() {
           <HomeMain/>
         </div>
         <div style={{display: (showPageName === PageName.NODE_DESIGNER) ? 'block' : 'none'}}>
-          {childNodeDesignerList}
+          {multiNodeDesignerComponentList}
         </div>
       </>
       <>

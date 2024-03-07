@@ -7,7 +7,7 @@ export enum PageName {
 class MainStateCallbackManager {
     private callbackFuncSetCurrentPageName: any = null;
     private callbackSetCurrentTabHeadId : any = null;
-    private callbackAddNodeDesigner : any = null;
+    private callbackopenNodeDesigner : any = null;
     private callbakcsetCurrentTabIfExist : any = null;
 
     registerSetCurrentPageName(callbackFunc : (v : PageName) => void) {
@@ -18,8 +18,8 @@ class MainStateCallbackManager {
       this.callbackSetCurrentTabHeadId = f;
     }
 
-    registerAddNodeDesigner(f : (data : any) => void) {
-      this.callbackAddNodeDesigner = f;
+    registerMultiOpenNodeDesigner(f : (data : any) => void) {
+      this.callbackopenNodeDesigner = f;
     }
 
     registerSetCurrentTabIfExist(f : (id : string) => boolean | undefined) {
@@ -36,9 +36,9 @@ class MainStateCallbackManager {
       this.callbackSetCurrentTabHeadId(tabId);
     }
 
-    addNodeDesigner(data? : any) {
-      if(!this.callbackAddNodeDesigner) return;
-      this.callbackAddNodeDesigner(data);
+    openNodeDesigner(data? : any) {
+      if(!this.callbackopenNodeDesigner) return;
+      this.callbackopenNodeDesigner(data);
     }
 
     setCurrentTabIfExist(id : string) {
@@ -53,18 +53,18 @@ export const mainStateCallbackManager = new MainStateCallbackManager();
 //여러개의 노드디자이너(Reactflow)를 동시에 여러개 열어서 렌더링 및 사용할 수 있도록 지원하는 매니저
 export class MultiNodeDesignerCallbackManager {
     private callbackShowHideFuncs: { [key: string]: (visible : boolean) => void } = {};
-    private callbackAddNodeDesignerFuncs: any = null;
+    private callbackOpenNodeDesignerFuncs: any = null;
     private callbackDeleteNodeDesignerFuncs: any = null;
 
     registerShowHide(id : string, f : any) {
       this.callbackShowHideFuncs[id] = f;
     }
 
-    registerAddNodeDesigner(f : any) {
-      this.callbackAddNodeDesignerFuncs = f;
+    registerMultiOpenNodeDesigner(f : any) {
+      this.callbackOpenNodeDesignerFuncs = f;
     }
 
-    registerDeleteNodeDesigner(f : any) {
+    registerMultiDeleteNodeDesigner(f : any) {
       this.callbackDeleteNodeDesignerFuncs = f;
     }
     
@@ -80,9 +80,9 @@ export class MultiNodeDesignerCallbackManager {
       }
     }
 
-    addNodeDesigner(id : string, data : string) {
-      if(!this.callbackAddNodeDesignerFuncs) return '';
-      this.callbackAddNodeDesignerFuncs(id, data);
+    openNodeDesigner(id : string, data : string) {
+      if(!this.callbackOpenNodeDesignerFuncs) return '';
+      this.callbackOpenNodeDesignerFuncs(id, data);
     }
 
     deleteNodeDesigner(id : string) {
