@@ -8,6 +8,7 @@ class MainStateCallbackManager {
     private callbackFuncSetCurrentPageName: any = null;
     private callbackSetCurrentTabHeadId : any = null;
     private callbackAddNodeDesigner : any = null;
+    private callbakcsetCurrentTabIfExist : any = null;
 
     registerSetCurrentPageName(callbackFunc : (v : PageName) => void) {
         this.callbackFuncSetCurrentPageName = callbackFunc;
@@ -19,6 +20,10 @@ class MainStateCallbackManager {
 
     registerAddNodeDesigner(f : (data : any) => void) {
       this.callbackAddNodeDesigner = f;
+    }
+
+    registerSetCurrentTabIfExist(f : (id : string) => boolean | undefined) {
+      this.callbakcsetCurrentTabIfExist = f;
     }
 
     setCurrentPageName(pageName : PageName) {
@@ -34,6 +39,12 @@ class MainStateCallbackManager {
     addNodeDesigner(data? : any) {
       if(!this.callbackAddNodeDesigner) return;
       this.callbackAddNodeDesigner(data);
+    }
+
+    setCurrentTabIfExist(id : string) {
+      if(this.callbakcsetCurrentTabIfExist)
+        return this.callbakcsetCurrentTabIfExist(id);
+      return false;
     }
 }
 

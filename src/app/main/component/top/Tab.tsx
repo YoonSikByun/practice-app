@@ -93,9 +93,29 @@ function ItemBox(
     );
 }
 
+type TabItemData = {
+    title : string,
+    id : string
+}
+
 export function Tab( { items } : { items : TabHeadItem[]} ) {
     const [currentTabHeadId, setCurrentTabHeadId] = useState<string>('');
-    const [tabItems, setTabItems] = useState<any[]>(items);
+    const [tabItems, setTabItems] = useState<TabItemData[]>(items);
+
+    const setCurrentTabIfExist = useCallback((id : string) => {
+        for( let i = 0; i < tabItems.length; i++) {
+            if(tabItems[i].id === id) {
+                setCurrentTabHeadId(id);
+                mainStateCallbackManager.setCurrentPageName(PageName.NODE_DESIGNER);
+                return true;
+            }
+        }
+        return false;
+    }, [tabItems]);
+
+    useEffect(() => {
+        mainStateCallbackManager.registerSetCurrentTabIfExist(setCurrentTabIfExist);
+    }, [setCurrentTabIfExist]);
 
     //노드디자이너 신규 생성한다.
     const addNodeDesigner = useCallback((data : SelectReactflow) => {
@@ -107,7 +127,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
 
         multiNodeDesignerCallbackManager.addNodeDesigner(id, data.design);
         
-        const newTabItem = { title: data.name, id: data.id};
+        const newTabItem = { title: data.name, id: id};
         setTabItems([...tabItems, newTabItem]);
         setCurrentTabHeadId(id);
         mainStateCallbackManager.setCurrentPageName(PageName.NODE_DESIGNER);

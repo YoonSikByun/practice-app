@@ -36,8 +36,10 @@ function TaskBorder({children} : {children? : React.ReactNode}) {
 
 function HoverComponent({data} : {data:WorkspaceData}) {
     const submitSelectReactflowData = async () => {
-        const sendData : SelectWorkspace = {projectId : data.id}
-        const recvData = await submitSelectReactflow(sendData, '작업 데이터 가져오기 실패했습니다.', '작업 데이터 가져오기 실패했습니다.');
+        if(mainStateCallbackManager.setCurrentTabIfExist(data.id))
+            return;
+        const sendData : SelectWorkspace = {projectId : data.id};
+        const recvData = await submitSelectReactflow(sendData, '작업 데이터를 불러오기가 완료되었습니다.', '작업 데이터 가져오기 실패했습니다.');
         if(!recvData['error'])
             mainStateCallbackManager.addNodeDesigner(recvData['data']);
     };
