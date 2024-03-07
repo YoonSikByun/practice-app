@@ -69,7 +69,7 @@ function Popup(
             }}
             ref={popupRef}
             onKeyDown={EscKeyDown}
-            tabIndex={0}
+            // tabIndex={0}
             onBlur={closeOutsideClick ? closePopup : ()=>{}}
         >
             <div className='m-3'>

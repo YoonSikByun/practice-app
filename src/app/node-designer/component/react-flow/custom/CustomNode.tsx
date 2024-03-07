@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Position, useReactFlow } from 'reactflow';
 import CustomHandle from '@/app/node-designer/component/react-flow/custom/CustomHandle';
-import NodeBoundary from '@/app/node-designer/component/node/nodeBoundary';
+import {NodeBoundary} from '@/app/node-designer/component/node/nodeBoundary';
 import {NoramlNodeData} from '@/app/node-designer/component/react-flow/custom/nodeTypes';
 import clsx from 'clsx';
 import { TrashIcon, PlayIcon, DocumentTextIcon, AdjustmentsHorizontalIcon } from '@heroicons/react/24/solid';
@@ -24,7 +24,7 @@ function HoverTopButtons({
           if(nodes.id !== id)
             return true;
 
-          multiNodeStateCallback.call(parentId).deleteSetShowOptButtonsCallback(id);
+          multiNodeStateCallback.call(parentId).deleteSetShowOptButtons(id);
           deleted.push(nodes);
           return false;
         });
@@ -125,10 +125,8 @@ export function CustomNode(
   const [showOptButtons, setShowOptButtons] = useState(false);
   const parentId : string = data.parentId ?? '';
   useEffect(() => {
-    
-    multiNodeStateCallback.call(parentId).registerSetShowOptButtonsCallback(id, setShowOptButtons);
-    },
-  [id, setShowOptButtons, parentId]);
+    multiNodeStateCallback.call(parentId).registerSetShowOptButtons(id, setShowOptButtons);
+  }, [id, setShowOptButtons, parentId]);
 
   return (
     <div className='group'>
@@ -143,7 +141,7 @@ export function CustomNode(
           {'shadow-lg shadow-emerald-950 border-[3px]' : selected},
           'hover:bg-nodedg-node-mouseover'
         )}
-        Icon={data?.icon}
+        iconKind={data?.icon ?? ''}
         isDraggable={false}
       >
         <HoverTopButtons id={id} parentId={parentId}/>

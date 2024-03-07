@@ -7,6 +7,7 @@ import {
     multiNodeDesignerCallbackManager
 } from '@/app/common/lib/globalStateManager';
 import { XCircleIcon, PlusIcon, Square2StackIcon } from "@heroicons/react/24/outline";
+import { SelectReactflow } from "@/app/api/lib/service/common/definition";
 
 export type TabHeadItem = {
     title: string;
@@ -97,14 +98,17 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
     const [tabItems, setTabItems] = useState<any[]>(items);
 
     //노드디자이너 신규 생성한다.
-    const addNodeDesigner = useCallback(() => {
-        const id : string = multiNodeDesignerCallbackManager.addNodeDesigner();
+    const addNodeDesigner = useCallback((data : SelectReactflow) => {
+        const id : string = data.id;
         if(id === '') {
             alert('Node id is empty');
             return;
         }
-        const newItem = { title: `New-${tabItems.length+1}`, id: id};
-        setTabItems([...tabItems, newItem]);
+
+        multiNodeDesignerCallbackManager.addNodeDesigner(id, data.design);
+        
+        const newTabItem = { title: data.name, id: data.id};
+        setTabItems([...tabItems, newTabItem]);
         setCurrentTabHeadId(id);
         mainStateCallbackManager.setCurrentPageName(PageName.NODE_DESIGNER);
     }, [tabItems]);
@@ -169,7 +173,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                         className={clsx('w-[30px]')}
                     >
                         <button
-                            onClick={addNodeDesigner}
+                            onClick={() => alert('만들기 창을 띄운다.')}
                             style={{marginTop: '7px', height: (mainLayoutSize['topGNB'].height - (topMargin + 11))}}
                             className={clsx('rounded mt-[3px] bg-hanablue-200 hover:bg-mouseoverclr-bold',
                             'border-solid border-[1px] border-borderclr-bold')}

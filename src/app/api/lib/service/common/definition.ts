@@ -43,8 +43,6 @@ export type WorkspaceData = {
     updatorId?      : string; //갱신자 ID
     projectId       : string; //소속 프로젝트 ID
     description     : string; //작업공간 설명
-    setting         : string; //노드자이너 설정상태 정보
-    desgin          : string; //reactFlow 디자인 스크립트
 }
 
 //작업공간 생성 요청
@@ -61,4 +59,17 @@ export type InsertWorkspace = {
 //작업공간 생성 요청
 export type DeleteWorkspace = {
     id              : string; //작업공간 ID
+}
+
+//Reactflow 저장 요청
+export type SelectReactflow = {
+    id              : string;
+    name            : string;
+    design          : string;
+}
+
+//Reactflow 저장 요청
+export type UpdateReactflow = {
+    workspaceId     : string;
+    data            : string;
 }

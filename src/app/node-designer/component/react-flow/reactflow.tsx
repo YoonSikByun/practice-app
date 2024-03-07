@@ -1,5 +1,6 @@
 import 'reactflow/dist/style.css';
 import '@/app/node-designer/scss/component/react-flow/reactflow.scss'
+import {decode as base64_decode, encode as base64_encode} from 'base-64';
 
 import { useCallback, useEffect, useState } from 'react';
 import ReactFlow, 
@@ -18,7 +19,7 @@ import ReactFlow,
   Background,
   BackgroundVariant,
   MarkerType,
-  ReactFlowProvider,
+  useReactFlow,
   // MiniMapNodeProps
 } from 'reactflow';
 import { customNodeTypes, getNodeSize, getNodeData } from '@/app/node-designer/component/react-flow/custom/nodeTypes';
@@ -28,26 +29,19 @@ import { Size } from '@/app/common/lib/definition';
 import { multiNodeStateCallback } from '@/app/node-designer/lib/nodeDesignerStateManager';
 import { RadioButton } from '@/app/node-designer/component/controls/RadioButton';
 import ConnectionLine from '@/app/node-designer/component/react-flow/custom/ConnectionLine';
+// import { prettyjson } from '@/app/api/lib/util';
 
 const bgGuideType = ['none', BackgroundVariant.Cross, BackgroundVariant.Dots, BackgroundVariant.Lines];
-
 const rfStyle = { backgroundColor: '#FFFFFF' };
 const edgeMarkerEnd = { type: MarkerType.ArrowClosed, width: 13, height: 13, color: '#009591' };
-
-// const initialNodes = [
-//   { id: uuid(), type: 'Kind0', position: { x: 0, y: 0 }, data: getNodeData('Kind0') },
-//   { id: uuid(), type: 'Kind1', position: { x: 50, y: 100 }, data: getNodeData('Kind1')}];
-
 const edgeTypes = { 'custom-edge': CustomEdge};
-
-// const CustomMiniMapNode = ({ x, y, width, height, color }: MiniMapNodeProps) => (
-//   <circle cx={x} cy={y} r={Math.max(width, height) / 2} fill={color} />
-// );
 
 const hide = (hidden : boolean) => (nodeOrEdge : any) => {
   nodeOrEdge.hidden = hidden;
   return nodeOrEdge;
 };
+
+const flowKey : string = 'example-flow';
 
 export default function ReactFlowApp(
   {
@@ -64,14 +58,65 @@ export default function ReactFlowApp(
   const [edges, setEdges] = useState<any[]>([]);
   const [bgGuideTypeIdx, setBgGuideTypeIdx] = useState(3);
   const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance<any, any>>();
+  const { setViewport } = useReactFlow();
 
   useEffect(() => {
     setNodes((nds) => nds.map(hide(!nodesOredgesVisible)));
     setEdges((eds) => eds.map(hide(!nodesOredgesVisible)));
   }, [nodesOredgesVisible]);
 
+  const onSave = useCallback(() => {
+    if (reactFlowInstance) {
+      
+      const flow = reactFlowInstance.toObject();
+      const saveObject = {script : flow, setting : ''};
+      const jsonString = JSON.stringify(saveObject);
+      const encoded = base64_encode(jsonString);
+
+      // localStorage.setItem(flowKey, encoded);
+
+      // console.log('--------------[save reactFlow]----------------');
+      // console.log(prettyjson.render(jsonString));
+      // console.log('---------------[encoded]-----------------------');
+      // console.log(encoded);
+      // console.log('----------------------------------------------');
+      return encoded;
+    }
+  }, [reactFlowInstance]);
+
+  const onRestore = useCallback((data : string) => {
+    const restoreFlow = async (data : string) => {
+      console.log('---------------[encoded]-----------------------');
+      console.log(`[${data}]`);
+      if(data == undefined || data.length < 1 ) return;
+      // const data = localStorage.getItem(flowKey);
+      const decoded = base64_decode(data);
+      const restoreObject = JSON.parse(!decoded ? '' : decoded);
+
+      // console.log('---------------[encoded]-----------------------');
+      // console.log(data);
+      // console.log('--------------[restore reactFlow]----------------');
+      // console.log(prettyjson.render(decoded));
+      // console.log('----------------------------------------------');
+
+      const flow = restoreObject['script'];
+      if (flow) {
+        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+        setNodes(flow.nodes || []);
+        setEdges(flow.edges || []);
+        setViewport({ x, y, zoom });
+      }
+    };
+
+    restoreFlow(data);
+  }, [setNodes, setViewport]);
+
   //하단시트 보이기/숨김 위한 설정함수는 최초 렌더링 시점에 한번만 저장하도록 useEffect 처리
-  useEffect(() => multiNodeStateCallback.call(id).registerSetBottomSheetCallback(setBottomsheetNodeId), [setBottomsheetNodeId, id]);
+  useEffect(() => {
+    multiNodeStateCallback.call(id).registerSetBottomSheet(setBottomsheetNodeId);
+    multiNodeStateCallback.call(id).registerSaveReactflow(onSave);
+    multiNodeStateCallback.call(id).registerRestoreReactflow(onRestore);
+  }, [setBottomsheetNodeId, id, onSave, onRestore]);
 
   const onNodesChange = useCallback(
     (changes : NodeChange[]) => setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -101,9 +146,7 @@ export default function ReactFlowApp(
       });
       const newNode = { id: uuid(), type: 'Kind0', position: { x: p.x, y: p.y }, data: getNodeData('Kind0', id) };
       setNodes((nds) => nds.concat(newNode));
-    },
-    [reactFlowInstance, id]
-  );
+    }, [reactFlowInstance, id]);
 
   //노드에 새로운 선 연결 전 가능여부 체크
   const isValidConnection = useCallback(
@@ -131,9 +174,7 @@ export default function ReactFlowApp(
 
       if (target.id === connection.source) return false;
       return !hasCycle(target);
-    },
-    [reactFlowInstance],
-  );
+    }, [reactFlowInstance]);
 
   const onConnect = useCallback(
     (connection : any) => {
@@ -144,9 +185,7 @@ export default function ReactFlowApp(
         markerEnd: edgeMarkerEnd
       };
       setEdges((eds) => addEdge(edge, eds));
-    },
-    [setEdges],
-  );
+    }, [setEdges]);
 
   //노드 선택에 따라 하단시트와 노드 조작 버튼 보이기/숨기기 한다.
   const onSelectionChange = (elements: any) => {
@@ -169,7 +208,6 @@ export default function ReactFlowApp(
     multiNodeStateCallback.call(id).setBottomsheetNodeId(elements['nodes'][0].id);
     //현 선택된 노드Id를 이전 노드id에 저장한다.
     multiNodeStateCallback.call(id).setPrevNodeId(elements['nodes'][0].id);
-
   };
 
   //노드가 삭제되면 라인 재구성 위한 처리 함수
@@ -185,56 +223,52 @@ export default function ReactFlowApp(
           return [...remainingEdges, ...createdEdges];
         }, edges)
       );
-    }, [setEdges, nodes, edges]
-  );
+    }, [setEdges, nodes, edges]);
 
   //노드가 삭제되면 선도 삭제하기 위해 콜백함수 등록
-  multiNodeStateCallback.call(id).registerReStructureEdgesCallback(reStructureEdges);
+  multiNodeStateCallback.call(id).registerReStructureEdges(reStructureEdges);
 
   // 노드가 삭제되면 호출되는 이벤트 콜백함수
   const onNodesDelete = useCallback(
     (deleted : any) => {
       //등록된 노드 이벤트 콜백함수들 삭제한다.
       deleted.map((node : any) => {
-        multiNodeStateCallback.call(id).deleteSetShowOptButtonsCallback(node.id);
+        multiNodeStateCallback.call(id).deleteSetShowOptButtons(node.id);
       });
       //노드가 삭제되면 노드에 연결된 라인 재구성
       reStructureEdges(deleted);
-    }, [reStructureEdges, id]
-  );
+    }, [reStructureEdges, id]);
 
   return (
-    <ReactFlowProvider>
-      <ReactFlow
-        id={id}
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        onInit={setReactFlowInstance}
-        nodeTypes={customNodeTypes}
-        edgeTypes={edgeTypes}
-        // connectionMode={ConnectionMode.Loose}
-        onDrop={onDrop}
-        onDragOver={onDragOver}
-        style={rfStyle}
-        isValidConnection={isValidConnection}
-        // onConnectStart={onConnectStart}
-        // onConnectEnd={onConnectEnd}
-        snapToGrid={true}
-        onSelectionChange={onSelectionChange}
-        onNodesDelete={onNodesDelete}
-        connectionLineComponent={ConnectionLine}
-      >
-        <Panel position="top-left">
-          <RadioButton className='text-base' selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
-        </Panel>
-        <Controls position='top-right'/>
-        {/* <MiniMap nodeComponent={CustomMiniMapNode}/> */}
-        <MiniMap/>
-        <Background variant={bgGuideType[bgGuideTypeIdx] as BackgroundVariant}/>
-      </ReactFlow>
-    </ReactFlowProvider>
+    <ReactFlow
+      id={id}
+      nodes={nodes}
+      edges={edges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
+      onConnect={onConnect}
+      onInit={setReactFlowInstance}
+      nodeTypes={customNodeTypes}
+      edgeTypes={edgeTypes}
+      // connectionMode={ConnectionMode.Loose}
+      onDrop={onDrop}
+      onDragOver={onDragOver}
+      style={rfStyle}
+      isValidConnection={isValidConnection}
+      // onConnectStart={onConnectStart}
+      // onConnectEnd={onConnectEnd}
+      snapToGrid={true}
+      onSelectionChange={onSelectionChange}
+      onNodesDelete={onNodesDelete}
+      connectionLineComponent={ConnectionLine}
+    >
+      <Panel position="top-left">
+        <RadioButton className='text-base' selectIndex={bgGuideTypeIdx} items={bgGuideType} setIndexState={setBgGuideTypeIdx} />
+      </Panel>
+      <Controls position='top-right'/>
+      {/* <MiniMap nodeComponent={CustomMiniMapNode}/> */}
+      <MiniMap/>
+      <Background variant={bgGuideType[bgGuideTypeIdx] as BackgroundVariant}/>
+    </ReactFlow>
   );
 }

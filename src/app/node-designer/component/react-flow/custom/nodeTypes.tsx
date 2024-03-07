@@ -1,5 +1,5 @@
 import { allNode, nullNode } from "@/app/node-designer/config/node";
-import { CustomNode } from "./CustomNode";
+import { CustomNode } from "@/app/node-designer/component/react-flow/custom/CustomNode";
 
 const findNodeItem = (id : string) =>{
     for(const i of allNode) {
@@ -20,7 +20,7 @@ export type NoramlNodeData = {
     width? : number;
     height? : number;
     nodeKind? : string;
-    icon? : any;
+    icon? : string | '';
     className? : string;
     parentId? : string;
 }

@@ -191,10 +191,10 @@ const MenuBar = (
 export class TiptapCallbackManager {
   callbackSetContent : ((c : string) => void) | null = null;
   callbackGetContent : (() => string) | null = null;
-  registerSetContentCallback(f : any) {
+  registerSetContent(f : any) {
     this.callbackSetContent = f;
   }
-  registerGetContentCallback(f : any) {
+  registerGetContent(f : any) {
     this.callbackGetContent = f;
   }
   setContent(c : string) {
@@ -212,12 +212,14 @@ export default function Tiptap(
     width='',
     height,
     content = '',
+    className = '',
     word_limit = 2500,
     callbackManager,
   } : {
     width? : string,
     height : string,
     content? : string,
+    className? : string,
     word_limit? : number,
     callbackManager? : TiptapCallbackManager
   }) {
@@ -246,17 +248,27 @@ export default function Tiptap(
   const setContent = useCallback((content : string) => editor?.commands.setContent(content), [editor]);
   
   useEffect(() => {
-    callbackManager?.registerSetContentCallback(setContent);
-    callbackManager?.registerGetContentCallback(getContent);
+    callbackManager?.registerSetContent(setContent);
+    callbackManager?.registerGetContent(getContent);
   }, [callbackManager, getContent, setContent]);
+
+  const onFocus = () => {
+    editor?.commands.focus('all');
+  }
 
   return (
     <div className='flex flex-col gap-1'>
+
+      {/* 아래 input은 탭 오더로 포커스를 받으면 tiptap editor로 포커스를 주기 위한 용도이다. */}
+      <input type='text' className={clsx(className, 'h-0 w-0')} onFocus={onFocus}/>
+
       <MenuBar editor={editor} style={{width: `${tiptapWidth}`, height: '35px'}} />
       <EditorContent
         editor={editor}
-        className='border-[1px] border-black overflow-y-scroll'
-        style={{width: `${tiptapWidth}`, height: `${height}`}} />
+        className={clsx('border-[1px] border-black overflow-y-scroll')}
+        style={{width: `${tiptapWidth}`, height: `${height}`}}
+        onMouseDown={() => editor?.commands.focus()}
+      />
       <div className="character-count text-right"
           style={{width: `${tiptapWidth}`}}
       >

@@ -1,25 +1,25 @@
-import NodeBoundary from "@/app/node-designer/component/node/nodeBoundary";
+import {NodeBoundary} from "@/app/node-designer/component/node/nodeBoundary";
 
 export default function NodeDesignBoundary(    {
     width,
     height,
     nodeKind,
-    Icon,
+    iconKind,
     className
 } : {
     width : number,
     height : number,
     nodeKind : string,
-    Icon : any,
+    iconKind : any,
     className : string
 }) {
 
     return (
         <NodeBoundary width={width}
-        height={height}
-        nodeKind={nodeKind}
-        className={className}
-        Icon={Icon}
-        isDraggable={true} />
+            height={height}
+            nodeKind={nodeKind}
+            className={className}
+            iconKind={iconKind}
+            isDraggable={true} />
     )
 }

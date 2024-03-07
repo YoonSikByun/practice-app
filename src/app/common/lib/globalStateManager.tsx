@@ -17,7 +17,7 @@ class MainStateCallbackManager {
       this.callbackSetCurrentTabHeadId = f;
     }
 
-    registerAddNodeDesigner(f : () => void) {
+    registerAddNodeDesigner(f : (data : any) => void) {
       this.callbackAddNodeDesigner = f;
     }
 
@@ -31,9 +31,9 @@ class MainStateCallbackManager {
       this.callbackSetCurrentTabHeadId(tabId);
     }
 
-    addNodeDesigner() {
+    addNodeDesigner(data? : any) {
       if(!this.callbackAddNodeDesigner) return;
-      this.callbackAddNodeDesigner();
+      this.callbackAddNodeDesigner(data);
     }
 }
 
@@ -45,18 +45,17 @@ export class MultiNodeDesignerCallbackManager {
     private callbackAddNodeDesignerFuncs: any = null;
     private callbackDeleteNodeDesignerFuncs: any = null;
 
-    registerShowHideCallback(id : string, f : any) {
+    registerShowHide(id : string, f : any) {
       this.callbackShowHideFuncs[id] = f;
     }
 
-    registerAddNodeDesignerCallback(f : any) {
+    registerAddNodeDesigner(f : any) {
       this.callbackAddNodeDesignerFuncs = f;
     }
 
-    registerDeleteNodeDesignerCallback(f : any) {
+    registerDeleteNodeDesigner(f : any) {
       this.callbackDeleteNodeDesignerFuncs = f;
     }
-  
     
     showNodeDesigner(id : string) {
       if(!this.callbackShowHideFuncs.hasOwnProperty(id)) return;
@@ -70,10 +69,9 @@ export class MultiNodeDesignerCallbackManager {
       }
     }
 
-    addNodeDesigner() {
+    addNodeDesigner(id : string, data : string) {
       if(!this.callbackAddNodeDesignerFuncs) return '';
-      const id = this.callbackAddNodeDesignerFuncs();
-      return id;
+      this.callbackAddNodeDesignerFuncs(id, data);
     }
 
     deleteNodeDesigner(id : string) {

@@ -3,17 +3,28 @@ class NodeStateCallbackManager {
     private nodesCallbackFuncs: { [key: string]: (show : boolean) => void } = {};
     private setBottomsheetNodeIdFunc: any = null;
     private reStructureEdgesFunc: any = null;
+    private saveReactflowCallbackFunc: any = null;
+    private restoreReactflowCallbackFunc: any = null;
 
-    registerReStructureEdgesCallback(reStructureEdges : any) {
+    registerReStructureEdges(reStructureEdges : any) {
         this.reStructureEdgesFunc = reStructureEdges;
     }
-    registerSetBottomSheetCallback(setBottomsheetNodeId : (v : string ) => void) {
+    registerSetBottomSheet(setBottomsheetNodeId : (v : string ) => void) {
         this.setBottomsheetNodeIdFunc = setBottomsheetNodeId;
     }
-    registerSetShowOptButtonsCallback(key : string, setShowOptButtons : any) {
+    registerSetShowOptButtons(key : string, setShowOptButtons : any) {
         this.nodesCallbackFuncs[key] = setShowOptButtons;
     }
-    deleteSetShowOptButtonsCallback(key : string) {
+
+    registerSaveReactflow(f : any) {
+        this.saveReactflowCallbackFunc = f;
+    }
+
+    registerRestoreReactflow(f : any) {
+        this.restoreReactflowCallbackFunc = f;
+    }
+
+    deleteSetShowOptButtons(key : string) {
         if(this.nodesCallbackFuncs.hasOwnProperty(key))
         {
             delete this.nodesCallbackFuncs[key];
@@ -38,6 +49,16 @@ class NodeStateCallbackManager {
     reStructureEdges(nodes : any) {
         if(this.reStructureEdgesFunc) this.reStructureEdgesFunc(nodes);
     }
+
+    saveReactflow() {
+        if(!this.saveReactflowCallbackFunc) null;
+        return this.saveReactflowCallbackFunc();
+    }
+
+    restoreReactflow(data : string) {
+        if(this.restoreReactflowCallbackFunc) this.restoreReactflowCallbackFunc(data);
+    }
+
 }
 
 class MultiNodeStateCallback {

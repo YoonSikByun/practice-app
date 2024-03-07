@@ -17,13 +17,13 @@ class GlobalMessageManager {
     callbackSetInfoMsg : any = null;
     callbackSetSuccessMsg : any = null;
 
-    registerSetErrorMsgCallback(f : (msg : string) => void) {
+    registerSetErrorMsg(f : (msg : string) => void) {
         this.callbackSetErrorMsg = f;}
-    registerSetWarningMsgCallback(f : (msg : string) => void) {
+    registerSetWarningMsg(f : (msg : string) => void) {
         this.callbackSetWarningMsg = f;}
-    registerSetInfoMsgCallback(f : (msg : string) => void) {
+    registerSetInfoMsg(f : (msg : string) => void) {
         this.callbackSetInfoMsg = f;}
-    registerSetSuccessMsgCallback(f : (msg : string) => void) {
+    registerSetSuccessMsg(f : (msg : string) => void) {
         this.callbackSetSuccessMsg = f;}
     
     setErrorMsg(msg : string) {

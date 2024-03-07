@@ -20,7 +20,7 @@ export default function CheckBox(
     const [check, setCheck] = useState(checked);
 
     useEffect(() => {
-        if(checkBoxManager) checkBoxManager.registerMultiCallback(id, setCheck);
+        if(checkBoxManager) checkBoxManager.registerMultiCheckBox(id, setCheck);
     }, [id, checkBoxManager]);
 
     const updateCheck = (e : any) => {

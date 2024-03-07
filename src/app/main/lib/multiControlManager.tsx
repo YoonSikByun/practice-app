@@ -3,7 +3,7 @@ export class MultiCheckboxManager {
     private callbackSetCheckFuncs: { [id: string] : (check : boolean) => void } = {};
     private checkStates: { [id: string] : boolean } = {};
 
-    registerMultiCallback(id : string, setCheck : (check : boolean) => void) {
+    registerMultiCheckBox(id : string, setCheck : (check : boolean) => void) {
         this.callbackSetCheckFuncs[id] = setCheck;
     }
     setCheck(id : string, check : boolean) {

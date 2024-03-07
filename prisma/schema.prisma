@@ -42,7 +42,7 @@ model Workspace {
   project       Project       @relation(fields: [projectId], references: [id])
   description   String?
   setting       String?
-  desgin        String?
+  design        String?
 }
 
 // model User {

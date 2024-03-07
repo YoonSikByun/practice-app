@@ -4,7 +4,7 @@ import { DocumentPlusIcon, FolderArrowDownIcon } from '@heroicons/react/24/solid
 import clsx from 'clsx';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 import CheckBox from '@/app/main/component/controls/CheckBox';
-import { WorkspaceData } from '@/app/api/lib/service/common/definition';
+import { WorkspaceData, DeleteWorkspace } from '@/app/api/lib/service/common/definition';
 import NewWorkspacePopup from '@/app/main/component/popup/NewWorkspacePopup';
 import { useState } from 'react';
 import { mutate } from 'swr';
@@ -20,6 +20,8 @@ import { RQ_URL } from '@/app/api/lib/service/client/request';
 import { globalData } from '@/app/common/lib/globalData';
 import { StringHtmlRender } from '@/app/main/component/controls/TextEditor/Tiptap';
 import { mainStateCallbackManager } from '@/app/common/lib/globalStateManager';
+import { SelectWorkspace } from '@/app/api/lib/service/common/definition';
+import { submitSelectReactflow } from '@/app/api/lib/service/client/request';
 
 function TaskBorder({children} : {children? : React.ReactNode}) {
     return (
@@ -32,12 +34,19 @@ function TaskBorder({children} : {children? : React.ReactNode}) {
     );
 }
 
-function HoverComponent() {
+function HoverComponent({data} : {data:WorkspaceData}) {
+    const submitSelectReactflowData = async () => {
+        const sendData : SelectWorkspace = {projectId : data.id}
+        const recvData = await submitSelectReactflow(sendData, '작업 데이터 가져오기 실패했습니다.', '작업 데이터 가져오기 실패했습니다.');
+        if(!recvData['error'])
+            mainStateCallbackManager.addNodeDesigner(recvData['data']);
+    };
+
     return (
         <div className={clsx('invisible group-hover:visible', 'absolute top-1/2 left-[calc(50%-50px)]')}>
             <button
                 className='bg-blue-400 h-[40px] w-[100px] rounded shadow-lg text-xl font-bold hover:bg-mouseoverclr-bold'
-                onClick={() => mainStateCallbackManager.addNodeDesigner()}
+                onClick={submitSelectReactflowData}
             >
                 열기
             </button>
@@ -94,7 +103,8 @@ export default function TaskCard(
             case ACTION.UPDATE:
             break;
             case ACTION.DELETE:
-                const recvData = await submitDeleteWorkspace({id : parentKey}, '작업공간 삭제가 완료되었습니다.');
+                const requestData : DeleteWorkspace = {id : parentKey};
+                const recvData = await submitDeleteWorkspace(requestData, '작업공간 삭제가 완료되었습니다.');
                 // 정상 처리면 재조회
                 if(!recvData['error']) {
                     mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
@@ -146,7 +156,7 @@ export default function TaskCard(
                                 'bg-white border-[1px] border-borderclr-bold')}>
                 {StringHtmlRender(data.description)}
             </div>
-            <HoverComponent/>
+            <HoverComponent data={data}/>
             <MenuContext
                 visible={visibleContextMenu}
                 setVisible={setVisibleContextMenu}

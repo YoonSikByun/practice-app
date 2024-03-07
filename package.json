@@ -21,6 +21,7 @@
     "@tiptap/pm": "^2.2.4",
     "@tiptap/react": "^2.2.4",
     "@tiptap/starter-kit": "^2.2.4",
+    "base-64": "^1.0.0",
     "clsx": "^2.1.0",
     "dompurify": "^3.0.9",
     "next": "14.0.4",

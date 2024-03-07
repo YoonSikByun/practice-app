@@ -18,21 +18,23 @@ import { globalMessageManager } from "@/app/common/lib/globalMessage";
 function WrapperNodeDesigner(
   {
     id,
-    callbackManager
+    callbackManager,
+    data,
   } : {
     id : string,
-    callbackManager : MultiNodeDesignerCallbackManager
+    callbackManager : MultiNodeDesignerCallbackManager,
+    data : string,
   }
 ) {
   const [visible, setVisible] = useState(true);
-  useEffect(() => callbackManager.registerShowHideCallback(id, setVisible), [id, callbackManager]);
+  useEffect(() => callbackManager.registerShowHide(id, setVisible), [id, callbackManager]);
 
   return (
     <div
       className='absolute'
       style={{display: (visible) ? 'block' : 'none'}}
     >
-      <NodeDesigner id={id} padding={{top: mainLayoutSize['topGNB'].height, left:0,right:0,bottom:0}}/>
+      <NodeDesigner id={id} padding={{top: mainLayoutSize['topGNB'].height, left:0,right:0,bottom:0}} data={data}/>
     </div>
   );
 }
@@ -53,25 +55,23 @@ export default function Page() {
   }, [setShowPageName]);
 
   useEffect(() => {
-    globalMessageManager.registerSetErrorMsgCallback(setGlobalErrorMsg);
-    globalMessageManager.registerSetWarningMsgCallback(setGlobalWarningMsg);
-    globalMessageManager.registerSetInfoMsgCallback(setInfoMsg);
-    globalMessageManager.registerSetSuccessMsgCallback(setGlobalSuccessMsg);
+    globalMessageManager.registerSetErrorMsg(setGlobalErrorMsg);
+    globalMessageManager.registerSetWarningMsg(setGlobalWarningMsg);
+    globalMessageManager.registerSetInfoMsg(setInfoMsg);
+    globalMessageManager.registerSetSuccessMsg(setGlobalSuccessMsg);
   }, []);
 
   //노드디자이너 신규 생성
-  const addChildNodeDesigner = () => {
-    const nodeDesginerId = uuid();
-    const component = <WrapperNodeDesigner key={nodeDesginerId} id={nodeDesginerId} callbackManager={multiNodeDesignerCallbackManager}/>;
+  const addChildNodeDesigner = (id : string, data : string) => {
+    const nodedesignerId = id;
+    const component = <WrapperNodeDesigner key={nodedesignerId} id={nodedesignerId} callbackManager={multiNodeDesignerCallbackManager} data={data}/>;
 
     setChildNodeDesignerList([...childNodeDesignerList, component]);
-    setChildNodeDesignerIdList([...childNodeDesignerIdList, nodeDesginerId]);
-
-    return nodeDesginerId;
+    setChildNodeDesignerIdList([...childNodeDesignerIdList, nodedesignerId]);
   }
 
   //다른 모듈에서 노드디자이너 신규 생성 할 수 있도록 콜백함수로 등록한다.
-  multiNodeDesignerCallbackManager.registerAddNodeDesignerCallback(addChildNodeDesigner);
+  multiNodeDesignerCallbackManager.registerAddNodeDesigner(addChildNodeDesigner);
 
   //생성된 노드디자이너를 삭제한다.
   const deleteChildNodeDesigner = (id : string) => {
@@ -88,7 +88,7 @@ export default function Page() {
   }
 
   //다른 모듈에서 생성된 노드디자이너를 삭제할 수 있도록 콜백함수 등록한다.
-  multiNodeDesignerCallbackManager.registerDeleteNodeDesignerCallback(deleteChildNodeDesigner);
+  multiNodeDesignerCallbackManager.registerDeleteNodeDesigner(deleteChildNodeDesigner);
 
   return (
     <>

@@ -16,18 +16,23 @@ import {calcStyle} from '@/app/node-designer/lib/calcStyleRegion';
 import clsx from 'clsx';
 import BottomSheet from "@/app/node-designer/component/bottomSheet/BottomSheet";
 import Variables from '@/app/node-designer/component/menu/variables/variablesMenu';
+import { multiNodeStateCallback } from '@/app/node-designer/lib/nodeDesignerStateManager';
+import { ReactFlowProvider } from 'reactflow';
+import Toolbar from '@/app/node-designer/component/Toolbar';
 
 export default function NodeDesigner(
   {
     id,
     padding = {top: 0, left: 0, right: 0, bottom: 0},
+    data,
 
   } : {
     id : string,
     padding? : {top: number; left: number; right: number; bottom: number},
+    data : string,
   }
 ) {
-  // 외부에서 NodeDesginer 컨퍼넌트를 사용을 고려해 외부에 사용중인 상하좌우 여백 크기를 설정해준다.
+  // 외부에서 Nodedesigner 컨퍼넌트를 사용을 고려해 외부에 사용중인 상하좌우 여백 크기를 설정해준다.
   outSidePadding.set(padding);
 
   // div dom 현재 크기를 구하기 위한 ref를 생성한다.
@@ -60,13 +65,15 @@ export default function NodeDesigner(
     setMaxBottomSheetHeight(getRefRect(rectFlowRef).height * 0.8);
   }, []);
 
+  useEffect(() => multiNodeStateCallback.call(id).restoreReactflow(data), [id, data])
+
   return (
   <div className={clsx("node-designer")} id={id}>
     {/* 최 상단 툴바 */}
-    <Boundary className='toolbar bg-titlebg-2 border-borderclr-bold border-b-[2px]'
+    <Boundary className='toolbar border-borderclr-bold border-b-[2px]'
       style={{top: calcStyle.topOutsideMargin(), height: calcStyle.topToolbarHeight()}}
     >
-      Toolbar
+      <Toolbar id={id}/>
     </Boundary>
     {/* 메인 바디 */}
     <Boundary className="main-container">
@@ -94,7 +101,9 @@ export default function NodeDesigner(
           height: calcStyle.reactFlowCurHeight(bottomsheetNodeId !== '' ? curBottomSheetHeight : 0),
           width: calcStyle.reactFlowCurWidth(tabVisible, sidePropertyVisible)}}
       >
-        <ReactFlowApp id={id} setBottomsheetNodeId={setBottomsheetNodeId}/>
+        <ReactFlowProvider>
+          <ReactFlowApp id={id} setBottomsheetNodeId={setBottomsheetNodeId}/>
+        </ReactFlowProvider>
       </Boundary>
       {/* 우측 세로 속성창 영역 */}
       <Boundary
@@ -106,10 +115,22 @@ export default function NodeDesigner(
           height: calcStyle.sidePropertyHeight(),
           width: calcStyle.sidePropertyWidth()}}
       >
-        <p>Side property</p>
-        <button className={clsx('border-solid', 'border-2', 'border-indigo-600')} onClick={()=>setSidePropertyVisible(false)}>
-          Close X
-        </button>
+        <div className='flex flex-col'>
+          <p>Side property</p>
+          <button className={clsx('border-solid border-2', 'border-indigo-600')} onClick={()=>setSidePropertyVisible(false)}>
+            Close X
+          </button>
+          {/* <button className={clsx('border-solid border-2', 'border-indigo-600')} onClick={
+            () => multiNodeStateCallback.call(id).saveReactflow()
+          }>
+            Save Reactflow
+          </button>
+          <button className={clsx('border-solid border-2', 'border-indigo-600')} onClick={
+            () => multiNodeStateCallback.call(id).restoreReactflow()
+          }>
+            Restore Reactflow
+          </button> */}
+        </div>
       </Boundary>
       {/* 하단 노드 Sheet editor */}
       <Boundary className={clsx('bottom-sheet',

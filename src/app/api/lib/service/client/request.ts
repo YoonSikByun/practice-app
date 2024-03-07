@@ -2,7 +2,9 @@ import { globalMessageManager } from "@/app/common/lib/globalMessage";
 import {
     InsertProject,
     InsertWorkspace,
-    DeleteWorkspace
+    DeleteWorkspace,
+    SelectWorkspace,
+    UpdateReactflow,
 } from "@/app/api/lib/service/common/definition";
 import { Post } from "@/app/common/lib/fetchServer";
 import { ResponseData } from "@/app/api/lib/service/common/definition";
@@ -10,11 +12,13 @@ import { Get } from "@/app/common/lib/fetchServer";
 export const prettyjson = require('prettyjson');
 
 export enum RQ_URL {
-    INSERT_PROJECT = 'api/project/insert',
-    SELECT_PROJECT = 'api/project/select',
-    INSERT_WORKSPACE = 'api/workspace/insert',
-    SELECT_WORKSPACE = 'api/workspace/select',
-    DELETE_WORKSPACE = 'api/workspace/delete',
+    INSERT_PROJECT      = 'api/project/insert',
+    SELECT_PROJECT      = 'api/project/select',
+    INSERT_WORKSPACE    = 'api/workspace/insert',
+    SELECT_WORKSPACE    = 'api/workspace/select',
+    DELETE_WORKSPACE    = 'api/workspace/delete',
+    SELECT_REACTFLOW    = 'api/reactflow/select',
+    UPDATE_REACTFLOW    = 'api/reactflow/update',
 }
 
 //프로젝트 신규 추가
@@ -67,6 +71,39 @@ export async function submitDeleteWorkspace(
     errorMessage? : string
 ) {
     const recvData : ResponseData = await Post(RQ_URL.DELETE_WORKSPACE, data);
+    if (recvData['error'] === true) {
+        globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
+    } else {
+        globalMessageManager.setSuccessMsg((successMessage) ? successMessage : recvData['message']);
+    }
+
+    return recvData;
+}
+
+//reactflow 데이터 가져오기
+export async function submitSelectReactflow(
+    data : SelectWorkspace,
+    successMessage? : string,
+    errorMessage? : string
+) {
+    const recvData : ResponseData = await Post(RQ_URL.SELECT_REACTFLOW, data);
+    if (recvData['error'] === true) {
+        globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
+    } else {
+        globalMessageManager.setSuccessMsg((successMessage) ? successMessage : recvData['message']);
+    }
+
+    return recvData;
+}
+
+
+//reactflow 데이터 저장
+export async function submitUpdateReactflow(
+    data : UpdateReactflow,
+    successMessage? : string,
+    errorMessage? : string
+) {
+    const recvData : ResponseData = await Post(RQ_URL.UPDATE_REACTFLOW, data);
     if (recvData['error'] === true) {
         globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
     } else {
