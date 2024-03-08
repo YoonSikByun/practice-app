@@ -145,7 +145,7 @@ export default function TaskCard(
                     <ArchiveBoxIcon className='h-5 w-5 ml-2 mr-2' />
                     <p className={
                         clsx('text-xl',
-                        'text-ellipsis leading-[25px] overflow-hidden text-nowrap')}
+                        'text-ellipsis leading-[25px] overflow-hidden text-nowrap whitespace-nowrap')}
                     >
                         {data.name}
                     </p>

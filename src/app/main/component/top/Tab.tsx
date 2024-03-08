@@ -184,7 +184,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                         >
                             <div className="flex flex-row items-center">
                                 <Square2StackIcon className="h-5 w-5 mr-2"/>
-                                    <span className='w-[120px] text-ellipsis leading-[25px] overflow-hidden text-nowrap'>
+                                    <span className='w-[120px] text-ellipsis leading-[25px] overflow-hidden text-nowrap whitespace-nowrap'>
                                         {item.title}
                                     </span>
                             </div>
