@@ -143,7 +143,12 @@ export default function TaskCard(
             <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>
                 <div className='w-[80%] h-[35px] flex flex-row items-center'>
                     <ArchiveBoxIcon className='h-5 w-5 ml-2 mr-2' />
-                    <p className='text-xl'>{data.name}</p>
+                    <p className={
+                        clsx('text-xl',
+                        'text-ellipsis leading-[25px] overflow-hidden text-nowrap')}
+                    >
+                        {data.name}
+                    </p>
                 </div>
                 <div className={clsx('w-[20%] flex flex-row-reverse items-center')}>
                     <button onClick={e=> handleClickContextMenuButton(e)}>

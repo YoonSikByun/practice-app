@@ -100,6 +100,8 @@ function Content(
                         callbackManager={tiptapCallbackManager}
                         height='150px'
                     />
+                    {/*아래 input은 마지막 탭에서 탭키를 누르면 첫번 탭으로 보내기 위한 용도 */}
+                    <div className="h-0 w-0"><input onBlur={onFocusFirst} type="text" className="order-3 h-0 w-0" /></div>
                 </div>
             </div>
             <div className="flex flex-row">
@@ -112,23 +114,20 @@ function Content(
             <div className="flex flex-row-reverse">
                 <button
                     type="submit"
-                    className={clsx("order-3 focus:outline-double ml-1 border-borderclr-bold border-[1px] px-3 py-1 w-[80px]",
+                    className={clsx("focus:outline-double ml-1 border-borderclr-bold border-[1px] px-3 py-1 w-[80px]",
                         "bg-hanablue-300 hover:bg-mouseoverclr-light")}
                 >
                     만들기
                 </button>
                 <button
                     type='button'
-                    className={clsx("order-4 focus:outline-double ml-1 border-borderclr-bold border-[1px] px-3 py-1 w-[80px]",
+                    className={clsx("focus:outline-double ml-1 border-borderclr-bold border-[1px] px-3 py-1 w-[80px]",
                         "bg-hanablue-100 hover:bg-mouseoverclr-light")}
                     onClick={handleCloseBtn}
-                    onBlur={onFocusFirst}
                 >
                     취소
                 </button>
             </div>
-            {/*아래 input은 마지막 탭에서 탭키를 누르면 첫번 탭으로 보내기 위한 용도 */}
-            <div><input type="text" className="order-5 h-0 w-0" /></div>
         </form>
     );
 }

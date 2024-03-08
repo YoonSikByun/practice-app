@@ -9,7 +9,6 @@ import {
 import { XCircleIcon, PlusIcon, Square2StackIcon } from "@heroicons/react/24/outline";
 import { SelectReactflow } from "@/app/api/lib/service/common/definition";
 import NewWorkspacePopup from "@/app/main/component/popup/NewWorkspacePopup";
-
 export type TabHeadItem = {
     title: string;
     id: string;
@@ -53,7 +52,7 @@ function ItemBox(
         <li
             style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}
             className={clsx("flex flex-col text-sm bg-white border-solid border-[1px]",
-                'border-borderclr-bold hover:bg-mouseoverclr-light w-[150px]')}
+                'border-borderclr-bold hover:bg-mouseoverclr-light w-[180px]')}
         >
             <div className={clsx(
                     {"bg-borderclr-bold" : (id === currentTabHeadId)})}
@@ -82,7 +81,6 @@ function ItemBox(
                     style={{
                         lineHeight: `${mainLayoutSize['topGNB'].height - (selectionMargin+topMargin)}px`,
                         width: '30px'}}
-
                     onClick={handlerOnClickX}
                     title='작업공간 닫기'
                 >
@@ -178,20 +176,22 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                 tabItems.map((item, index) => {
                     return (
                         <ItemBox
-                         key={index}
-                         id={item.id}
-                         currentTabHeadId={currentTabHeadId}
-                         setCurrentTabHeadId={setCurrentTabHeadId}
-                         deleteTabItem={deleteTabItem}
+                            key={index}
+                            id={item.id}
+                            currentTabHeadId={currentTabHeadId}
+                            setCurrentTabHeadId={setCurrentTabHeadId}
+                            deleteTabItem={deleteTabItem}
                         >
                             <div className="flex flex-row items-center">
-                                <Square2StackIcon className="h-5 w-5 mr-2"/>{item.title}
+                                <Square2StackIcon className="h-5 w-5 mr-2"/>
+                                    <span className='w-[120px] text-ellipsis leading-[25px] overflow-hidden text-nowrap'>
+                                        {item.title}
+                                    </span>
                             </div>
                         </ItemBox>
                     );
                 })
             }
-
             {
                 (currentTabHeadId) &&
                     <li style={{height: (mainLayoutSize['topGNB'].height - topMargin)}}

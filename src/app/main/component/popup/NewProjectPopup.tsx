@@ -53,27 +53,25 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
                     tabIndex={0}
                     autoFocus
                 />
+                {/*아래 input은 마지막 탭에서 탭키를 누르면 첫번 탭으로 보내기 위한 용도 */}
+                <div className="h-0 w-0"><input onBlur={onFocusFirst} type="text" className="order-2 h-0 w-0" /></div>
             </div>
             <div className="flex flex-row-reverse w-full m-5">
                 <button
-                    className={clsx("order-2 focus:outline-double ml-1 border-borderclr-bold border-[1px] px-3 py-1",
+                    className={clsx("focus:outline-double ml-1 border-borderclr-bold border-[1px] px-3 py-1",
                     "bg-hanablue-300 hover:bg-mouseoverclr-light w-[80px]")}
                     onClick={createProject}
                 >
                     만들기
                 </button>
                 <button
-                    className={clsx("order-3 focus:outline-double ml-1 border-borderclr-bold border-[1px] px-3 py-1",
+                    className={clsx("focus:outline-double ml-1 border-borderclr-bold border-[1px] px-3 py-1",
                     "bg-hanablue-100 hover:bg-mouseoverclr-light w-[80px]")}
                     onClick={handleCloseBtn}
                     onBlur={onFocusFirst}
                 >
                     취소
                 </button>
-
-                {/*아래 input은 마지막 탭에서 탭키를 누르면 첫번 탭으로 보내기 위한 용도 */}
-                <div><input type="text" className="order-4 h-0 w-0" /></div>
-
             </div>
         </div>
     );
