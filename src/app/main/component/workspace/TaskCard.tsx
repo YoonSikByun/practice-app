@@ -6,7 +6,7 @@ import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 import CheckBox from '@/app/main/component/controls/CheckBox';
 import { WorkspaceData, DeleteWorkspace } from '@/app/api/lib/service/common/definition';
 import NewWorkspacePopup from '@/app/main/component/popup/NewWorkspacePopup';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import { mutate } from 'swr';
 import MenuContext from '@/app/main/component/menuContext/menuContext';
 import {
@@ -23,6 +23,20 @@ import { mainStateCallbackManager } from '@/app/common/lib/globalStateManager';
 import { SelectWorkspace } from '@/app/api/lib/service/common/definition';
 import { submitSelectReactflow } from '@/app/api/lib/service/client/request';
 
+export async function openNodeDesignerTab(id : string) {
+
+    //이 열려있는 노드디자이너면 탭을 선택해주고 끝낸다.
+    if(mainStateCallbackManager.setCurrentTabIfExist(id))
+        return;
+
+    //새로 여는 노드디자이너면 서버에서 저장 정보를 가져온다.
+    const sendData : SelectWorkspace = {projectId : id};
+    const recvData = await submitSelectReactflow(sendData, '작업 데이터를 불러오기가 완료되었습니다.', '작업 데이터 가져오기 실패했습니다.');
+    
+    if(!recvData['error'])
+        mainStateCallbackManager.openNodeDesigner(recvData['data']);
+}
+
 function TaskBorder({children} : {children? : React.ReactNode}) {
     return (
         <div className={clsx('task-item ml-2 my-3 group relative rounded',
@@ -35,18 +49,7 @@ function TaskBorder({children} : {children? : React.ReactNode}) {
 }
 
 function HoverComponent({data} : {data:WorkspaceData}) {
-    const onClickOpenReactflow = async () => {
-        //이 열려있는 노드디자이너면 탭을 선택해주고 끝낸다.
-        if(mainStateCallbackManager.setCurrentTabIfExist(data.id))
-            return;
-
-        //새로 여는 노드디자이너면 서버에서 저장 정보를 가져온다.
-        const sendData : SelectWorkspace = {projectId : data.id};
-        const recvData = await submitSelectReactflow(sendData, '작업 데이터를 불러오기가 완료되었습니다.', '작업 데이터 가져오기 실패했습니다.');
-        
-        if(!recvData['error'])
-            mainStateCallbackManager.openNodeDesigner(recvData['data']);
-    };
+    const onClickOpenReactflow = useCallback(async () => openNodeDesignerTab(data.id), [data]);
 
     return (
         <div className={clsx('invisible group-hover:visible', 'absolute top-1/2 left-[calc(50%-50px)]')}>

@@ -8,6 +8,7 @@ import {
 } from '@/app/common/lib/globalStateManager';
 import { XCircleIcon, PlusIcon, Square2StackIcon } from "@heroicons/react/24/outline";
 import { SelectReactflow } from "@/app/api/lib/service/common/definition";
+import NewWorkspacePopup from "@/app/main/component/popup/NewWorkspacePopup";
 
 export type TabHeadItem = {
     title: string;
@@ -102,6 +103,8 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
     const [currentTabHeadId, setCurrentTabHeadId] = useState<string>('');
     const [tabItems, setTabItems] = useState<TabItemData[]>(items);
 
+    const [popupVisible, setPopupVisible] = useState(false);
+
     const setCurrentTabIfExist = useCallback((id : string) => {
         for( let i = 0; i < tabItems.length; i++) {
             if(tabItems[i].id === id) {
@@ -118,7 +121,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
     }, [setCurrentTabIfExist]);
 
     //노드디자이너 신규 생성한다.
-    const addNodeDesigner = useCallback((data : SelectReactflow) => {
+    const openNodeDesigner = useCallback((data : SelectReactflow) => {
         const id : string = data.id;
         if(id === '') {
             alert('Node id is empty');
@@ -135,8 +138,8 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
 
     useEffect(() => {
         mainStateCallbackManager.registerSetCurrentTabHeadId(setCurrentTabHeadId);
-        mainStateCallbackManager.registerMultiOpenNodeDesigner(addNodeDesigner);
-    }, [addNodeDesigner]);
+        mainStateCallbackManager.registerMultiOpenNodeDesigner(openNodeDesigner);
+    }, [openNodeDesigner]);
 
     //노드디자이너가 닫히면 탭헤더도 없앤한다.
     const deleteTabItem = useCallback((id : string) => {
@@ -164,11 +167,13 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
     }, [tabItems]);
 
     return (
+        <>
         <ul className={clsx(`flex space-x-[3px]`)}
-        style={{
-            height: (mainLayoutSize['topGNB'].height - topMargin),
-            lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`,
-            marginTop: `${topMargin}px`}}>
+            style={{
+                height: (mainLayoutSize['topGNB'].height - topMargin),
+                lineHeight: `${mainLayoutSize['topGNB'].height - topMargin}px`,
+                marginTop: `${topMargin}px`}}
+        >
             {
                 tabItems.map((item, index) => {
                     return (
@@ -193,7 +198,7 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                         className={clsx('w-[30px]')}
                     >
                         <button
-                            onClick={() => alert('만들기 창을 띄운다.')}
+                            onClick={() => setPopupVisible(!popupVisible)}
                             style={{marginTop: '7px', height: (mainLayoutSize['topGNB'].height - (topMargin + 11))}}
                             className={clsx('rounded mt-[3px] bg-hanablue-200 hover:bg-mouseoverclr-bold',
                             'border-solid border-[1px] border-borderclr-bold')}
@@ -204,5 +209,10 @@ export function Tab( { items } : { items : TabHeadItem[]} ) {
                     </li>
             }
         </ul>
+        <NewWorkspacePopup
+            visible={popupVisible}
+            setVisible={setPopupVisible}
+            optional={{type : 'open'}} />
+        </>
     );
 }

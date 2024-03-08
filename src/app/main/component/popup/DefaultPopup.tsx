@@ -16,6 +16,7 @@ function Popup(
         closePopup,
         width,
         height,
+        optional = null,
         closeOutsideClick,
         children
     } : {
@@ -23,6 +24,7 @@ function Popup(
         closePopup : () => void,
         width : number,
         height : number,
+        optional : Object | null,
         closeOutsideClick : boolean,
         children: React.ReactNode
     }) {
@@ -114,6 +116,7 @@ export default function DefaultPopup(
         setVisible,
         contentWidth,
         contentHeight,
+        optional = null,
         closeOutsideClick = false,
         children
     } : {
@@ -122,6 +125,7 @@ export default function DefaultPopup(
         setVisible : (visible:boolean) => void,
         contentWidth : number,
         contentHeight : number,
+        optional? : Object | null,
         closeOutsideClick? : boolean
         children: React.ReactNode
     }) {
@@ -142,6 +146,7 @@ export default function DefaultPopup(
                     title={title}
                     closePopup={closePopup}
                     closeOutsideClick={closeOutsideClick}
+                    optional={optional}
                 >
                     {children}
                 </Popup>,

@@ -6,7 +6,7 @@ import clsx from "clsx"
 
 export default function Home() {
     return (
-        <div className="flex flex-col h-full w-full"
+        <div className="flex flex-row h-full w-full"
             style={{
                 position: 'absolute',
                 top: calcStyle.getTopMargin(),

@@ -9,13 +9,21 @@ import { globalData } from "@/app/common/lib/globalData";
 import { useSWRConfig } from "swr";
 import { RQ_URL } from "@/app/api/lib/service/client/request";
 import { globalMessageManager } from "@/app/common/lib/globalMessage";
+import { openNodeDesignerTab } from "@/app/main/component/workspace/TaskCard";
 
 const popupWidth : number = 800;
 const popupHeight : number = 500;
 
 export const prettyjson = require('prettyjson');
 
-function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
+function Content(
+    {
+        setVisible,
+        optional = null,
+    } : {
+        setVisible : (visible : boolean) => void,
+        optional? : Object | null,
+    }) {
     //여기에서 팝업 내용을 넣는다.
     const firstInputRef = useRef<HTMLInputElement>(null);
 
@@ -49,10 +57,20 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
         console.log('----------------------------------');
 
         const recvData = await submitInsertWorkspace(newWorkspace,
-                                    `[${newWorkspace['name']}] 작업공간이 신규 추가되었습니다.`);
+                                    `[${newWorkspace['name']}] 작업공간 신규 추가되었습니다.`);
         if(!recvData['error']) {
-            // 정상 처리면 프로젝트 재조회
-            mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
+            let type = null;
+
+            if(optional && 'type' in optional)
+                type = optional['type'];
+
+            if (type && type == 'open') {
+                await openNodeDesignerTab(newWorkspace.id);
+            } else {
+                // 정상 처리면 프로젝트 재조회
+                mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
+            }
+
             handleCloseBtn();
         }
     }
@@ -118,10 +136,12 @@ function Content({setVisible} : {setVisible : (visible : boolean) => void}) {
 export default function NewWorkspacePopup(
     {
         visible,
-        setVisible
+        setVisible,
+        optional = null,
     } : {
         visible : boolean,
         setVisible : (visible : boolean) => void
+        optional? : Object | null
     }) {
         return (
         <DefaultPopup
@@ -130,7 +150,8 @@ export default function NewWorkspacePopup(
             setVisible={setVisible}
             contentWidth={popupWidth}
             contentHeight={popupHeight}
+            optional={optional}
         >
-            <Content setVisible={setVisible}/>
+            <Content setVisible={setVisible} optional={optional}/>
         </DefaultPopup>);
 }

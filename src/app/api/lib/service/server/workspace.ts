@@ -9,7 +9,8 @@ import { prismaCli } from '@/app/api/lib/util';
 
 //신규 프로젝트 생성
 export async function insertWorkspace(data : InsertWorkspace) {
-    return await prismaCli.workspace.create({data: data});}
+    return await prismaCli.workspace.create({data: data});
+}
 
 //프로젝트 조회
 export async function selectWorkspace(data : SelectWorkspace) {
