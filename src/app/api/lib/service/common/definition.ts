@@ -22,6 +22,7 @@ export type ProjectData = {
     id          : string; //프로젝트 ID
     name        : string; //프로젝트명
     creatorId   : string; //생성자 ID
+    createdAt   : string; //생성일자
     _count      : {workspaces : number}; //프로젝트 내에 생성된 작업공간 건수
 }
 

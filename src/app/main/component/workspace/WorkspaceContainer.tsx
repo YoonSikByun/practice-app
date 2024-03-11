@@ -105,7 +105,7 @@ export default function WorkspaceContainer() {
             >
                 <div className='content'>
                     <div><InformationCircleIcon className='h-5 w-5 mr-1' /></div>
-                    <div>Create on 2023/02/21 23:35 by hanaTI@mail.com</div>
+                    <div>Create on {globalData.menuInfo.getSelectedProjectData()?.createdAt ?? ''} by {globalData.menuInfo.getSelectedProjectData()?.creatorId ?? ''}</div>
                 </div>
             </div>
             <WorkspaceList workspaceList={workspaceList}/>
