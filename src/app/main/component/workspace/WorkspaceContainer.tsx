@@ -5,7 +5,7 @@ import WorkspaceList from '@/app/main/component/workspace/WorkspaceList';
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
 import { useEffect, useState, useCallback } from 'react';
 import useSWR from 'swr';
-import { RQ_URL } from '@/app/api/lib/service/client/request';
+import { RQ_URL, submitDeleteProject } from '@/app/api/lib/service/client/request';
 import { Get } from '@/app/common/lib/fetchServer';
 
 import MenuContext from '@/app/main/component/menuContext/menuContext';
@@ -16,13 +16,17 @@ import {
     MenuRole
 } from '@/app/main/component/menuContext/definition';
 
-import { WorkspaceData } from '@/app/api/lib/service/common/definition';
+import { WorkspaceData, DeleteProject } from '@/app/api/lib/service/common/definition';
 import { globalDataStateManager } from '@/app/common/lib/globalStateManager';
 import { globalData } from '@/app/common/lib/globalData';
+import NewProjectPopup from "@/app/main/component/popup/NewProjectPopup";
+import { mutate } from 'swr';
+
 
 export default function WorkspaceContainer() {
     const [workspaceList, setWorkspaceList] = useState<WorkspaceData[]>([]);
     const [selectedProjectId, setSelectedProjectId] = useState<string>(globalData.menuInfo.getSelectedProjectId());
+    const [newProjectPopupVisible, setNewProjectPopupVisible] = useState(false);
 
     globalDataStateManager.registerSetSelectedProjectId(setSelectedProjectId);
 
@@ -32,6 +36,27 @@ export default function WorkspaceContainer() {
     const {data, isLoading, error} = useSWR([RQ_URL.SELECT_WORKSPACE, selectedProjectId], fetcher);
 
     console.log(`[${RQ_URL.SELECT_WORKSPACE}] data : ${data}, isLoading : ${isLoading}, error : ${error}`);
+
+    const contextMenucallback : ContextMenuCallback = useCallback(async (action : ACTION, parentKey : string) => {
+        console.log('----------------------------------', selectedProjectId);
+        console.log(`call back : action - ${action}, parentKey - ${parentKey}`);
+        console.log('----------------------------------');
+        
+        switch(action){
+            case ACTION.UPDATE:
+                return <NewProjectPopup visible={!newProjectPopupVisible} setVisible={setNewProjectPopupVisible} />
+                // return onClick={() => setNewProjectPopupVisible(!newProjectPopupVisible)}
+            case ACTION.DELETE:
+                const requestData : DeleteProject = {id : parentKey};
+                const recvData = await submitDeleteProject(requestData, '프로젝트 삭제가 완료되었습니다.')
+                if(!recvData['error']) {mutate(RQ_URL.SELECT_PROJECT);}
+        }
+    }, [newProjectPopupVisible, selectedProjectId]);
+
+    const [conextMenuArg, setContextMenuArg] = useState<ContextMenuArgument>({
+        clientX : -1, clientY : -1,
+        menuRole : MenuRole.PROJECT, parentKey : '',
+        callbackProc : contextMenucallback});
 
     useEffect(() => {
         const workspaceData = (data && data['data']) ? data['data'] : {};
@@ -50,19 +75,15 @@ export default function WorkspaceContainer() {
         else {
             globalDataStateManager.setSelectedProjectItem({});
         }
-    }, [data, isLoading, error]);
 
-    const contextMenucallback : ContextMenuCallback = (action : ACTION, parentKey : string) => {
-        console.log('----------------------------------');
-        console.log(`call back : action - ${action}, parentKey - ${parentKey}`);
-        console.log('----------------------------------');
-    }
+        setContextMenuArg({
+            clientX : -1, clientY : -1,
+            menuRole : MenuRole.PROJECT, parentKey : selectedProjectData?.id ?? '',
+            callbackProc : contextMenucallback});
 
+    }, [data, isLoading, error, contextMenucallback]);
+    
     const [visibleContextMenu, setVisibleContextMenu] = useState(false);
-    const [conextMenuArg, setContextMenuArg] = useState<ContextMenuArgument>({
-        clientX : -1, clientY : -1,
-        menuRole : MenuRole.PROJECT, parentKey : '',
-        callbackProc : contextMenucallback});
 
     const handleClickContextMenuButton = (e : React.MouseEvent<HTMLElement>) => {
         setVisibleContextMenu(!visibleContextMenu);
@@ -114,6 +135,8 @@ export default function WorkspaceContainer() {
                 setVisible={setVisibleContextMenu}
                 contextMenuArgument={conextMenuArg}
             />
+            {/* 컨텍스트 메뉴 팝업 */}
+            <NewProjectPopup visible={newProjectPopupVisible} setVisible={setNewProjectPopupVisible} />
         </div>
     )
 }
