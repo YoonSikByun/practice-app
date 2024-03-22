@@ -49,7 +49,10 @@ export default function WorkspaceContainer() {
             case ACTION.DELETE:
                 const requestData : DeleteProject = {id : parentKey};
                 const recvData = await submitDeleteProject(requestData, '프로젝트 삭제가 완료되었습니다.')
-                if(!recvData['error']) {mutate(RQ_URL.SELECT_PROJECT);}
+                if(!recvData['error']) {
+                    mutate(RQ_URL.SELECT_PROJECT);
+                    mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
+                }
         }
     }, [newProjectPopupVisible, selectedProjectId]);
 
