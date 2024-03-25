@@ -5,6 +5,7 @@ import {
     DeleteWorkspace,
     SelectWorkspace,
     UpdateReactflow,
+    DeleteTaskCards,
 } from "@/app/api/lib/service/common/definition";
 import { Post } from "@/app/common/lib/fetchServer";
 import { ResponseData } from "@/app/api/lib/service/common/definition";
@@ -17,6 +18,7 @@ export enum RQ_URL {
     INSERT_WORKSPACE    = 'api/workspace/insert',
     SELECT_WORKSPACE    = 'api/workspace/select',
     DELETE_WORKSPACE    = 'api/workspace/delete',
+    DELETE_WORKSPACES    = 'api/workspace/deletemany',
     SELECT_REACTFLOW    = 'api/reactflow/select',
     UPDATE_REACTFLOW    = 'api/reactflow/update',
 }
@@ -71,6 +73,22 @@ export async function submitDeleteWorkspace(
     errorMessage? : string
 ) {
     const recvData : ResponseData = await Post(RQ_URL.DELETE_WORKSPACE, data);
+    if (recvData['error'] === true) {
+        globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
+    } else {
+        globalMessageManager.setSuccessMsg((successMessage) ? successMessage : recvData['message']);
+    }
+
+    return recvData;
+}
+
+//작업공간다중 삭제
+export async function submitDeleteWorkspaces(
+    data : DeleteTaskCards,
+    successMessage? : string,
+    errorMessage? : string
+) {
+    const recvData : ResponseData = await Post(RQ_URL.DELETE_WORKSPACES, data);
     if (recvData['error'] === true) {
         globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
     } else {

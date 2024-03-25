@@ -3,9 +3,9 @@ import '@/app/main/scss/Workspace.scss';
 import { InformationCircleIcon, Bars3Icon } from "@heroicons/react/24/outline"
 import WorkspaceList from '@/app/main/component/workspace/WorkspaceList';
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useMemo } from 'react';
 import useSWR from 'swr';
-import { RQ_URL, submitDeleteProject } from '@/app/api/lib/service/client/request';
+import { RQ_URL } from '@/app/api/lib/service/client/request';
 import { Get } from '@/app/common/lib/fetchServer';
 
 import MenuContext from '@/app/main/component/menuContext/menuContext';
@@ -16,26 +16,26 @@ import {
     MenuRole
 } from '@/app/main/component/menuContext/definition';
 
-import { WorkspaceData, DeleteProject } from '@/app/api/lib/service/common/definition';
+import { WorkspaceData } from '@/app/api/lib/service/common/definition';
 import { globalDataStateManager } from '@/app/common/lib/globalStateManager';
 import { globalData } from '@/app/common/lib/globalData';
 import NewProjectPopup from "@/app/main/component/popup/NewProjectPopup";
 import { mutate } from 'swr';
+import { MultiCheckboxManager } from '../../lib/multiControlManager';
 
 
 export default function WorkspaceContainer() {
     const [workspaceList, setWorkspaceList] = useState<WorkspaceData[]>([]);
     const [selectedProjectId, setSelectedProjectId] = useState<string>(globalData.menuInfo.getSelectedProjectId());
     const [newProjectPopupVisible, setNewProjectPopupVisible] = useState(false);
-
+    const multiCheckboxManager = useMemo(() => new MultiCheckboxManager(), []);
     globalDataStateManager.registerSetSelectedProjectId(setSelectedProjectId);
 
     const fetcher = useCallback(
         async ([url, projectId]: string[]) => await Get(url, {projectId: projectId}), []);
 
     const {data, isLoading, error} = useSWR([RQ_URL.SELECT_WORKSPACE, selectedProjectId], fetcher);
-
-    console.log(`[${RQ_URL.SELECT_WORKSPACE}] data : ${data}, isLoading : ${isLoading}, error : ${error}`);
+    console.log(`WorkSpaceContainer : [${RQ_URL.SELECT_WORKSPACE}] data : ${data}, isLoading : ${isLoading}, error : ${error}`);
 
     const contextMenucallback : ContextMenuCallback = useCallback(async (action : ACTION, parentKey : string) => {
         console.log('----------------------------------', selectedProjectId);
@@ -60,9 +60,15 @@ export default function WorkspaceContainer() {
 
     useEffect(() => {
         const workspaceData = (data && data['data']) ? data['data'] : {};
-
-        if('workspace' in workspaceData)
-            setWorkspaceList(workspaceData['workspace']);
+        
+        // 체크박스 State 초기값 세팅 
+        if('workspace' in workspaceData){
+            let workspaceList = workspaceData['workspace']
+            setWorkspaceList(workspaceList);
+            setWorkSpaceCheck(false);  
+            multiCheckboxManager.setStates(workspaceList);
+            multiCheckboxManager.allUnCheck();
+        }
         else
             setWorkspaceList([]);
 
@@ -78,12 +84,13 @@ export default function WorkspaceContainer() {
 
         setContextMenuArg({
             clientX : -1, clientY : -1,
-            menuRole : MenuRole.PROJECT, parentKey : selectedProjectData?.id ?? '',
+            menuRole : MenuRole.PROJECT, parentKey :  selectedProjectData?.id ?? '',
             callbackProc : contextMenucallback});
 
-    }, [data, isLoading, error, contextMenucallback]);
+    }, [data, isLoading, error, contextMenucallback, multiCheckboxManager]);
     
     const [visibleContextMenu, setVisibleContextMenu] = useState(false);
+    const [workSpaceCheck , setWorkSpaceCheck] = useState(false);
 
     const handleClickContextMenuButton = (e : React.MouseEvent<HTMLElement>) => {
         setVisibleContextMenu(!visibleContextMenu);
@@ -129,7 +136,7 @@ export default function WorkspaceContainer() {
                     <div>Create on {globalData.menuInfo.getSelectedProjectData()?.createdAt ?? ''} by {globalData.menuInfo.getSelectedProjectData()?.creatorId ?? ''}</div>
                 </div>
             </div>
-            <WorkspaceList workspaceList={workspaceList}/>
+            <WorkspaceList workspaceList={workspaceList} multiCheckboxManager = {multiCheckboxManager} setWorkSpaceCheck = {setWorkSpaceCheck} workSpaceCheck = {workSpaceCheck}/>
             <MenuContext
                 visible={visibleContextMenu}
                 setVisible={setVisibleContextMenu}

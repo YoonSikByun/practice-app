@@ -5,7 +5,7 @@ import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
 import TaskCard, {TaskCreateCard} from '@/app/main/component/workspace/TaskCard';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
-import { WorkspaceData } from '@/app/api/lib/service/common/definition';
+import { DeleteTaskCards, WorkspaceData } from '@/app/api/lib/service/common/definition';
 import MenuContext from '@/app/main/component/menuContext/menuContext';
 import {
     ACTION,
@@ -13,22 +13,64 @@ import {
     ContextMenuArgument,
     MenuRole
 } from '@/app/main/component/menuContext/definition';
+import { RQ_URL, submitDeleteWorkspace, submitDeleteWorkspaces } from '@/app/api/lib/service/client/request';
+import { mutate } from 'swr';
+import { globalData } from '@/app/common/lib/globalData';
+import { globalMessageManager } from '@/app/common/lib/globalMessage';
 
 export default function WorkspaceList( 
     { 
         workspaceList, 
+        multiCheckboxManager,
+        setWorkSpaceCheck,
+        workSpaceCheck,
     } : 
     {
-        workspaceList : WorkspaceData[]
+        workspaceList : WorkspaceData[],
+        multiCheckboxManager : MultiCheckboxManager,
+        setWorkSpaceCheck : any,
+        workSpaceCheck : boolean
     }
 ) {
-    const multiCheckboxManager = useMemo(() => new MultiCheckboxManager(), []);
-    const allChek = (e : any) => multiCheckboxManager.allChek(e.target.checked);
+    
+    const allChek = (e : any) => {
+        multiCheckboxManager.allChek(e.target.checked);
+        setWorkSpaceCheck(e.target.checked)
+    }
 
-    const contextMenucallback : ContextMenuCallback = (action : ACTION, parentKey : string) => {
+    const contextMenucallback : ContextMenuCallback = async (action : ACTION, parentKey : string) => {
         console.log('----------------------------------');
-        console.log(`call back : action - ${action}, parentKey - ${parentKey}`);
+        console.log(`call back : action - ${action}, parentKey - ${workspaceList}`);
         console.log('----------------------------------');
+        switch(action)
+        {
+            case ACTION.UPDATE:
+            break;
+            case ACTION.DELETE:
+                const multiCheckedIds = multiCheckboxManager.getAllChecked() // 체크박스 선택된 TaskCard ID
+
+                //check된 TaskCard 없을 떄 (popup or InfoMsg 중 추후 선택사항)
+                if(multiCheckedIds.length == 0){
+                    globalMessageManager.setInfoMsg('선택된 작업공간이 없습니다.');
+                    break;
+                }
+                
+                const requestData : DeleteTaskCards = { 
+                    ids: multiCheckedIds
+                };
+                const recvData = await submitDeleteWorkspaces(requestData, '작업공간 삭제가 완료되었습니다.');
+                if(!recvData['error']) {
+                    //작업목록 초기화 세팅
+                    multiCheckboxManager.allUnCheck();
+                    multiCheckboxManager.stateClear();
+                    mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
+                }
+            break;
+            case ACTION.COPY:
+            break;
+            case ACTION.EXPORT:
+            break;
+        }
     }
 
     const [visibleContextMenu, setVisibleContextMenu] = useState(false);
@@ -56,7 +98,7 @@ export default function WorkspaceList(
                 <button onClick={e=> handleClickContextMenuButton(e)}>
                     <Bars3Icon className='h-7 w-7 mr-2' />
                 </button>
-                <input type='checkbox' className='h-7 w-7' onChange={allChek}/>
+                <input type='checkbox' className='h-7 w-7' onChange={allChek} checked = {workSpaceCheck}/>
             </div>
         </div>
         <div className='body border-b-[1px] border-borderclr-bold'
@@ -76,7 +118,7 @@ export default function WorkspaceList(
                     return (
                         <TaskCard
                             key={index}
-                            id={`${index}`}
+                            id={data.id}
                             checkBoxManager={multiCheckboxManager}
                             data={data}
                         />
