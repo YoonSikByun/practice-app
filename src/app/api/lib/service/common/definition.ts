@@ -26,6 +26,16 @@ export type ProjectData = {
     _count      : {workspaces : number}; //프로젝트 내에 생성된 작업공간 건수
 }
 
+//프로젝트 정보 수정
+// export type UpdateProject = {
+//     id          : string; //프로젝트 ID
+//     name        : string; //프로젝트명
+// }
+
+export type DeleteProject = {
+    id              : string; //프로젝트 ID
+}
+
 /*********************************
  * Workspace
  *********************************/

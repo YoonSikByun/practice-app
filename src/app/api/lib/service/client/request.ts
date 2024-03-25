@@ -1,6 +1,7 @@
 import { globalMessageManager } from "@/app/common/lib/globalMessage";
 import {
     InsertProject,
+    DeleteProject,
     InsertWorkspace,
     DeleteWorkspace,
     SelectWorkspace,
@@ -15,6 +16,7 @@ export const prettyjson = require('prettyjson');
 export enum RQ_URL {
     INSERT_PROJECT      = 'api/project/insert',
     SELECT_PROJECT      = 'api/project/select',
+    DELETE_PROJECT      = 'api/project/delete',
     INSERT_WORKSPACE    = 'api/workspace/insert',
     SELECT_WORKSPACE    = 'api/workspace/select',
     DELETE_WORKSPACE    = 'api/workspace/delete',
@@ -30,6 +32,21 @@ export async function submitInsertProject(
     errorMessage? : string
 ) {
     const recvData : ResponseData = await Post(RQ_URL.INSERT_PROJECT, data);
+    if (recvData['error'] === true) {
+        globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
+    } else {
+        globalMessageManager.setSuccessMsg((successMessage) ? successMessage : recvData['message']);
+    }
+
+    return recvData;
+}
+
+export async function submitDeleteProject(
+    data : DeleteProject,
+    successMessage? : string,
+    errorMessage? : string
+) {
+    const recvData : ResponseData = await Post(RQ_URL.DELETE_PROJECT, data);
     if (recvData['error'] === true) {
         globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
     } else {

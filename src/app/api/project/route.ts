@@ -1,6 +1,6 @@
 
 import { NextResponse } from "next/server";
-import { insertProject } from "../../main/data/crud";
+import { insertProject } from "@/app/api/lib/service/server/project";
 
 const prettyjson = require('prettyjson');
 
