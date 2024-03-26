@@ -117,6 +117,8 @@ export default function TaskCard(
                 // 정상 처리면 재조회
                 if(!recvData['error']) {
                     mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
+                    checkBoxManager.deleteCheckBox(id)
+                    checkBoxManager.allUnCheck();
                 }
             break;
             case ACTION.COPY:
@@ -135,7 +137,7 @@ export default function TaskCard(
     const handleClickContextMenuButton = (e : React.MouseEvent<HTMLElement>) => {
         setVisibleContextMenu(!visibleContextMenu);
         setContextMenuArg({
-        ...conextMenuArg, clientX : e.clientX, clientY: e.clientY});
+        ...conextMenuArg, clientX : e.clientX, clientY: e.clientY , parentKey : data.id});
     }
 
     return (
@@ -154,7 +156,7 @@ export default function TaskCard(
                     <button onClick={e=> handleClickContextMenuButton(e)}>
                         <Bars3Icon className='h-7 w-7 mr-1' />
                     </button>
-                    <CheckBox className='h-7 w-7 mr-1' id={id}
+                    <CheckBox className='h-7 w-7 mr-1' id={data.id}
                      checkBoxManager={checkBoxManager}/>
                 </div>
             </div>

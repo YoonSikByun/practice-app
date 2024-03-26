@@ -67,10 +67,16 @@ export type InsertWorkspace = {
     description?    : string; //작업공간 설명
 }
 
-//작업공간 생성 요청
+//작업공간 삭제 요청
 export type DeleteWorkspace = {
     id              : string; //작업공간 ID
 }
+
+//작업공간 다중 삭제 요청
+export type DeleteTaskCards = {
+    ids              : string[]; //작업공간 ID
+}
+
 
 //Reactflow 저장 요청
 export type SelectReactflow = {

@@ -11,27 +11,52 @@ export class MultiCheckboxManager {
         this.callbackSetCheckFuncs[id](check);
     }
 
+    setStates(workspaceList : []){
+        this.checkStates = {}
+        for(let workspace of workspaceList){
+            this.checkStates[workspace['id']] = false;
+        }
+    }
+    
     updateCheck(id : string, check : boolean) {
-        if(!this.checkStates.hasOwnProperty(id)) return;
         this.checkStates[id] = check;
+
+    }
+
+    allUnCheck() {
+        for(let id in this.checkStates){
+            this.setCheck(id, false);
+        }
     }
 
     deleteCheckBox(id : string) {
-        if(this.checkStates.hasOwnProperty(id))
-            delete this.checkStates[id];
-
-        if(this.callbackSetCheckFuncs.hasOwnProperty(id))
-            delete this.callbackSetCheckFuncs[id];
+        if(id in this.checkStates){
+            delete this.checkStates[id]
+        }
     }
 
     getCheck(id : string) {
+        
         if(!this.checkStates.hasOwnProperty(id)) return false;
         this.checkStates[id];
     }
 
-    allChek(check: boolean) {
-        for(const id in this.callbackSetCheckFuncs) {
-          this.callbackSetCheckFuncs[id](check);
+    getAllChecked() {
+        const temp = []
+        for(const id in this.checkStates) {
+            if(this.checkStates[id]) temp.push(id)
         }
+        return temp;
+    }
+    
+    allChek(check: boolean) {
+        for(const id in this.checkStates) {
+          this.checkStates[id] = check;
+        }
+    }
+
+    stateClear(){
+        this.callbackSetCheckFuncs = {}
+        this.checkStates = {}
     }
 }
