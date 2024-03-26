@@ -9,7 +9,7 @@ import { globalData } from "@/app/common/lib/globalData";
 import { useSWRConfig } from "swr";
 import { RQ_URL } from "@/app/api/lib/service/client/request";
 import { globalMessageManager } from "@/app/common/lib/globalMessage";
-import { openNodeDesignerTab } from "@/app/main/component/workspace/TaskCard";
+import { openNodeDesignerTab } from "@/app/main/component/workspace/Workspace";
 
 const popupWidth : number = 800;
 const popupHeight : number = 500;

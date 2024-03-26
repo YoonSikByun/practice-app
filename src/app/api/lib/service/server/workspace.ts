@@ -4,7 +4,7 @@ import {
     SelectWorkspace,
     DeleteWorkspace,
     UpdateReactflow,
-    DeleteTaskCards,
+    DeleteWorkspaces,
 } from '@/app/api/lib/service/common/definition';
 import { prismaCli } from '@/app/api/lib/util';
 
@@ -63,11 +63,11 @@ export async function deleteWorkspace(data : DeleteWorkspace) {
 }
 
 //작업공간 다중삭제
-export async function deleteTaskCards(data: DeleteTaskCards) {
+export async function deleteWorkspaces(data: DeleteWorkspaces) {
     return await prismaCli.workspace.deleteMany({
         where: {
             id: {
-                in: data.ids // DeleteTaskCards에서 ids 배열을 가져옴
+                in: data.ids // DeleteWorkSpaces에서 ids 배열을 가져옴
             }
         }
     });

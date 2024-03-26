@@ -1,7 +1,9 @@
+import { WorkspaceData } from "@/app/api/lib/service/common/definition";
+
 export enum MenuRole {
     PROJECT = 'Project',
-    TASKCARD = 'TaskCard',
-    TASKLIST = 'TaskList'
+    WORKSPACE = 'WorkSpace',
+    WORKSPACELIST = 'TaskList'
 }
 
 export enum ACTION {
@@ -22,13 +24,13 @@ export type ContextMenuArgument = {
 }
 
 export const menuGroups: Record<MenuRole, MenuItem[]> = {
-    [MenuRole.TASKCARD] : [
+    [MenuRole.WORKSPACE] : [
         { action: ACTION.UPDATE, title: "수정", isSelected: false, hasUnderLine: false },
         { action: ACTION.DELETE, title: "삭제", isSelected: false, hasUnderLine: false },
         { action: ACTION.COPY, title: "복사", isSelected: false, hasUnderLine: true },
         { action: ACTION.EXPORT, title: "내보내기", isSelected: false, hasUnderLine: false },
     ],
-    [MenuRole.TASKLIST] : [
+    [MenuRole.WORKSPACELIST] : [
         { action: ACTION.DELETE, title: "삭제", isSelected: false, hasUnderLine: false },
         { action: ACTION.EXPORT, title: "내보내기", isSelected: false, hasUnderLine: false },
     ],

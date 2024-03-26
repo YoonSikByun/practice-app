@@ -3,9 +3,9 @@ import '@/app/main/scss/Workspace.scss';
 import { useMemo, useState } from 'react';
 import { Bars3Icon } from "@heroicons/react/24/outline"
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
-import TaskCard, {TaskCreateCard} from '@/app/main/component/workspace/TaskCard';
+import WorkSpace, {TaskCreateCard} from '@/app/main/component/workspace/Workspace';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
-import { DeleteTaskCards, WorkspaceData } from '@/app/api/lib/service/common/definition';
+import { DeleteWorkspaces, WorkspaceData } from '@/app/api/lib/service/common/definition';
 import MenuContext from '@/app/main/component/menuContext/menuContext';
 import {
     ACTION,
@@ -37,7 +37,6 @@ export default function WorkspaceList(
         multiCheckboxManager.allChek(e.target.checked);
         setWorkSpaceCheck(e.target.checked)
     }
-
     const contextMenucallback : ContextMenuCallback = async (action : ACTION, parentKey : string) => {
         console.log('----------------------------------');
         console.log(`call back : action - ${action}, parentKey - ${workspaceList}`);
@@ -47,23 +46,24 @@ export default function WorkspaceList(
             case ACTION.UPDATE:
             break;
             case ACTION.DELETE:
-                const multiCheckedIds = multiCheckboxManager.getAllChecked() // 체크박스 선택된 TaskCard ID
-
-                //check된 TaskCard 없을 떄 (popup or InfoMsg 중 추후 선택사항)
+                const multiCheckedIds = multiCheckboxManager.getAllChecked() // 체크박스 선택된 WorkSapce ID
+                //check된 WorkSpace 없을 떄 (popup or InfoMsg 중 추후 선택사항)
                 if(multiCheckedIds.length == 0){
                     globalMessageManager.setInfoMsg('선택된 작업공간이 없습니다.');
                     break;
                 }
-                
-                const requestData : DeleteTaskCards = { 
-                    ids: multiCheckedIds
-                };
-                const recvData = await submitDeleteWorkspaces(requestData, '작업공간 삭제가 완료되었습니다.');
-                if(!recvData['error']) {
-                    //작업목록 초기화 세팅
-                    multiCheckboxManager.allUnCheck();
-                    multiCheckboxManager.stateClear();
-                    mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
+                if (window.confirm(multiCheckedIds.length + "개의 작업공간을 삭제하시겠습니까?")) {    
+                    console.log(multiCheckedIds)
+                    const requestData : DeleteWorkspaces = { 
+                        ids: multiCheckedIds
+                    };
+                    const recvData = await submitDeleteWorkspaces(requestData, '작업공간 삭제가 완료되었습니다.');
+                    if(!recvData['error']) {
+                        //작업목록 초기화 세팅
+                        multiCheckboxManager.allUnCheck();
+                        multiCheckboxManager.stateClear();
+                        mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
+                    }
                 }
             break;
             case ACTION.COPY:
@@ -76,7 +76,7 @@ export default function WorkspaceList(
     const [visibleContextMenu, setVisibleContextMenu] = useState(false);
     const [conextMenuArg, setContextMenuArg] = useState<ContextMenuArgument>({
         clientX : -1, clientY : -1,
-        menuRole : MenuRole.TASKLIST, parentKey : '',
+        menuRole : MenuRole.WORKSPACELIST, parentKey : '',
         callbackProc : contextMenucallback});
 
     const handleClickContextMenuButton = (e : React.MouseEvent<HTMLElement>) => {
@@ -116,7 +116,7 @@ export default function WorkspaceList(
             {
                 (workspaceList && workspaceList.length > 0 ) && workspaceList.map((data, index) => {
                     return (
-                        <TaskCard
+                        <WorkSpace
                             key={index}
                             id={data.id}
                             checkBoxManager={multiCheckboxManager}

@@ -73,7 +73,7 @@ export type DeleteWorkspace = {
 }
 
 //작업공간 다중 삭제 요청
-export type DeleteTaskCards = {
+export type DeleteWorkspaces = {
     ids              : string[]; //작업공간 ID
 }
 

@@ -6,7 +6,7 @@ import {
     DeleteWorkspace,
     SelectWorkspace,
     UpdateReactflow,
-    DeleteTaskCards,
+    DeleteWorkspaces,
 } from "@/app/api/lib/service/common/definition";
 import { Post } from "@/app/common/lib/fetchServer";
 import { ResponseData } from "@/app/api/lib/service/common/definition";
@@ -101,7 +101,7 @@ export async function submitDeleteWorkspace(
 
 //작업공간다중 삭제
 export async function submitDeleteWorkspaces(
-    data : DeleteTaskCards,
+    data : DeleteWorkspaces,
     successMessage? : string,
     errorMessage? : string
 ) {
