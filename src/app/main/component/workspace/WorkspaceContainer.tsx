@@ -5,7 +5,7 @@ import WorkspaceList from '@/app/main/component/workspace/WorkspaceList';
 import { calcStyle } from '@/app/main/lib/calcStyleRegion';
 import { useEffect, useState, useCallback, useMemo } from 'react';
 import useSWR from 'swr';
-import { RQ_URL } from '@/app/api/lib/service/client/request';
+import { RQ_URL, submitDeleteProject } from '@/app/api/lib/service/client/request';
 import { Get } from '@/app/common/lib/fetchServer';
 
 import MenuContext from '@/app/main/component/menuContext/menuContext';
@@ -16,7 +16,7 @@ import {
     MenuRole
 } from '@/app/main/component/menuContext/definition';
 
-import { WorkspaceData } from '@/app/api/lib/service/common/definition';
+import { WorkspaceData, DeleteProject } from '@/app/api/lib/service/common/definition';
 import { globalDataStateManager } from '@/app/common/lib/globalStateManager';
 import { globalData } from '@/app/common/lib/globalData';
 import NewProjectPopup from "@/app/main/component/popup/NewProjectPopup";
