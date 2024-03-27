@@ -13,13 +13,14 @@ export enum ACTION {
     EXPORT  = 'export'
 }
 
-export type ContextMenuCallback =  (action : ACTION, parentKey : string) => void;
+export type ContextMenuCallback =  (action : ACTION, parentKey : string, parentName : string) => void;
 
 export type ContextMenuArgument = {
     clientX : number;
     clientY : number;
     menuRole : MenuRole;
     parentKey : string;
+    parentName : string;
     callbackProc : ContextMenuCallback;
 }
 
