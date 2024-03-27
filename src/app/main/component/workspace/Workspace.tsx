@@ -6,7 +6,7 @@ import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 import CheckBox from '@/app/main/component/controls/CheckBox';
 import { WorkspaceData, DeleteWorkspace, DeleteWorkspaceData } from '@/app/api/lib/service/common/definition';
 import NewWorkspacePopup from '@/app/main/component/popup/NewWorkspacePopup';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { mutate } from 'swr';
 import MenuContext from '@/app/main/component/menuContext/menuContext';
 import {
@@ -104,9 +104,9 @@ export default function Workspace(
         checkBoxManager : MultiCheckboxManager
     }
 ) {
-    const contextMenucallback = async(action : ACTION, parentKey : string) => {
+    const contextMenucallback = async(action : ACTION, parentKey : string, parentName : string) => {
         console.log('----------------------------------');
-        console.log(`call back : action - ${action}, parentKey - ${parentKey}`);
+        console.log(`call back : action - ${action}, parentKey - ${parentKey}, parentName - ${parentName}`);
         console.log('----------------------------------');
 
         switch(action)
@@ -114,11 +114,6 @@ export default function Workspace(
             case ACTION.UPDATE:
             break;
             case ACTION.DELETE:
-                console.log(conextMenuArg)
-                setDeletePopupData({
-                    ...deletePopupData, ids : [data.id] , name : data.name}
-                );
-                console.log(deletePopupData)
                 setDeleteVisible(true)
                 break;
             case ACTION.COPY:
@@ -130,21 +125,30 @@ export default function Workspace(
     const [visibleContextMenu, setVisibleContextMenu] = useState(false);
     const [conextMenuArg, setContextMenuArg] = useState<ContextMenuArgument>({
         clientX : -1, clientY : -1,
-        menuRole : MenuRole.WORKSPACE, parentKey : '',
+        menuRole : MenuRole.WORKSPACE, parentKey : '', parentName : '',
         callbackProc : contextMenucallback});    
 
     const handleClickContextMenuButton = (e : React.MouseEvent<HTMLElement>) => {
         setVisibleContextMenu(!visibleContextMenu);
         setContextMenuArg({
-            ...conextMenuArg, clientX : e.clientX, clientY: e.clientY , parentKey : data.id});
+            ...conextMenuArg, clientX : e.clientX, clientY: e.clientY , parentKey : data.id, parentName : data.name});
 
     }
     const [deleteVisible , setDeleteVisible] = useState(false);
     const [deletePopupData , setDeletePopupData] = useState<DeleteWorkspaceData>({
         ids: [],
-        name: '',
+        name: "",
         role: "WorkSpace"
     })
+    useEffect(() => {
+        setDeletePopupData({
+            ids : [data.id] , name : data.name, role: "WorkSpace"}
+        );
+    }, [data.id, data.name]);
+
+    useEffect(() => {
+        checkBoxManager.allUnCheck()
+    }, [checkBoxManager, data])
     return (
         <TaskBorder>
             <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>

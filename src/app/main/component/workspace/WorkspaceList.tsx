@@ -67,7 +67,7 @@ export default function WorkspaceList(
     const [visibleContextMenu, setVisibleContextMenu] = useState(false);
     const [conextMenuArg, setContextMenuArg] = useState<ContextMenuArgument>({
         clientX : -1, clientY : -1,
-        menuRole : MenuRole.WORKSPACELIST, parentKey : '',
+        menuRole : MenuRole.WORKSPACELIST, parentKey : '', parentName : '',
         callbackProc : contextMenucallback});
 
     const handleClickContextMenuButton = (e : React.MouseEvent<HTMLElement>) => {
