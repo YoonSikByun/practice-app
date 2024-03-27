@@ -13,8 +13,6 @@ import { ContextMenuCallback, ACTION } from "../menuContext/definition";
 
 
 function Content({setVisible, data, checkBoxManager } : {setVisible : (visible : boolean) => void , data : DeleteWorkspaceData , checkBoxManager : any}) {
-    const [projectName, setProjectName] = useState('');
-    const firstInputRef = useRef<HTMLInputElement>(null);
     const { mutate } = useSWRConfig();
     //여기에서 팝업 내용을 넣는다.`
     const handleCloseBtn = () => setVisible(false);
@@ -62,7 +60,7 @@ function Content({setVisible, data, checkBoxManager } : {setVisible : (visible :
                     "bg-hanablue-300 hover:bg-mouseoverclr-light w-[80px]")}
                     onClick={handleDeleteClick}
                 >
-                    만들기
+                    삭제
                 </button>
                 <button
                     className={clsx("focus:outline-double ml-1 border-borderclr-bold border-[1px] px-3 py-1",
@@ -79,7 +77,7 @@ function Content({setVisible, data, checkBoxManager } : {setVisible : (visible :
 const popupWidth : number = 360;
 const popupHeight : number = 80;
 
-export default function TaskMenuContextPopup(
+export default function MenuContextDeletePopup(
     {
         visible,
         setVisible,
