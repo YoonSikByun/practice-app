@@ -51,7 +51,8 @@ export class MultiCheckboxManager {
     
     allChek(check: boolean) {
         for(const id in this.checkStates) {
-          this.checkStates[id] = check;
+            this.callbackSetCheckFuncs[id](check);
+            this.checkStates[id] = check;
         }
     }
 

@@ -77,6 +77,12 @@ export type DeleteWorkspaces = {
     ids              : string[]; //작업공간 ID
 }
 
+//작업공간 삭제 요청 데이터
+export type DeleteWorkspaceData = {
+    ids              : string[]; //작업공간 ID
+    name            : string; //작업공간 이름
+    role            : string; //작업공간 role
+}
 
 //Reactflow 저장 요청
 export type SelectReactflow = {

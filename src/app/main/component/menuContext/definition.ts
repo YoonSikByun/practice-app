@@ -3,7 +3,7 @@ import { WorkspaceData } from "@/app/api/lib/service/common/definition";
 export enum MenuRole {
     PROJECT = 'Project',
     WORKSPACE = 'WorkSpace',
-    WORKSPACELIST = 'TaskList'
+    WORKSPACELIST = 'WorkSpaceList'
 }
 
 export enum ACTION {
