@@ -16,38 +16,33 @@ function Content({setVisible, data, checkBoxManager } : {setVisible : (visible :
     const [projectName, setProjectName] = useState('');
     const firstInputRef = useRef<HTMLInputElement>(null);
     const { mutate } = useSWRConfig();
-
     //여기에서 팝업 내용을 넣는다.`
     const handleCloseBtn = () => setVisible(false);
-    
+
     const handleDeleteClick = async () => {
         console.log('----------------------------------');
         console.log(data);
         console.log('----------------------------------');
+        
         switch(data.role)
         {
             
             case "WorkSpace":
                 const requestData: DeleteWorkspace = { id: data.ids[0] };
-                console.log('requestDatarequestDatarequestDatarequestData' ,requestData)
                 const recvData = await submitDeleteWorkspace(requestData, '작업공간 삭제가 완료되었습니다.');
-                console.log(recvData)
                 // 정상 처리면 재조회
                 if(!recvData['error']) {
                     mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
                     checkBoxManager.deleteCheckBox(data.ids[0])
                     console.log(checkBoxManager.getAllChecked())
-                    checkBoxManager.allUnCheck();
                     checkBoxManager.stateClear();
                 }
                 break;
             case "WorkSpaceList":
                 const requestListData : DeleteWorkspaces = {ids : data.ids}
-                console.log(requestListData)
                 const recvListData = await submitDeleteWorkspaces(requestListData, '작업공간 삭제가 완료되었습니다.');
                 if(!recvListData['error']) {
                     //작업목록 초기화 세팅
-                    checkBoxManager.allUnCheck();
                     checkBoxManager.stateClear();
                     mutate([RQ_URL.SELECT_WORKSPACE, globalData.menuInfo.getSelectedProjectId()]);
                     }
@@ -59,7 +54,7 @@ function Content({setVisible, data, checkBoxManager } : {setVisible : (visible :
     return (
         <div className="m-5 flex flex-col items-center">
             <div className="flex flex-row items-center"> 
-                <span>이름 : {data.name}</span>
+                {data.role == "WorkSpace" ? <span> {data.name}을 삭제하시겠습니까?</span> : <span> {data.ids.length}개의 작업공간을 삭제하시겠습니까?</span>} 
             </div>
             <div className="flex flex-row-reverse w-full m-5">
                 <button
@@ -98,7 +93,7 @@ export default function TaskMenuContextPopup(
     }) {
         return (
         <DefaultPopup
-            title='프로젝트 생성'
+            title='작업공간 삭제 '
             visible={visible}
             setVisible={setVisible}
             contentWidth={popupWidth}
