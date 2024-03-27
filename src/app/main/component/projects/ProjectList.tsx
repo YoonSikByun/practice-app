@@ -13,11 +13,18 @@ export default function ProjectList(
         showProject : boolean
     }) {
     const [checkedIndex, setcheckedIndex] = useState(0);
-
+    const [sortedProjectData, sorting] = useState<ProjectData[]>([]);
+    useEffect(() => {
+        // 생성시간 최신순으로 정렬, 생성/삭제 시 가장 최신 프로젝트로 포커스 잡기
+        if(data){
+            const sortedData = [...data].sort((a, b) => +new Date(b.createdAt) - +new Date(a.createdAt));
+            sorting(sortedData);
+            setcheckedIndex(0);
+        }
+    }, [data]);
     return (
         <>
-            {showProject && (data?.length ?? 0 > 0) && data.map((item , idx) => {
-                
+            {showProject && (data?.length ?? 0 > 0) && sortedProjectData.map((item , idx) => {
                 return (
                     <Project
                         key={idx}
