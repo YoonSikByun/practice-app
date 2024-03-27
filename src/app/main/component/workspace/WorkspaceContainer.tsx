@@ -58,7 +58,7 @@ export default function WorkspaceContainer() {
 
     const [conextMenuArg, setContextMenuArg] = useState<ContextMenuArgument>({
         clientX : -1, clientY : -1,
-        menuRole : MenuRole.PROJECT, parentKey : '',
+        menuRole : MenuRole.PROJECT, parentKey : '', parentName : '',
         callbackProc : contextMenucallback});
 
     useEffect(() => {
@@ -87,7 +87,7 @@ export default function WorkspaceContainer() {
 
         setContextMenuArg({
             clientX : -1, clientY : -1,
-            menuRole : MenuRole.PROJECT, parentKey :  selectedProjectData?.id ?? '',
+            menuRole : MenuRole.PROJECT, parentKey :  selectedProjectData?.id ?? '', parentName : selectedProjectData?.name ?? '',
             callbackProc : contextMenucallback});
 
     }, [data, isLoading, error, contextMenucallback, multiCheckboxManager]);
