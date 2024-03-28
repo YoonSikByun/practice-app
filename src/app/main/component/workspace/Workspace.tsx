@@ -4,9 +4,9 @@ import { DocumentPlusIcon, FolderArrowDownIcon } from '@heroicons/react/24/solid
 import clsx from 'clsx';
 import { MultiCheckboxManager } from '@/app/main/lib/multiControlManager';
 import CheckBox from '@/app/main/component/controls/CheckBox';
-import { WorkspaceData, DeleteWorkspace, DeleteWorkspaceData } from '@/app/api/lib/service/common/definition';
+import { WorkspaceData, DeleteWorkspace, DeleteWorkspaceData, UpdateWorkspaceData } from '@/app/api/lib/service/common/definition';
 import NewWorkspacePopup from '@/app/main/component/popup/NewWorkspacePopup';
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useLayoutEffect } from 'react';
 import { mutate } from 'swr';
 import MenuContext from '@/app/main/component/menuContext/menuContext';
 import {
@@ -24,6 +24,7 @@ import { SelectWorkspace } from '@/app/api/lib/service/common/definition';
 import { submitSelectReactflow } from '@/app/api/lib/service/client/request';
 import TaskMenuContextPopup from '@/app/main/component/popup/MenuContextDeletePopup'
 import MenuContextDeletePopup from '@/app/main/component/popup/MenuContextDeletePopup';
+import MenuContextUpdatePopup from '../popup/MenuContextUpdatePopup';
 
 export async function openNodeDesignerTab(id : string) {
 
@@ -112,6 +113,7 @@ export default function Workspace(
         switch(action)
         {
             case ACTION.UPDATE:
+                setUpdateVisible(true)
             break;
             case ACTION.DELETE:
                 setDeleteVisible(true)
@@ -135,9 +137,16 @@ export default function Workspace(
 
     }
     const [deleteVisible , setDeleteVisible] = useState(false);
+    const [updateVisible , setUpdateVisible] = useState(false);
     const [deletePopupData , setDeletePopupData] = useState<DeleteWorkspaceData>({
         ids: [],
         name: "",
+        role: "WorkSpace"
+    })
+    const [updatePopupData , setUpdatePopupData] = useState<UpdateWorkspaceData>({
+        id: "",
+        name: "",
+        description:"",
         role: "WorkSpace"
     })
     useEffect(() => {
@@ -147,8 +156,15 @@ export default function Workspace(
     }, [data.id, data.name]);
 
     useEffect(() => {
+        setUpdatePopupData({
+            id : data.id , name : data.name, description : data.description, role: "WorkSpace"}
+        );
+    }, [data.id, data.name, data.description]);
+
+    useEffect(() => {
         checkBoxManager.allUnCheck()
     }, [checkBoxManager, data])
+
     return (
         <TaskBorder>
             <div className='flex flex-row items-center rounded px-1 bg-cardclr-title'>
@@ -192,7 +208,12 @@ export default function Workspace(
                 setVisible={setDeleteVisible} 
                 data= {deletePopupData}
                 checkBoxManager = {checkBoxManager}
-            ></MenuContextDeletePopup>
+            />
+            <MenuContextUpdatePopup
+                visible = {updateVisible} 
+                setVisible={setUpdateVisible} 
+                data= {updatePopupData}
+            />    
         </TaskBorder>
     );
     

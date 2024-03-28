@@ -5,6 +5,7 @@ import {
     DeleteWorkspace,
     UpdateReactflow,
     DeleteWorkspaces,
+    UpdateWorkspace,
 } from '@/app/api/lib/service/common/definition';
 import { prismaCli } from '@/app/api/lib/util';
 
@@ -98,6 +99,23 @@ export async function updateReactflow(data : UpdateReactflow) {
             },
             data: {
                 design: data.data || undefined
+            }
+        }
+    );
+}
+
+//작업 데이터 저장
+export async function updateWorkspace(data : UpdateWorkspace) {
+    return await prismaCli.workspace.update(
+        {
+            where: {
+                id: data.id,
+            },
+            data: {
+                name: data.name,
+                description: data.description,
+                // updatorId : data.updaterId,
+                // updatedAt : data.updatedAt,
             }
         }
     );

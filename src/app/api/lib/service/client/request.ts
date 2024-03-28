@@ -7,6 +7,7 @@ import {
     SelectWorkspace,
     UpdateReactflow,
     DeleteWorkspaces,
+    UpdateWorkspace,
 } from "@/app/api/lib/service/common/definition";
 import { Post } from "@/app/common/lib/fetchServer";
 import { ResponseData } from "@/app/api/lib/service/common/definition";
@@ -21,6 +22,7 @@ export enum RQ_URL {
     SELECT_WORKSPACE    = 'api/workspace/select',
     DELETE_WORKSPACE    = 'api/workspace/delete',
     DELETE_WORKSPACES    = 'api/workspace/deletemany',
+    UPDATE_WORKSPACE    = 'api/workspace/update',
     SELECT_REACTFLOW    = 'api/reactflow/select',
     UPDATE_REACTFLOW    = 'api/reactflow/update',
 }
@@ -131,6 +133,22 @@ export async function submitSelectReactflow(
     return recvData;
 }
 
+//workspace 수정
+export async function submitUpdateWorkSpace(
+    data : UpdateWorkspace,
+    successMessage? : string,
+    errorMessage? : string
+) {
+    const recvData : ResponseData = await Post(RQ_URL.UPDATE_WORKSPACE, data);
+    if (recvData['error'] === true) {
+        globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
+    } else {
+        globalMessageManager.setSuccessMsg((successMessage) ? successMessage : recvData['message']);
+    }
+
+    return recvData;
+}
+
 
 //reactflow 데이터 저장
 export async function submitUpdateReactflow(
@@ -138,7 +156,7 @@ export async function submitUpdateReactflow(
     successMessage? : string,
     errorMessage? : string
 ) {
-    const recvData : ResponseData = await Post(RQ_URL.UPDATE_REACTFLOW, data);
+    const recvData : ResponseData = await Post(RQ_URL.UPDATE_WORKSPACE, data);
     if (recvData['error'] === true) {
         globalMessageManager.setErrorMsg((errorMessage) ? errorMessage : recvData['message']);
     } else {
